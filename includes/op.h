@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/14 12:52:04 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/08/15 11:26:29 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # define MAX_ARGS_NUMBER			4
 # define MAX_PLAYERS				4
-# define MEM_SIZE				(4*1024)
+# define MEM_SIZE				21//(4*1024)
 # define IDX_MOD					(MEM_SIZE / 8)
 # define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
 
@@ -66,6 +66,53 @@ typedef char	t_arg_type;
 # define COMMENT_LENGTH			(2048)
 # define COREWAR_EXEC_MAGIC		0xea83f3
 
+/*
+** 0xc0 -> 11 00 00 00
+** 0x30 -> 00 11 00 00
+** 0x0c -> 00 00 11 00
+** 0x03 -> 00 00 00 11
+*/
+
+# define ARG_MASK1			0xC0
+# define ARG_MASK2			0x30
+# define ARG_MASK3			0x0C
+# define ARG_MASK4			0x03
+
+typedef	struct		s_possible_args
+{
+	t_arg_type		one;
+	t_arg_type		two;
+	t_arg_type		three;
+	t_arg_type		four;
+}					t_possible_args;
+
+typedef struct		s_arg
+{
+	int				value;
+	t_arg_type		type;
+	unsigned char	size;
+}					t_arg;
+
+typedef struct		s_args
+{
+	t_arg		arg1;
+	t_arg		arg2;
+	t_arg		arg3;
+	t_arg		arg4;
+}					t_args;
+
+typedef	struct		s_op
+{
+	char			*name;
+	int				argc;
+	t_possible_args	args;
+	int				opc;
+	int				cycle;
+	char			*descr;
+	int				acb;
+	int				idk;
+}					t_op;
+
 typedef struct		s_header
 {
 	unsigned int		magic;
@@ -76,14 +123,13 @@ typedef struct		s_header
 
 typedef struct		s_carriage
 {
-	int					position;
+	int					pc;
 	int					carry;
-	int					num_gamer;
 
 	int					life;
 	int					comand;
 	int					wait;
-	struct s_carriage	*next;
+	int					reg[REG_NUMBER];
 }					t_carriage;
 
 typedef struct 		s_player
