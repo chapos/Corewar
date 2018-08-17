@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/14 19:04:52 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/15 19:34:19 by oevtushe         ###   ########.fr       */
+/*   Created: 2018/08/16 14:33:26 by oevtushe          #+#    #+#             */
+/*   Updated: 2018/08/17 15:52:14 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ int		dsp_fork(t_carriage *carriage, unsigned char *map, t_op *op_tab)
 }
 */
 
-void	ft_byterev_s16(short *i)
+void	ft_byterev_us16(unsigned short *i)
 {
 	*i = (*i >> 8 & 0xff) |
 		(*i << 8 & 0xff00);
 }
 
-void	ft_byterev_i32(int *i)
+void	ft_byterev_ui32(unsigned int *i)
 {
 	*i = (*i >> 24 & 0xff) |
 		(*i << 8 & 0xff0000) |
@@ -82,7 +82,7 @@ int		read_arg(int pc, unsigned char *map, unsigned int acb_mask, int *shift, t_a
 	if (acb_mask == 0x80)
 	{
 		arg->value = *(int *)&map[pc + *shift + 1];
-		ft_byterev_i32(&arg->value);
+		ft_byterev_ui32((unsigned int *)&arg->value);
 		arg->type = T_DIR;
 		arg->size = DIR_SIZE;
 		*shift += sizeof(int);
@@ -99,7 +99,9 @@ int		read_arg(int pc, unsigned char *map, unsigned int acb_mask, int *shift, t_a
 	else if (acb_mask == 0xc0)
 	{
 		arg->value = *(short *)&map[pc + *shift + 1];
-		ft_byterev_s16((short *)&arg->value);
+		ft_byterev_us16((unsigned short *)&arg->value);
+		//arg->value %= IDX_MOD;
+		arg->value = (short)arg->value;
 		arg->type = T_IND;
 		arg->size = IND_SIZE;
 		*shift += sizeof(short);
@@ -124,9 +126,9 @@ void	read_int_from_map(int *val, int pos, unsigned char *map)
 {
 	unsigned char	*p;
 
+	pos %= MEM_SIZE;
 	if (pos < 0)
 		pos = MEM_SIZE + pos;
-	pos %= MEM_SIZE;
 	p = (unsigned char *)val;
 	if ((pos + sizeof(int) <= MEM_SIZE))
 		ft_memcpy(val, &map[pos], sizeof(int));
@@ -155,7 +157,7 @@ int		dsp_ld(t_carriage *carriage, unsigned char *map)
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2))
 	{
 		parse_args(carriage->pc, map, &args);
-		if (args.arg2.type == T_REG)
+		if (args.arg2.type == T_REG && (args.arg2.value > 0 && args.arg2.value <= REG_NUMBER))
 		{
 			if (args.arg1.type == T_DIR)
 			{
@@ -165,9 +167,9 @@ int		dsp_ld(t_carriage *carriage, unsigned char *map)
 			}
 			else if (args.arg1.type == T_IND)
 			{
-				args.arg1.value %= IDX_MOD;
 				read_int_from_map(&args.arg1.value, carriage->pc + args.arg1.value, map);
-				ft_byterev_i32(&args.arg1.value);
+				ft_byterev_ui32((unsigned int *)&args.arg1.value);
+				carriage->reg[args.arg2.value] = args.arg1.value;
 				carriage->carry = args.arg1.value == 0 ? 1 : 0;
 				res = 1;
 			}
@@ -190,9 +192,9 @@ void	write_int_in_map(int *val, int pos, unsigned char *map)
 {
 	unsigned char	*p;
 
+	pos %= MEM_SIZE;
 	if (pos < 0)
 		pos = MEM_SIZE + pos;
-	pos %= MEM_SIZE;
 	p = (unsigned char *)val;
 	if ((pos + sizeof(int) <= MEM_SIZE))
 		ft_memcpy(&map[pos], val, sizeof(int));
@@ -214,31 +216,44 @@ int		dsp_st(t_carriage *carriage, unsigned char *map)
 	res = 0;
 	acb = map[carriage->pc + 1];
 	ft_memset(&args, 0, sizeof(t_args));
-	if ((acb & ARG_MASK1) && (acb & ARG_MASK2))
+	// '||' because of ACB Invalid cases
+	if ((acb & ARG_MASK1) || (acb & ARG_MASK2))
 	{
 		parse_args(carriage->pc, map, &args);
-		// Even if first argument is invalid
-		if (args.arg1.type == T_REG || args.arg2.type == T_IND || args.arg2.type == T_REG)
+		if (args.arg1.type == T_REG && (args.arg1.value > 0 && args.arg1.value <= REG_NUMBER))
 		{
-			if (args.arg1.type == T_REG && (args.arg1.value > 0 && args.arg1.value <= REG_NUMBER))
+			if (args.arg2.type == T_REG && (args.arg2.value > 0 && args.arg2.value <= REG_NUMBER))
 			{
-				if (args.arg2.type == T_REG && (args.arg1.value > 0 && args.arg1.value <= REG_NUMBER))
-					carriage->reg[args.arg2.value] = carriage->reg[args.arg1.value];
-				else if (args.arg2.type == T_IND)
-				{
-					args.arg2.value %= IDX_MOD;
-					rev = carriage->reg[args.arg1.value];
-					ft_byterev_i32(&rev);
-					write_int_in_map(&rev, carriage->pc + args.arg2.value, map);
-				}
+				carriage->reg[args.arg2.value] = carriage->reg[args.arg1.value];
 				res = 1;
 			}
-			carriage->pc += 1 + args.arg1.size + args.arg2.size;
+			else if (args.arg2.type == T_IND)
+			{
+				rev = carriage->reg[args.arg1.value];
+				ft_byterev_ui32((unsigned int *)&rev);
+				write_int_in_map(&rev, carriage->pc + args.arg2.value, map);
+				res = 1;
+			}
 		}
+		carriage->pc += 1 + args.arg1.size + args.arg2.size;
 	}
 	++carriage->pc;
 	carriage->pc %= MEM_SIZE;
 	return (res);
+}
+
+void	print_map(unsigned char *map, const int map_size)
+{
+	int		i;
+
+	i = 0;
+	while (i < map_size)
+	{
+		ft_printf("%.2x ", map[i]);
+		if (i && i % 64 == 0)
+			ft_putchar('\n');
+		++i;
+	}
 }
 
 int		main(void)
@@ -247,26 +262,16 @@ int		main(void)
 	const int		map_size = 21;
 	unsigned char	map[map_size];
 
+	carriage.reg[1] = 0xffffffff;
 	ft_memset(map, 0, map_size);
 	carriage.pc = 0;
-	map[0] = 2;
-	map[1] = 0xD0;
-	map[2] = 0xff;
-	map[3] = 0xfd;
-	map[4] = 0x02;
-	map[5] = 0x00;
-	//
-	map[7] = 3;
-	map[8] = 0x70;
-	map[9] = 0x2;
-	map[10] = 0xff;
-	map[11] = 0xf8;
-	map[17] = 0x7f;
-	map[18] = 0xff;
-	map[19] = 0xff;
-	map[20] = 0xff;
+	map[0] = 0x03;
+	map[1] = 0x70;
+	map[2] = 0x01;
+	map[3] = 0x00;
+	map[4] = 0x05;
 
-	dsp_ld(&carriage, map);
 	dsp_st(&carriage, map);
+	print_map(map, map_size);
 	return (0);
 }

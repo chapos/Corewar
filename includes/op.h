@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/15 11:26:29 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/16 19:37:29 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ typedef struct		s_arg
 {
 	int				value;
 	t_arg_type		type;
-	unsigned char	size;
+	char			size;
 }					t_arg;
 
 typedef struct		s_args
@@ -129,7 +129,7 @@ typedef struct		s_carriage
 	int					life;
 	int					comand;
 	int					wait;
-	int					reg[REG_NUMBER];
+	unsigned int		reg[REG_NUMBER];
 }					t_carriage;
 
 typedef struct 		s_player
