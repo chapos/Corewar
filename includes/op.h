@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/16 19:37:29 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/18 16:07:57 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ typedef char	t_arg_type;
 # define ARG_MASK3			0x0C
 # define ARG_MASK4			0x03
 
+# define CHECK_REG(type,reg) ((type) == T_REG && (reg) > 0 && (reg) <= REG_NUMBER)
+
 typedef	struct		s_possible_args
 {
 	t_arg_type		one;
@@ -88,6 +90,7 @@ typedef	struct		s_possible_args
 
 typedef struct		s_arg
 {
+	int				readed;
 	int				value;
 	t_arg_type		type;
 	char			size;
@@ -121,6 +124,14 @@ typedef struct		s_header
 	char				comment[COMMENT_LENGTH + 1];
 }					t_header;
 
+typedef	struct		s_sizes
+{
+	int as1;
+	int as2;
+	int as3;
+	int as4;
+}					t_sizes;
+
 typedef struct		s_carriage
 {
 	int					pc;
@@ -129,7 +140,7 @@ typedef struct		s_carriage
 	int					life;
 	int					comand;
 	int					wait;
-	unsigned int		reg[REG_NUMBER];
+	unsigned int		reg[REG_NUMBER + 1];
 }					t_carriage;
 
 typedef struct 		s_player
@@ -149,5 +160,22 @@ typedef struct 		s_player
 int		write_in_map(unsigned char map[], t_list *players);
 //int		read_player(t_player *players);
 int read_players(t_list **players, int ac, char **av);
+
+void	ft_byterev_us16(unsigned short *i);
+void	ft_byterev_ui32(unsigned int *i);
+void	read_args_from_map(int pc, unsigned char *map, t_args *args);
+void	read_int_from_map(int *val, int pos, unsigned char *map);
+void	read_short_from_map(short *val, int pos, unsigned char *map);
+void	init_args(t_carriage *carriage, unsigned char *map, t_args *args);
+void	write_int_in_map(int *val, int pos, unsigned char *map);
+
+int		dsp_ld(t_carriage *carriage, unsigned char *map);
+int		dsp_st(t_carriage *carriage, unsigned char *map);
+int		dsp_add(t_carriage *carriage, unsigned char *map);
+int		dsp_sub(t_carriage *carriage, unsigned char *map);
+int		dsp_and(t_carriage *carriage, unsigned char *map);
+int		dsp_or(t_carriage *carriage, unsigned char *map);
+int		dsp_xor(t_carriage *carriage, unsigned char *map);
+int		dsp_zjmp(t_carriage *carriage, unsigned char *map);
 
 #endif
