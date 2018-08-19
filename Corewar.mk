@@ -6,7 +6,7 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/14 19:02:12 by oevtushe          #+#    #+#              #
-#    Updated: 2018/08/18 14:50:04 by oevtushe         ###   ########.fr        #
+#    Updated: 2018/08/19 14:17:30 by oevtushe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,16 +29,21 @@ CW_SRCF				:= player.c				\
 					   ft_byterev_us16.c	\
 					   ft_byterev_ui32.c	\
 					   read_data_from_map.c	\
+					   init_args.c			\
+					   write_int_in_map.c	\
 					   dsp_ld.c				\
+					   dsp_lld.c			\
 					   dsp_st.c				\
-					   dsp_add.c			\
-					   dsp_sub.c			\
 					   dsp_and.c			\
+					   dsp_sub.c			\
+					   dsp_add.c			\
 					   dsp_or.c				\
 					   dsp_xor.c			\
 					   dsp_zjmp.c			\
-					   init_args.c			\
-					   write_int_in_map.c	\
+					   dsp_ldi.c			\
+					   dsp_lldi.c			\
+					   dsp_sti.c			\
+					   dsp_aff.c			\
 					   map.c
 					   #vm.c			\
 

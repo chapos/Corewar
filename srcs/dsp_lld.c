@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dsp_ld.c                                           :+:      :+:    :+:   */
+/*   dsp_lld.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/18 14:36:19 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/18 19:27:33 by oevtushe         ###   ########.fr       */
+/*   Created: 2018/08/19 12:49:55 by oevtushe          #+#    #+#             */
+/*   Updated: 2018/08/19 12:50:58 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-/*
-** Modifies carry
-** Has ACB
-*/
-
-int		dsp_ld(t_carriage *carriage, unsigned char *map)
+int		dsp_lld(t_carriage *carriage, unsigned char *map)
 {
 	unsigned char	acb;
 	t_args			args;

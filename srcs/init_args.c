@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:44:04 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/18 14:44:25 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/18 19:36:55 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ static void	init_single(t_carriage *carriage, unsigned char *map, t_arg *arg)
 	if (CHECK_REG(arg->type, arg->readed))
 		arg->value = carriage->reg[arg->readed];
 	else if (arg->type == T_IND)
-	{
 		read_int_from_map(&arg->value, carriage->pc + arg->readed, map);
-		ft_byterev_ui32((unsigned int *)&arg->value);
-	}
 	else
 		arg->value = arg->readed;
 }

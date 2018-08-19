@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:37:28 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/18 14:37:51 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/18 19:46:00 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		dsp_st(t_carriage *carriage, unsigned char *map)
 	// '||' because of ACB Invalid cases
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2))
 	{
-		read_args_from_map(carriage->pc, map, &args);
+		read_args_from_map(carriage->pc, map, &args, (t_reader){read_int_from_map, read_short_from_map});
 		if (CHECK_REG(args.arg1.type, args.arg1.readed) && (args.arg2.type == T_IND ||
 				args.arg2.type == T_REG))
 		{

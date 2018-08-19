@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:55:22 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/18 14:55:28 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/19 11:31:08 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 int		dsp_zjmp(t_carriage *carriage, unsigned char *map)
 {
 	int			res;
-	short		val;
+	int			val;
 
 	val = 1;
 	res = 0;
 	if (carriage->carry)
 	{
 		read_short_from_map(&val, carriage->pc + 1, map);
-		ft_byterev_us16((unsigned short *)&val);
 		res = 1;
 	}
 	carriage->pc += val; // val % IDX_MOD;

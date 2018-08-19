@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/18 16:07:57 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/19 14:17:36 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,14 +124,6 @@ typedef struct		s_header
 	char				comment[COMMENT_LENGTH + 1];
 }					t_header;
 
-typedef	struct		s_sizes
-{
-	int as1;
-	int as2;
-	int as3;
-	int as4;
-}					t_sizes;
-
 typedef struct		s_carriage
 {
 	int					pc;
@@ -151,21 +143,20 @@ typedef struct 		s_player
 //	t_list				*car;
 }						t_player;
 
-//typedef struct		s_vm
-//{
-//	t_list				*players;
-//	unsigned char		map[MEM_SIZE];
-//}					t_vm;
+typedef	struct		s_reader
+{
+	size_t		(*read_dir)(int *val, int pos, unsigned char *map);
+	size_t		(*read_ind)(int *val, int pos, unsigned char *map);
+}					t_reader;
 
 int		write_in_map(unsigned char map[], t_list *players);
-//int		read_player(t_player *players);
-int read_players(t_list **players, int ac, char **av);
+int		read_players(t_list **players, int ac, char **av);
 
 void	ft_byterev_us16(unsigned short *i);
 void	ft_byterev_ui32(unsigned int *i);
-void	read_args_from_map(int pc, unsigned char *map, t_args *args);
-void	read_int_from_map(int *val, int pos, unsigned char *map);
-void	read_short_from_map(short *val, int pos, unsigned char *map);
+void	read_args_from_map(int pc, unsigned char *map, t_args *args, t_reader reader);
+size_t	read_int_from_map(int *val, int pos, unsigned char *map);
+size_t	read_short_from_map(int *val, int pos, unsigned char *map);
 void	init_args(t_carriage *carriage, unsigned char *map, t_args *args);
 void	write_int_in_map(int *val, int pos, unsigned char *map);
 
@@ -177,5 +168,10 @@ int		dsp_and(t_carriage *carriage, unsigned char *map);
 int		dsp_or(t_carriage *carriage, unsigned char *map);
 int		dsp_xor(t_carriage *carriage, unsigned char *map);
 int		dsp_zjmp(t_carriage *carriage, unsigned char *map);
+int		dsp_ldi(t_carriage *carriage, unsigned char *map);
+int		dsp_sti(t_carriage *carriage, unsigned char *map);
+int		dsp_lld(t_carriage *carriage, unsigned char *map);
+int		dsp_lldi(t_carriage *carriage, unsigned char *map);
+int		dsp_aff(t_carriage *carriage, unsigned char *map);
 
 #endif

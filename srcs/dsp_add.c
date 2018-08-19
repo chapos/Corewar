@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:38:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/18 14:38:18 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/19 11:19:55 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		dsp_add(t_carriage *carriage, unsigned char *map)
 	ft_memset(&args, 0, sizeof(t_args));
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2) || (acb & ARG_MASK3))
 	{
-		read_args_from_map(carriage->pc, map, &args);
+		read_args_from_map(carriage->pc, map, &args, (t_reader){read_int_from_map, read_short_from_map});
 		if (CHECK_REG(args.arg1.type, args.arg1.readed) && CHECK_REG(args.arg2.type, args.arg2.readed) &&
 				CHECK_REG(args.arg3.type, args.arg3.readed))
 		{

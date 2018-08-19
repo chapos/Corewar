@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 14:33:26 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/18 16:30:33 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/19 14:30:02 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,38 +85,43 @@ void	print_regs(unsigned int *reg)
 	ft_printf("%.8X\n", reg[i]);
 }
 
-/*
-// {"ldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 10, 25,
-int		dsp_ldi(t_carriage *carriage, unsigned char *map)
+void	init_dsp(int (**dsp)(t_carriage*, unsigned char*))
 {
-	unsigned char	acb;
-	int				res;
-	t_args			args;
-
-	res = 0;
-	acb = map[carriage->pc + 1];
-	ft_memset(&args, 0, sizeof(t_args));
-	if ((acb & ARG_MASK1) || (acb & ARG_MASK2) || (acb & ARG_MASK3))
-	{
-	}
+	dsp[0] = NULL;
+	dsp[1] = dsp_ld;
+	dsp[2] = dsp_st;
+	dsp[3] = dsp_add;
+	dsp[4] = dsp_sub;
+	dsp[5] = dsp_and;
+	dsp[6] = dsp_or;
+	dsp[7] = dsp_xor;
+	dsp[8] = dsp_zjmp;
+	dsp[9] = dsp_ldi;
+	dsp[10] = dsp_sti;
+	dsp[11] = NULL;
+	dsp[12] = dsp_lld;
+	dsp[13] = dsp_lldi;
+	dsp[14] = NULL;
+	dsp[15] = dsp_aff;
 }
-*/
 
 int		main(void)
 {
 	t_carriage		carriage;
 	const int		map_size = 21;
 	unsigned char	map[map_size];
+	int				(*dsp[16])(t_carriage*, unsigned char*);
 
+	init_dsp(dsp);
 	ft_memset(&carriage, 0, sizeof(t_carriage));
 	ft_memset(map, 0, map_size);
-	carriage.reg[2] = 0x0f0f0;
-	carriage.carry = 1;
-	map[0] = 0x09;
-	map[1] = 0xff;
-	map[2] = 0xff;
-	map[3] = 0xab;
-	dsp_zjmp(&carriage, map);
+	carriage.reg[1] = 0xffffffff;
+	map[0] = 0x03;
+	map[1] = 0x70;
+	map[2] = 0x01;
+	map[3] = 0x00;
+	map[4] = 0x05;
+	dsp[map[0] - 1](&carriage, map);
 	print_map(map, map_size);
 	return (0);
 }
