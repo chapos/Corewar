@@ -20,6 +20,7 @@ void free_all(t_vm *vm)
 
 	while (vm->players)
 	{
+		ft_printf("%d\n", vm->players->num_player);
 		temp = vm->players->next;
 		free(vm->players->code);
 		free(vm->players);

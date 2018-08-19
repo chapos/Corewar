@@ -127,8 +127,6 @@ int						read_arg(t_vm *vm, int ac, char **av);
 int						count_players(t_player *player);
 int						add_player(t_player **player, int n, char *file_name);
 
-
-
 void					free_all(t_vm *vm);
 //errors
 void error_many_champions(t_vm *vm);

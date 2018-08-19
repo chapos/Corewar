@@ -87,7 +87,7 @@ int read_arg(t_vm *vm, int ac, char **av)
 				vm->flags.n--;
 			add_player(&vm->players, vm->flags.n, av[i]);
 			count++;
-			if (count > 4)
+			if (count > MAX_PLAYERS)
 				error_many_champions(vm);
 		}
 		else
