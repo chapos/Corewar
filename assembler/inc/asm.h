@@ -23,4 +23,22 @@
 # define OPEN_SOURCE_ERR "Can't read source file "
 # define OPEN_OUTPUT_ERR "Can't create or open output file "
 
+typedef struct	s_bot t_bot;
+
+typedef struct	s_db
+{
+	t_bot		bot;
+	int			output_fd;
+	int 		source_fd;
+}				t_db;
+
+struct	s_bot
+{
+	char 		*bot_name;
+	char 		*bot_comment;
+	uint32_t	bot_size;
+};
+
+void			read_source_file(t_db *db);
+
 #endif
