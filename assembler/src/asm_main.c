@@ -33,7 +33,7 @@ static int	create_output_file(char *file_name)
 	char	*name_offset;
 	char	*new_name;
 
-	name_offset = ft_strchr(file_name, '.');
+	name_offset = ft_strrchr(file_name, '.');
 	*name_offset = '\0';
 	new_name = ft_strjoin(file_name, ".cor");
 	fd = open(new_name, O_RDWR | O_CREAT, 777);
@@ -45,6 +45,7 @@ static int	create_output_file(char *file_name)
 		ft_strdel(&new_name);
 		exit(0);
 	}
+	ft_strdel(&new_name);
 	return (fd);
 }
 
@@ -52,7 +53,7 @@ static void	check_file_name(const char *file_name)
 {
 	const char *name_offset;
 
-	name_offset = ft_strchr(file_name, '.');
+	name_offset = ft_strrchr(file_name, '.');
 	if (name_offset == NULL || ft_strlen(name_offset) != 2
 		|| name_offset[1] != 's')
 	{
