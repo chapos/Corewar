@@ -6,7 +6,7 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/14 19:02:12 by oevtushe          #+#    #+#              #
-#    Updated: 2018/08/19 14:17:30 by oevtushe         ###   ########.fr        #
+#    Updated: 2018/08/19 15:41:28 by oevtushe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,8 +44,11 @@ CW_SRCF				:= player.c				\
 					   dsp_lldi.c			\
 					   dsp_sti.c			\
 					   dsp_aff.c			\
-					   map.c
-					   #vm.c			\
+					   map.c				\
+					   flag.c      			\
+					   vm.c					\
+					   errors.c    			\
+					   corewar_lib.c
 
 CW_DEPS				:= $(CW_DEPF:%=$(CW_DEPS_DIR)/%)
 CW_SRCS				:= $(CW_SRCF:%=$(CW_SRCS_DIR)/%)

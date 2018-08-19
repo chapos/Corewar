@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/19 14:17:36 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/19 15:48:22 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,13 @@
 # define NBR_LIVE				21
 # define MAX_CHECKS				10
 
+//////
 #include "libft.h"
 #include "ft_printf.h"
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdlib.h>
+//////
 
 /*
 **
@@ -135,22 +140,36 @@ typedef struct		s_carriage
 	unsigned int		reg[REG_NUMBER + 1];
 }					t_carriage;
 
-typedef struct 		s_player
-{
-	int					num_player;
-	t_header			head;
-	unsigned char		*code;
-//	t_list				*car;
-}						t_player;
-
 typedef	struct		s_reader
 {
 	size_t		(*read_dir)(int *val, int pos, unsigned char *map);
 	size_t		(*read_ind)(int *val, int pos, unsigned char *map);
 }					t_reader;
 
-int		write_in_map(unsigned char map[], t_list *players);
-int		read_players(t_list **players, int ac, char **av);
+typedef struct 		s_player
+{
+	int					num_player;
+	t_header			head;
+	unsigned char		*code;
+	char 				*file_name;
+//	t_list				*car;
+	struct s_player		*next;
+}						t_player;
+
+typedef struct		s_flags
+{
+	int					v;
+	int					s;
+	int					d;
+	int					n;
+}					t_flags;
+
+typedef struct		s_vm
+{
+	t_player			*players;
+	t_flags				flags;
+	unsigned char		map[MEM_SIZE];
+}					t_vm;
 
 void	ft_byterev_us16(unsigned short *i);
 void	ft_byterev_ui32(unsigned int *i);
@@ -173,5 +192,21 @@ int		dsp_sti(t_carriage *carriage, unsigned char *map);
 int		dsp_lld(t_carriage *carriage, unsigned char *map);
 int		dsp_lldi(t_carriage *carriage, unsigned char *map);
 int		dsp_aff(t_carriage *carriage, unsigned char *map);
+
+int		write_in_map(unsigned char map[], t_player *player);
+
+int						read_player(t_player *player, int fd);
+int						read_argv(t_vm *vm, int ac, char **av);
+int						count_players(t_player *player);
+int						add_player(t_player **player, int n, char *file_name);
+
+void					free_all(t_vm *vm);
+//errors
+void error_many_champions(t_vm *vm);
+void error_read_file(t_vm *vm, char *file_name);
+void error_not_validate_file(t_vm *vm, char *file_name);
+void error_differ_prog_size(t_vm *vm, char *file_name);
+void error_big_prog_size(t_vm * vm, char *file_name, int prog_size);
+//
 
 #endif
