@@ -23,8 +23,8 @@
 
 # define MAX_ARGS_NUMBER			4
 # define MAX_PLAYERS				4
-# define MEM_SIZE				21//(4*1024)
-# define IDX_MOD					(MEM_SIZE / 8)
+# define MEM_SIZE				(4*1024)
+# define IDX_MOD				(MEM_SIZE / 8)
 # define CHAMP_MAX_SIZE			(MEM_SIZE / 6)
 
 # define COMMENT_CHAR			'#'
@@ -45,8 +45,8 @@
 # define MAX_CHECKS				10
 
 //////
-#include "libft.h"
-#include "ft_printf.h"
+#include "../srcs/libft/includes/libft.h"
+#include "../srcs/ft_printf/includes/ft_printf.h"
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
@@ -132,12 +132,13 @@ typedef struct		s_header
 typedef struct		s_carriage
 {
 	int					pc;
+	int					num_player;
 	int					carry;
-
 	int					life;
 	int					comand;
 	int					wait;
 	unsigned int		reg[REG_NUMBER + 1];
+	struct s_carriage	*next;
 }					t_carriage;
 
 typedef	struct		s_reader
@@ -149,10 +150,11 @@ typedef	struct		s_reader
 typedef struct 		s_player
 {
 	int					num_player;
+	int					live;
 	t_header			head;
 	unsigned char		*code;
 	char 				*file_name;
-//	t_list				*car;
+//	t_list				*cars;
 	struct s_player		*next;
 }						t_player;
 
@@ -167,6 +169,7 @@ typedef struct		s_flags
 typedef struct		s_vm
 {
 	t_player			*players;
+	t_carriage			*cars;
 	t_flags				flags;
 	unsigned char		map[MEM_SIZE];
 }					t_vm;
@@ -193,12 +196,16 @@ int		dsp_lld(t_carriage *carriage, unsigned char *map);
 int		dsp_lldi(t_carriage *carriage, unsigned char *map);
 int		dsp_aff(t_carriage *carriage, unsigned char *map);
 
+void	init_dsp(int (**dsp)(t_carriage*, unsigned char*));
 int		write_in_map(unsigned char map[], t_player *player);
 
 int						read_player(t_player *player, int fd);
 int						read_argv(t_vm *vm, int ac, char **av);
 int						count_players(t_player *player);
 int						add_player(t_player **player, int n, char *file_name);
+
+void add_car(t_carriage **cars, t_carriage *car);
+int player_create_car(t_player *players, t_carriage **cars);
 
 void					free_all(t_vm *vm);
 //errors
