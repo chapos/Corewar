@@ -50,6 +50,7 @@ CW_SRCF				:= player.c				\
 					   flag.c      			\
 					   vm.c					\
 					   errors.c    			\
+					   carriage.c           \
 					   corewar_lib.c
 
 CW_DEPS				:= $(CW_DEPF:%=$(CW_DEPS_DIR)/%)

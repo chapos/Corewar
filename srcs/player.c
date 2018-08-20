@@ -34,14 +34,14 @@ int		add_player(t_player **player, int n, char *file_name)
 	return (0);
 }
 
-int ft_swap_unsigned_int_byte(unsigned int *swap)
-{
-	*swap = ((*swap << 24) & 0xff000000)
-				 | (*swap << 8 & 0x00ff0000)
-				 | (*swap >> 8 & 0x0000ff00)
-				 | (*swap >> 24 & 0x000000ff);
-	return (0);
-}
+//int ft_swap_unsigned_int_byte(unsigned int *swap)
+//{
+//	*swap = ((*swap << 24) & 0xff000000)
+//				 | (*swap << 8 & 0x00ff0000)
+//				 | (*swap >> 8 & 0x0000ff00)
+//				 | (*swap >> 24 & 0x000000ff);
+//	return (0);
+//}
 
 int	read_prog(int fd, unsigned int prog_size, unsigned char **code)
 {
@@ -61,13 +61,13 @@ int	read_prog(int fd, unsigned int prog_size, unsigned char **code)
 int read_player(t_player *player, int fd)
 {
 	read(fd, &player->head, sizeof(t_header));
-	ft_swap_unsigned_int_byte(&player->head.magic);
+	ft_byterev_ui32(&player->head.magic);
 	if (player->head.magic != COREWAR_EXEC_MAGIC)
 	{
 		close(fd);
 		return  (1);
 	}
-	ft_swap_unsigned_int_byte(&player->head.prog_size);
+	ft_byterev_ui32(&player->head.prog_size);
 	if (read_prog(fd, player->head.prog_size, &player->code))
 	{
 		close(fd);

@@ -19,6 +19,7 @@ void init_vm(t_vm *vm)
 	vm->flags.d = 0;
 	vm->flags.n = -1;
 	vm->players = NULL;
+	vm->cars = NULL;
 }
 
 void print_map(unsigned char *map)
@@ -72,7 +73,16 @@ int main(int argc, char **argv)
 	init_vm(&vm);
 	read_argv(&vm, argc, argv);
 	write_in_map(vm.map, vm.players);
+	player_create_car(vm.players , &vm.cars);
 	//print_map(vm.map);
+
+	while(vm.cars)
+	{
+		ft_printf("pc = %d\n", vm.cars->pc);
+		ft_printf("num_player = %d\n", vm.cars->num_player);
+		vm.cars = vm.cars->next;
+	}
+
 	free_all(&vm);
 	return (0);
 }
