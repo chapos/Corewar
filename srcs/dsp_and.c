@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:39:30 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/18 18:51:24 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/20 11:51:07 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		dsp_and(t_carriage *carriage, unsigned char *map)
 	unsigned int	and;
 
 	res = 0;
-	acb = map[carriage->pc + 1];
+	acb = map[(carriage->pc + 1) % MEM_SIZE];
 	ft_memset(&args, 0, sizeof(t_args));
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2) || (acb & ARG_MASK3))
 	{

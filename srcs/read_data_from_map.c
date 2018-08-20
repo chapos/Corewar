@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 11:56:42 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/19 11:59:09 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/20 11:49:47 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ static int	read_arg(int pc, unsigned char *map, unsigned int acb_mask, int *shif
 	char	size;
 
 	res = 0;
+	pc = (pc + *shift + 1) % MEM_SIZE;
 	// Direct
 	if (acb_mask == 0x80)
 	{
-		size = reader.read_dir(&arg->readed, pc + *shift + 1, map);
+		size = reader.read_dir(&arg->readed, pc, map);
 		*shift += size;
 		arg->type = T_DIR;
 		arg->size = size;
@@ -36,7 +37,7 @@ static int	read_arg(int pc, unsigned char *map, unsigned int acb_mask, int *shif
 	// Register
 	else if (acb_mask == 0x40)
 	{
-		arg->readed = map[pc + *shift + 1];
+		arg->readed = map[pc];
 		arg->type = T_REG;
 		arg->size = 1;
 		*shift += sizeof(unsigned char);
@@ -44,7 +45,7 @@ static int	read_arg(int pc, unsigned char *map, unsigned int acb_mask, int *shif
 	// Indirect
 	else if (acb_mask == 0xc0)
 	{
-		size = reader.read_ind(&arg->readed, pc + *shift + 1, map);
+		size = reader.read_ind(&arg->readed, pc, map);
 		*shift += size;
 		arg->type = T_IND;
 		arg->size = size;
@@ -67,7 +68,7 @@ void		read_args_from_map(int pc, unsigned char *map, t_args *args, t_reader read
 	int				shift;
 
 	shift = 1;
-	acb = map[pc + 1];
+	acb = map[(pc + 1) % MEM_SIZE];
 	read_arg(pc, map, acb & ARG_MASK1, &shift, &args->arg1, reader);
 	read_arg(pc, map, (acb & ARG_MASK2) << 2, &shift, &args->arg2, reader);
 	read_arg(pc, map, (acb & ARG_MASK3) << 4, &shift, &args->arg3, reader);

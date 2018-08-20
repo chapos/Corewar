@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/19 15:48:22 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/20 11:32:28 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,20 +193,22 @@ int		dsp_lld(t_carriage *carriage, unsigned char *map);
 int		dsp_lldi(t_carriage *carriage, unsigned char *map);
 int		dsp_aff(t_carriage *carriage, unsigned char *map);
 
+int		cmd_fork(t_carriage *father, unsigned char *map, t_list **root);
+int		cmd_lfork(t_carriage *father, unsigned char *map, t_list **root);
 int		write_in_map(unsigned char map[], t_player *player);
 
-int						read_player(t_player *player, int fd);
-int						read_argv(t_vm *vm, int ac, char **av);
-int						count_players(t_player *player);
-int						add_player(t_player **player, int n, char *file_name);
 
-void					free_all(t_vm *vm);
+int		read_player(t_player *player, int fd);
+int		read_argv(t_vm *vm, int ac, char **av);
+int		count_players(t_player *player);
+int		add_player(t_player **player, int n, char *file_name);
+void	free_all(t_vm *vm);
 //errors
-void error_many_champions(t_vm *vm);
-void error_read_file(t_vm *vm, char *file_name);
-void error_not_validate_file(t_vm *vm, char *file_name);
-void error_differ_prog_size(t_vm *vm, char *file_name);
-void error_big_prog_size(t_vm * vm, char *file_name, int prog_size);
+void 	error_many_champions(t_vm *vm);
+void 	error_read_file(t_vm *vm, char *file_name);
+void 	error_not_validate_file(t_vm *vm, char *file_name);
+void 	error_differ_prog_size(t_vm *vm, char *file_name);
+void 	error_big_prog_size(t_vm * vm, char *file_name, int prog_size);
 //
 
 #endif

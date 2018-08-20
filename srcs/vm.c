@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:22:51 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/19 15:51:15 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/19 16:02:42 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int ft_usage()
 	return (0);
 }
 
+/*
 int main(int argc, char **argv)
 {
 
@@ -75,3 +76,4 @@ int main(int argc, char **argv)
 	free_all(&vm);
 	return (0);
 }
+*/
