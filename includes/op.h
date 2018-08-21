@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/21 10:59:56 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/08/21 15:29:18 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,6 @@ void 	error_differ_prog_size(t_vm *vm, char *file_name);
 void 	error_big_prog_size(t_vm * vm, char *file_name, int prog_size);
 //
 
-void print_map(unsigned char *map);
+void print_map(unsigned char *map, t_carriage *cars);
 
 #endif

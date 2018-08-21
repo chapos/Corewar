@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 11:02:29 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/20 11:29:12 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/21 16:38:40 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int		cmd_fork(t_carriage *father, unsigned char *map, t_carriage **root)
 	son = (t_carriage *)ft_memalloc(sizeof(t_carriage));
 	ft_memcpy(son, father, sizeof(t_carriage));
 	read_short_from_map(&npos, father->pc + 1, map);
-	son->pc = npos;
+	son->pc = npos + father->pc;
 	add_car(root, son);
+	father->pc += 3;
 	return (1);
 }

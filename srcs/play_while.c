@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/20 19:55:46 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/21 16:47:57 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,12 @@ int play_cycle(t_vm *vm, int cycle)
 	// player number
 	int			pn;
 	t_carriage	*tcars;
-	int				(*dsp[16])(t_carriage*, unsigned char*);
+	int			(*dsp[16])(t_carriage*, unsigned char*);
 
 	init_dsp(dsp);
 	while (cycle)
 	{
 		tcars = vm->cars;
-
-
 		while (tcars)
 		{
 			if (vm->map[tcars->pc] - 1 > 0 && vm->map[tcars->pc] - 1 < 16 &&
@@ -95,6 +93,9 @@ int play_cycle(t_vm *vm, int cycle)
 //				cmd_live(tcars, vm->map, &pn);
 				read_int_from_map(&pn, tcars->pc + 1, vm->map);
 				add_player_live(vm->players, pn);
+//				ft_printf("i alive: %d\n", pn);
+				tcars->pc += 5;
+				tcars->pc %= MEM_SIZE;
 				// increase live counter for player with 'pn' number
 			}
 			else if (vm->map[tcars->pc] == 12)
@@ -128,14 +129,14 @@ int play_while(t_vm *vm)
 	count_cycle = 0;
 	cycle_to_die = CYCLE_TO_DIE;
 
-	while ((count_live = check_live(&vm->players, &vm->cars)))
+	while ((count_live = check_live(&vm->players, &vm->cars)) && cycle_to_die > 1)
 	{
 		cycle = cycle_to_die;
 		if (count_cycle == MAX_CHECKS || count_live > NBR_LIVE)
 			cycle_to_die /= CYCLE_DELTA;
 		play_cycle(vm, cycle);
 		count_cycle++;
-		print_map(vm->map);
+		print_map(vm->map, vm->cars);
 	}
 	return (0);
 }
