@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 14:33:26 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/19 15:50:46 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/20 11:58:47 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ int		dsp_fork(t_carriage *carriage, unsigned char *map, t_op *op_tab)
 }
 */
 
-/*
-void	print_map(unsigned char *map, const int map_size)
+void	print_mapz(unsigned char *map, const int map_size)
 {
 	int		i;
 
@@ -75,7 +74,6 @@ void	print_map(unsigned char *map, const int map_size)
 	if (i % 64)
 		ft_putchar('\n');
 }
-*/
 
 void	print_regs(unsigned int *reg)
 {
@@ -107,7 +105,6 @@ void	init_dsp(int (**dsp)(t_carriage*, unsigned char*))
 	dsp[15] = dsp_aff;
 }
 
-/*
 int		main(void)
 {
 	t_carriage		carriage;
@@ -118,14 +115,27 @@ int		main(void)
 	init_dsp(dsp);
 	ft_memset(&carriage, 0, sizeof(t_carriage));
 	ft_memset(map, 0, map_size);
-	carriage.reg[1] = 0xffffffff;
-	map[0] = 0x03;
-	map[1] = 0x70;
-	map[2] = 0x01;
-	map[3] = 0x00;
-	map[4] = 0x05;
+	// get value from [10]
+	map[0] = 0x02;
+	map[1] = 0xD0;
+	map[2] = 0x00;
+	map[3] = 0x0a;
+	map[4] = 0x02;
+
+	// store it at [14]
+	map[5] = 0x03;
+	map[6] = 0x70;
+	map[7] = 0x02;
+	map[8] = 0x00;
+	map[9] = 0x09;
+
+	// value to get from
+	map[10] = 0x49;
+	map[11] = 0x96;
+	map[12] = 0x02;
+	map[13] = 0xD2;
 	dsp[map[0] - 1](&carriage, map);
-	print_map(map, map_size);
+	dsp[map[5] - 1](&carriage, map);
+	print_mapz(map, map_size);
 	return (0);
 }
-*/
