@@ -12,6 +12,30 @@
 
 #include "../includes/op.h"
 
+int		del_plaeyr(t_player **players, int num_player)
+{
+	t_player *temp;
+	t_player *temp2;
+
+	temp = *players;
+	temp2 = NULL;
+	while (temp)
+	{
+		if (temp->num_player == num_player)
+		{
+			if (temp2)
+				temp2->next = temp->next;
+			else
+				*players = temp->next;
+			free(temp);
+			return (0);
+		}
+		temp2 = temp;
+		temp = temp->next;
+	}
+	return (1);
+}
+
 int		add_player(t_player **player, int n, char *file_name)
 {
 	t_player *new;
@@ -33,15 +57,6 @@ int		add_player(t_player **player, int n, char *file_name)
 		*player = new;
 	return (0);
 }
-
-//int ft_swap_unsigned_int_byte(unsigned int *swap)
-//{
-//	*swap = ((*swap << 24) & 0xff000000)
-//				 | (*swap << 8 & 0x00ff0000)
-//				 | (*swap >> 8 & 0x0000ff00)
-//				 | (*swap >> 24 & 0x000000ff);
-//	return (0);
-//}
 
 int	read_prog(int fd, unsigned int prog_size, unsigned char **code)
 {

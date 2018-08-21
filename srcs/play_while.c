@@ -1,9 +1,36 @@
 
 #include "../includes/op.h"
 
-int		check_live()
+int count_live_player(t_carriage *cars, int num_player)
 {
+	int count;
 
+	count = 0;
+	while (cars)
+	{
+		if (num_player == cars->num_player && cars->life)
+		{
+			count++;
+			cars->life = 0;
+		}
+		cars = cars->next;
+	}
+	return (count);
+}
+
+int		check_live(t_player *players, t_carriage *cars)
+{
+	int value;
+	int count;
+
+	count = 0;
+	while (players)
+	{
+		count = count_live_player(cars, players->num_player);
+		if (count > value)
+			value = count;
+	}
+	return (value);
 }
 
 int play_cycle(t_vm *vm)
@@ -43,10 +70,6 @@ int play_while(t_vm *vm)
 			cycle_to_die /= CYCLE_DELTA;
 
 		play_cycle(vm);
-//		while (cycle)
-//		{
-//			cycle--;
-//		}
 		count_cycle++;
 	}
 }
