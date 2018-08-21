@@ -62,7 +62,6 @@ int ft_usage()
 	return (0);
 }
 
-/*
 int main(int argc, char **argv)
 {
 
@@ -76,14 +75,16 @@ int main(int argc, char **argv)
 	player_create_car(vm.players , &vm.cars);
 	//print_map(vm.map);
 
-	while(vm.cars)
-	{
-		ft_printf("pc = %d\n", vm.cars->pc);
-		ft_printf("num_player = %d\n", vm.cars->num_player);
-		vm.cars = vm.cars->next;
-	}
+//	while(vm.cars)
+//	{
+//		ft_printf("pc = %d\n", vm.cars->pc);
+//		ft_printf("num_player = %d\n", vm.cars->num_player);
+//		vm.cars = vm.cars->next;
+//	}
+
+	play_while(&vm);
 
 	free_all(&vm);
 	return (0);
 }
-*/
+

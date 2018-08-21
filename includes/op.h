@@ -196,15 +196,12 @@ int		dsp_lld(t_carriage *carriage, unsigned char *map);
 int		dsp_lldi(t_carriage *carriage, unsigned char *map);
 int		dsp_aff(t_carriage *carriage, unsigned char *map);
 
-int		cmd_fork(t_carriage *father, unsigned char *map, t_list **root);
-int		cmd_lfork(t_carriage *father, unsigned char *map, t_list **root);
+int		cmd_fork(t_carriage *father, unsigned char *map, t_carriage **root);
+int		cmd_lfork(t_carriage *father, unsigned char *map, t_carriage **root);
 void	init_dsp(int (**dsp)(t_carriage*, unsigned char*));
 int		write_in_map(unsigned char map[], t_player *player);
 
-
-//free
-int		del_cars(t_carriage **cars, int num_player);
-int		del_plaeyr(t_player **players, int num_player);
+int play_while(t_vm *vm);
 int		read_player(t_player *player, int fd);
 int		read_argv(t_vm *vm, int ac, char **av);
 int		count_players(t_player *player);
@@ -212,6 +209,9 @@ int		add_player(t_player **player, int n, char *file_name);
 void	free_all(t_vm *vm);
 void	add_car(t_carriage **cars, t_carriage *car);
 int		player_create_car(t_player *players, t_carriage **cars);
+//free
+int		del_cars(t_carriage **cars, int num_player);
+int		del_plaeyr(t_player **players, int num_player);
 void					free_all(t_vm *vm);
 //errors
 void 	error_many_champions(t_vm *vm);
@@ -220,5 +220,7 @@ void 	error_not_validate_file(t_vm *vm, char *file_name);
 void 	error_differ_prog_size(t_vm *vm, char *file_name);
 void 	error_big_prog_size(t_vm * vm, char *file_name, int prog_size);
 //
+
+void print_map(unsigned char *map);
 
 #endif

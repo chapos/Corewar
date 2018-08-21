@@ -12,7 +12,7 @@
 
 #include "op.h"
 
-int		cmd_lfork(t_carriage *father, unsigned char *map, t_list **root)
+int		cmd_lfork(t_carriage *father, unsigned char *map, t_carriage **root)
 {
 	int			npos;
 	t_carriage	*son;
@@ -21,6 +21,6 @@ int		cmd_lfork(t_carriage *father, unsigned char *map, t_list **root)
 	ft_memcpy(son, father, sizeof(t_carriage));
 	read_short_from_map(&npos, father->pc + 1, map);
 	son->pc = npos;
-	ft_lstadd(root, ft_lstnew_cc(son, sizeof(t_carriage)));
+	add_car(root, son);
 	return (1);
 }

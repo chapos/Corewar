@@ -51,7 +51,8 @@ CW_SRCF				:= player.c				\
 					   vm.c					\
 					   errors.c    			\
 					   carriage.c           \
-					   corewar_lib.c
+					   corewar_lib.c        \
+					   play_while.c
 
 CW_DEPS				:= $(CW_DEPF:%=$(CW_DEPS_DIR)/%)
 CW_SRCS				:= $(CW_SRCF:%=$(CW_SRCS_DIR)/%)
