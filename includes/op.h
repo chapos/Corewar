@@ -210,7 +210,7 @@ void	free_all(t_vm *vm);
 void	add_car(t_carriage **cars, t_carriage *car);
 int		player_create_car(t_player *players, t_carriage **cars);
 //free
-int		del_cars(t_carriage **cars, int num_player);
+int		del_cars(t_carriage **cars);
 int		del_plaeyr(t_player **players, int num_player);
 void					free_all(t_vm *vm);
 //errors

@@ -13,28 +13,63 @@
 
 #include "../includes/op.h"
 
-int		del_cars(t_carriage **cars, int num_player)
+int		del_cars(t_carriage **cars)
 {
 	t_carriage *temp;
 	t_carriage *temp2;
 
 	temp = *cars;
-	temp2 = NULL;
 	while (temp)
-	{
-		if (temp->num_player == num_player)
-		{
-			if (temp2)
-				temp2->next = temp->next;
-			else
+		if (temp->life == 0)
+			if (temp == *cars)
+			{
 				*cars = temp->next;
-			free(temp);
+				temp2 = *cars;
+				free(temp);
+				temp = *cars;
+			}
+			else
+			{
+				temp2->next = temp->next;
+				free(temp);
+				temp = temp2->next;
+			}
+		else
+		{
+			temp2 = temp;
+			temp = temp->next;
 		}
-		temp2 = temp;
-		temp = temp->next;
-	}
 	return (0);
 }
+
+//int		del_cars(t_carriage **cars)
+//{
+//	t_carriage *temp;
+//	t_carriage *temp2;
+//
+//	temp = *cars;
+//	temp2 = NULL;
+//	while (temp)
+//	{
+//		if (temp->life == 0)
+//		{
+//			x = temp;
+//			if (temp2)
+//				temp2->next = temp->next;
+//			else
+//				*cars = temp->next;
+////			free(temp);
+//		}
+//		else
+//			temp->life = 0;
+//		temp2 = temp;
+//		temp = temp->next;
+//		if (x)
+//			free(temp);
+//	}
+//	ft_printf("ASD\n");
+//	return (0);
+//}
 
 void add_car(t_carriage **cars, t_carriage *car)
 {
