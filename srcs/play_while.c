@@ -12,23 +12,6 @@
 
 #include "../includes/op.h"
 
-//int count_live_player(t_carriage *cars, int num_player)
-//{
-//	int count;
-//
-//	count = 0;
-//	while (cars)
-//	{
-//		if (num_player == cars->num_player && cars->life)
-//		{
-//			count++;
-//			cars->life = 0;
-//		}
-//		cars = cars->next;
-//	}
-//	return (count);
-//}
-
 int		check_live(t_player **players, t_carriage **cars)
 {
 	t_player	*tplay;
@@ -38,16 +21,16 @@ int		check_live(t_player **players, t_carriage **cars)
 	tplay = *players;
 	count = 0;
 	value = 0;
+	cars = NULL;
 	while (tplay)
 	{
-		//count = count_live_player(cars, players->num_player);
 		count = tplay->live;
-		if (tplay->live == 0)
-		{
-			del_cars(cars, tplay->num_player);
-			del_plaeyr(players, tplay->num_player);
-		}
-		else
+//		if (tplay->live == 0)
+//		{
+//			del_cars(cars, tplay->num_player);
+//			del_plaeyr(players, tplay->num_player);
+//		}
+//		else
 			tplay->live = 0;
 		if (count > value)
 			value = count;
@@ -63,11 +46,11 @@ int add_player_live(t_player *players, int num_player)
 		if (players->num_player == num_player)
 		{
 			players->live++;
-			return (1);
+			return (0);
 		}
 		players = players->next;
 	}
-	return (0);
+	return (1);
 }
 
 int		is_time_to_run(int op, t_carriage *carriage, int *times)
@@ -107,6 +90,83 @@ void	init_times(int *times)
 	times[15] = 2;
 }
 
+//int play_cycle(t_vm *vm, int cycle)
+//{
+//	int			pn;
+//	t_carriage	*tcars;
+//	int			(*dsp[16])(t_carriage*, unsigned char*);
+//	int			times[16];
+//	int			ncycle;
+//
+//	ncycle = 1;
+//	init_dsp(dsp);
+//	init_times(times);
+//	while (cycle)
+//	{
+//		tcars = vm->cars;
+//		while (tcars)
+//		{
+//			if (is_time_to_run(vm->map[tcars->pc], tcars, times))
+//			{
+//
+//				if (vm->map[tcars->pc] - 1 > 0 && vm->map[tcars->pc] - 1 < 16 &&
+//						dsp[vm->map[tcars->pc] - 1])
+//					dsp[vm->map[tcars->pc] - 1](tcars, vm->map);
+//				else if (vm->map[tcars->pc] == 1)
+//				{
+//					read_int_from_map(&pn, tcars->pc + 1, vm->map);
+//					ft_printf("pn = %d\n", pn);
+//					add_player_live(vm->players, pn);
+//					tcars->pc += 5;
+//					tcars->pc %= MEM_SIZE;
+//				}
+//				else if (vm->map[tcars->pc] == 12)
+//					cmd_fork(tcars, vm->map, &vm->cars);
+//				else if (vm->map[tcars->pc] == 15)
+//					cmd_lfork(tcars, vm->map, &vm->cars);
+//				else
+//				{
+//					++tcars->pc;
+//					tcars->pc %= MEM_SIZE;
+//				}
+//
+//			}
+//
+////			ft_printf("Carry: %d\n", tcars->carry);
+//			tcars = tcars->next;
+//		}
+//		cycle--;
+//		//ft_printf("Is now cycle: %d\n", ncycle++);
+//		//print_map(vm->map, vm->cars);
+////		char c;
+////		read(1, &c, 1);
+//	}
+//	return (0);
+//}
+
+//int play_while(t_vm *vm)
+//{
+//	int 		cycle;
+//	int 		cycle_to_die;
+//	int 		count_cycle;
+//	int 		count_live;
+//
+//	count_cycle = 0;
+//	cycle_to_die = CYCLE_TO_DIE;
+//
+//	while ((count_live = check_live(&vm->players, &vm->cars)) && cycle_to_die > 0)
+//	{
+//		cycle = cycle_to_die;
+//		if (count_cycle == MAX_CHECKS || count_live > NBR_LIVE)
+//			cycle_to_die /= CYCLE_DELTA;
+//		play_cycle(vm, cycle);
+//		count_cycle++;
+//		//print_map(vm->map, vm->cars);
+//		//ft_printf("%d\n", count_cycle);
+//	}
+//	return (0);
+//}
+
 int play_cycle(t_vm *vm, int cycle)
 {
 	int			pn;
@@ -114,7 +174,9 @@ int play_cycle(t_vm *vm, int cycle)
 	int			(*dsp[16])(t_carriage*, unsigned char*);
 	int			times[16];
 	int			ncycle;
+	int			live;
 
+	live = 0;
 	ncycle = 1;
 	init_dsp(dsp);
 	init_times(times);
@@ -123,17 +185,18 @@ int play_cycle(t_vm *vm, int cycle)
 		tcars = vm->cars;
 		while (tcars)
 		{
-			/*
 			if (is_time_to_run(vm->map[tcars->pc], tcars, times))
 			{
-			*/
+
 				if (vm->map[tcars->pc] - 1 > 0 && vm->map[tcars->pc] - 1 < 16 &&
 						dsp[vm->map[tcars->pc] - 1])
 					dsp[vm->map[tcars->pc] - 1](tcars, vm->map);
 				else if (vm->map[tcars->pc] == 1)
 				{
 					read_int_from_map(&pn, tcars->pc + 1, vm->map);
-					add_player_live(vm->players, pn);
+					ft_printf("pn = %d\n", pn);
+					if (add_player_live(vm->players, pn))
+						live++;
 					tcars->pc += 5;
 					tcars->pc %= MEM_SIZE;
 				}
@@ -146,19 +209,20 @@ int play_cycle(t_vm *vm, int cycle)
 					++tcars->pc;
 					tcars->pc %= MEM_SIZE;
 				}
-				/*
+
 			}
-			*/
-			ft_printf("Carry: %d\n", tcars->carry);
+
+//			ft_printf("Carry: %d\n", tcars->carry);
 			tcars = tcars->next;
 		}
 		cycle--;
-		ft_printf("Is now cycle: %d\n", ncycle++);
-		print_map(vm->map, vm->cars);
-		char c;
-		read(1, &c, 1);
+		ncycle++;
+		//ft_printf("Is now cycle: %d\n", ncycle++);
+		//print_map(vm->map, vm->cars);
+//		char c;
+//		read(1, &c, 1);
 	}
-	return (0);
+	return (live);
 }
 
 int play_while(t_vm *vm)
@@ -167,23 +231,28 @@ int play_while(t_vm *vm)
 	int 		cycle_to_die;
 	int 		count_cycle;
 	int 		count_live;
+	int			live;
 
-	count_cycle = 0;
+	live = 0;
+	count_cycle = 1;
 	cycle_to_die = CYCLE_TO_DIE;
 
-	while ((count_live = check_live(&vm->players, &vm->cars)) && cycle_to_die > 1)
+	while (live || (count_live = check_live(&vm->players, &vm->cars)))
 	{
+		if (cycle_to_die < 1)
+			free_all(vm);
 		cycle = cycle_to_die;
-		if (count_cycle == MAX_CHECKS || count_live > NBR_LIVE)
+		if (count_cycle % MAX_CHECKS == 0 || count_live > NBR_LIVE)
 			cycle_to_die /= CYCLE_DELTA;
-		play_cycle(vm, cycle);
+		live = play_cycle(vm, cycle);
 		count_cycle++;
 		print_map(vm->map, vm->cars);
+		//ft_printf("%d\n", count_cycle);
+	}
+	while (vm->cars)
+	{
+		ft_printf("ASD\n");
+		vm->cars = vm->cars->next;
 	}
 	return (0);
 }
-
-//int play_start(t_vm *vm)
-//{
-//
-//}
