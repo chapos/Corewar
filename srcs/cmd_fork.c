@@ -21,7 +21,9 @@ int		cmd_fork(t_carriage *father, unsigned char *map, t_carriage **root)
 	ft_memcpy(son, father, sizeof(t_carriage));
 	read_short_from_map(&npos, father->pc + 1, map);
 	son->pc = npos + father->pc;
+	son->pc %= MEM_SIZE;
 	add_car(root, son);
 	father->pc += 3;
+	father->pc %= MEM_SIZE;
 	return (1);
 }
