@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:22:51 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/21 15:39:05 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/22 15:18:18 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,20 @@ int color_car(t_carriage *cars, int pc)
 void print_map(unsigned char *map, t_carriage *cars)
 {
     unsigned int i;
+	unsigned int n;
     
     i = 0;
+	n = 0;
     while (i < MEM_SIZE)
     {
         if (i % 64 == 0)
-            ft_printf("str N: %d ", (i / 64) + 1);
+		{
+			if (n == 0)
+				ft_putstr("0x0000 : ");
+			else
+				ft_printf("%#.4x : ", n);
+			n += 64;
+		}
         if (color_car(cars, i))
             ft_printf("%s%.2x%s ", GREEN, map[i], RESET);
         else
