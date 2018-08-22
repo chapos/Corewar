@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:22:51 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/21 15:39:05 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/22 10:09:53 by rpetluk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,53 +21,6 @@ void init_vm(t_vm *vm)
 	vm->players = NULL;
 	vm->cars = NULL;
 }
-
-int color_car(t_carriage *cars, int pc)
-{
-    while (cars)
-    {
-        if (cars->pc == pc)
-            return (1);
-		cars = cars->next;
-    }
-    return (0);
-}
-void print_map(unsigned char *map, t_carriage *cars)
-{
-    unsigned int i;
-    
-    i = 0;
-    while (i < MEM_SIZE)
-    {
-        if (i % 64 == 0)
-            ft_printf("str N: %d ", (i / 64) + 1);
-        if (color_car(cars, i))
-            ft_printf("%s%.2x%s ", GREEN, map[i], RESET);
-        else
-            ft_printf("%.2x ", map[i]);
-        i++;
-        if (i % 64 == 0)
-            ft_printf("\n");
-    }
-}
-
-/*
-void print_map(unsigned char *map)
-{
-	unsigned int i;
-
-	i = 0;
-	while (i < MEM_SIZE)
-	{
-		if (i % 64 == 0)
-			ft_printf("str N: %d ", (i / 64) + 1);
-		ft_printf("%.2x ", map[i]);
-		i++;
-		if (i % 64 == 0)
-			ft_printf("\n");
-	}
-}
-*/
 
 int ft_usage()
 {
