@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 15:11:47 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/21 15:12:33 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/21 19:59:20 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ int player_create_car(t_player *players, t_carriage **cars)
 		ncar = (t_carriage *)ft_memalloc(sizeof(t_carriage));
 		ncar->pc = i;
 		ncar->life = 1;
+		//
+		ncar->wait = -1;
+		//
 		ncar->reg[1] = players->num_player;
 		ncar->num_player = players->num_player;
 		add_car(cars, ncar);
