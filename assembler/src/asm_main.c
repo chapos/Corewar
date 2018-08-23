@@ -36,7 +36,7 @@ static int	create_output_file(char *file_name)
 	name_offset = ft_strrchr(file_name, '.');
 	*name_offset = '\0';
 	new_name = ft_strjoin(file_name, ".cor");
-	fd = open(new_name, O_RDWR | O_CREAT, 777);
+	fd = open(new_name, O_CREAT | O_RDWR, 400);
 	if (fd == -1)
 	{
 		ft_putstr_fd(OPEN_OUTPUT_ERR, STDERR_FILENO);
@@ -64,19 +64,26 @@ static void	check_file_name(const char *file_name)
 
 static void	init_db(t_db *db)
 {
+	ft_bzero(db->bot.buff, COMMENT_LENGTH);
+	db->bot.magic_header = big_little_endian(0xea83f3);
+	db->bot.separator = 0x0;
 	db->bot.bot_name = NULL;
 	db->bot.bot_comment = NULL;
 	db->bot.bot_size = 0;
 	db->output_fd = 0;
 	db->source_fd = 0;
+	db->v_data.line_counter = 0;
+	db->v_data.name_readed = false;
+	db->v_data.comment_readed = false;
+	db->v_data.line = NULL;
+	db->v_data.name_size = 0;
+	db->v_data.comment_size = 0;
+	db->v_data.multiline_string = false;
 }
 
 int			main(int argc, char **argv)
 {
 	t_db	db;
-	//uint32_t magic = 0xea83f3;
-
-	//int swapped = ((magic>>24)&0xff) | ((magic<<8)&0xff0000) | ((magic>>8)&0xff00) | ((magic<<24)&0xff000000);
 
 	if (argc < 2)
 	{
@@ -84,9 +91,18 @@ int			main(int argc, char **argv)
 		exit(0);
 	}
 	check_file_name(argv[argc - 1]);
+	init_db(&db);
 	db.source_fd = open_source_file(argv[argc - 1]);
 	db.output_fd = create_output_file(argv[argc - 1]);
-	init_db(&db);
 	read_source_file(&db);
+//	write(db.output_fd, &db.bot.magic_header, sizeof(uint32_t));
+//	write(db.output_fd, db.bot.bot_name, db.v_data.name_size);
+//	write(db.output_fd, db.bot.buff, PROG_NAME_LENGTH - db.v_data.name_size);
+//	write(db.output_fd, &db.bot.separator, sizeof(uint32_t));
+//	write(db.output_fd, &db.bot.separator, sizeof(uint32_t));
+//	write(db.output_fd, db.bot.bot_comment, db.v_data.comment_size);
+//	write(db.output_fd, &db.bot.separator, sizeof(uint32_t));
+//	write(db.output_fd, db.bot.buff, COMMENT_LENGTH - db.v_data.comment_size);
+	clean_and_exit(&db, NULL);
 	return (0);
 }

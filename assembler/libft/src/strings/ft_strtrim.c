@@ -25,7 +25,7 @@ static size_t	ft_strsize_no_edgespace(char const *s)
 	while (s[j] != '\0')
 		j++;
 	j--;
-	while (SPACE(s[j]))
+	while (SPACE(s[j]) && j != 0)
 		j--;
 	return (j - i + 1);
 }

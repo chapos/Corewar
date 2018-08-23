@@ -8,3 +8,4 @@ a.out
 *.cor
 .DS_Store
 .idea/
+*.dSYM

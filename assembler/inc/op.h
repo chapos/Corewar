@@ -10,10 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** Toutes les tailles sont en octets.
-** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
-*/
 
 #define IND_SIZE				2
 #define REG_SIZE				4
@@ -48,9 +44,6 @@
 #define NBR_LIVE				21
 #define MAX_CHECKS				10
 
-/*
-**
-*/
 
 typedef char	t_arg_type;
 
@@ -59,12 +52,9 @@ typedef char	t_arg_type;
 #define T_IND					4
 #define T_LAB					8
 
-/*
-**
-*/
 
-# define PROG_NAME_LENGTH		(128)
-# define COMMENT_LENGTH			(2048)
+# define PROG_NAME_LENGTH		128
+# define COMMENT_LENGTH			2048
 # define COREWAR_EXEC_MAGIC		0xea83f3
 
 typedef struct		header_s
