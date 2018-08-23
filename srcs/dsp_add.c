@@ -6,13 +6,20 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:38:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/20 11:44:55 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/23 15:33:20 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-int		dsp_add(t_carriage *carriage, unsigned char *map)
+void	print_add(t_carriage *carriage, t_visual *visual)
+{
+	ft_printf("%s r%hhu r%hhu r%hhu\n", visual->op_names[visual->op - 1],
+			(unsigned char)visual->args.arg1.readed, (unsigned char)visual->args.arg2.readed, (unsigned char)visual->args.arg3.readed);
+	carriage = NULL;
+}
+
+int		dsp_add(t_carriage *carriage, unsigned char *map, t_visual *visual)
 {
 	unsigned char	acb;
 	int				res;
@@ -20,6 +27,7 @@ int		dsp_add(t_carriage *carriage, unsigned char *map)
 	unsigned int	sum;
 
 	res = 0;
+	visual->op = map[carriage->pc];
 	acb = map[(carriage->pc + 1) % MEM_SIZE];
 	ft_memset(&args, 0, sizeof(t_args));
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2) || (acb & ARG_MASK3))
@@ -33,6 +41,7 @@ int		dsp_add(t_carriage *carriage, unsigned char *map)
 			carriage->carry = sum ? 0 : 1;
 			res = 1;
 		}
+		visual->args = args;
 		carriage->pc += 1 + args.arg1.size + args.arg2.size + args.arg3.size;
 	}
 	++carriage->pc;

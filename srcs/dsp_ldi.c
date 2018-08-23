@@ -6,13 +6,22 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:11:31 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/20 11:53:01 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/23 15:35:02 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-int		dsp_ldi(t_carriage *carriage, unsigned char *map)
+void	print_ldi(t_carriage *carriage, t_visual *visual)
+{
+	ft_printf("%s %d %d r%hhu\n", visual->op_names[visual->op - 1], visual->args.arg1.value, visual->args.arg2.value, (unsigned char)visual->args.arg3.readed);
+	ft_printf("-> load from %d + %d = %d (with pc and mod %d)\n",
+			visual->args.arg1.value, visual->args.arg2.value,
+			visual->args.arg1.value + visual->args.arg2.value,
+			carriage->pc);
+}
+
+int		dsp_ldi(t_carriage *carriage, unsigned char *map, t_visual *visual)
 {
 	unsigned char	acb;
 	int				res;
@@ -20,6 +29,7 @@ int		dsp_ldi(t_carriage *carriage, unsigned char *map)
 	int				val;
 
 	res = 0;
+	visual->op = map[carriage->pc];
 	acb = map[(carriage->pc + 1) % MEM_SIZE];
 	ft_memset(&args, 0, sizeof(t_args));
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2) || (acb & ARG_MASK3))
@@ -34,6 +44,7 @@ int		dsp_ldi(t_carriage *carriage, unsigned char *map)
 			carriage->reg[args.arg3.readed] = val;
 			res = 1;
 		}
+		visual->args = args;
 		carriage->pc += 1 + args.arg1.size + args.arg2.size + args.arg3.size;
 	}
 	++carriage->pc;

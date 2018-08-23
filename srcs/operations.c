@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 14:33:26 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/20 11:58:47 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/23 15:56:05 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ void	print_regs(unsigned int *reg)
 	ft_printf("%.8X\n", reg[i]);
 }
 
-void	init_dsp(int (**dsp)(t_carriage*, unsigned char*))
+/*
+void	init_dsp(int (**dsp)(t_carriage*, unsigned char*, t_visual*))
 {
 	dsp[0] = NULL;
 	dsp[1] = dsp_ld;
@@ -103,6 +104,43 @@ void	init_dsp(int (**dsp)(t_carriage*, unsigned char*))
 	dsp[13] = dsp_lldi;
 	dsp[14] = NULL;
 	dsp[15] = dsp_aff;
+}
+*/
+
+void	init_dsp(t_ama_dispatcher *dsp)
+{
+	dsp[0].exec_cmd = NULL;
+	dsp[0].print_cmd = NULL;
+	dsp[1].exec_cmd = dsp_ld;
+	dsp[1].print_cmd = print_ld;
+	dsp[2].exec_cmd = dsp_st;
+	dsp[2].print_cmd = print_st;
+	dsp[3].exec_cmd = dsp_add;
+	dsp[3].print_cmd = print_add;
+	dsp[4].exec_cmd = dsp_sub;
+	dsp[4].print_cmd = print_sub;
+	dsp[5].exec_cmd = dsp_and;
+	dsp[5].print_cmd = print_and;
+	dsp[6].exec_cmd = dsp_or;
+	dsp[6].print_cmd = print_or;
+	dsp[7].exec_cmd = dsp_xor;
+	dsp[7].print_cmd = print_xor;
+	dsp[8].exec_cmd = dsp_zjmp;
+	dsp[8].print_cmd = print_zjmp;
+	dsp[9].exec_cmd = dsp_ldi;
+	dsp[9].print_cmd = print_ldi;
+	dsp[10].exec_cmd = dsp_sti;
+	dsp[10].print_cmd = print_sti;
+	dsp[11].exec_cmd = NULL;
+	dsp[11].print_cmd = NULL;
+	dsp[12].exec_cmd = dsp_lld;
+	dsp[12].print_cmd = print_lld;
+	dsp[13].exec_cmd = dsp_lldi;
+	dsp[13].print_cmd = print_lldi;
+	dsp[14].exec_cmd = NULL;
+	dsp[14].print_cmd = NULL;
+	dsp[15].exec_cmd = dsp_aff;
+	dsp[15].print_cmd = print_aff;
 }
 
 //int		main(void)

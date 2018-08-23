@@ -6,13 +6,22 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:46:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/20 11:55:30 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/23 15:32:42 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-int		dsp_sti(t_carriage *carriage, unsigned char *map)
+void	print_sti(t_carriage *carriage, t_visual *visual)
+{
+	ft_printf("%s r%hhu %d %d\n", visual->op_names[visual->op - 1], (unsigned char)visual->args.arg1.readed, visual->args.arg2.value, visual->args.arg3.value);
+	ft_printf("-> store to %d + %d = %d (with pc and mod %d)\n",
+			visual->args.arg2.value, visual->args.arg3.value,
+			visual->args.arg2.value + visual->args.arg3.value,
+			carriage->pc);
+}
+
+int		dsp_sti(t_carriage *carriage, unsigned char *map, t_visual *visual)
 {
 	unsigned char	acb;
 	int				res;
@@ -21,6 +30,7 @@ int		dsp_sti(t_carriage *carriage, unsigned char *map)
 	int				rev;
 
 	res = 0;
+	visual->op = map[carriage->pc];
 	acb = map[(carriage->pc + 1) % MEM_SIZE];
 	ft_memset(&args, 0, sizeof(t_args));
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2) || (acb & ARG_MASK3))
@@ -36,6 +46,7 @@ int		dsp_sti(t_carriage *carriage, unsigned char *map)
 			write_int_in_map(&rev, carriage->pc + addr, map);
 			res = 1;
 		}
+		visual->args = args;
 		carriage->pc += 1 + args.arg1.size + args.arg2.size + args.arg3.size;
 	}
 	++carriage->pc;

@@ -6,13 +6,22 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:37:28 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/20 11:55:04 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/23 15:36:03 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-int		dsp_st(t_carriage *carriage, unsigned char *map)
+void	print_st(t_carriage *carriage, t_visual *visual)
+{
+	if (visual->args.arg2.type == T_IND)
+		ft_printf("%s r%d %d\n", visual->op_names[visual->op - 1], (unsigned char)visual->args.arg1.readed, visual->args.arg2.readed);
+	else if (visual->args.arg2.type == T_REG)
+		ft_printf("%s r%d r%hhu\n", visual->op_names[visual->op - 1], (unsigned char)visual->args.arg1.readed, (unsigned char)visual->args.arg2.readed);
+	carriage = NULL;
+}
+
+int		dsp_st(t_carriage *carriage, unsigned char *map, t_visual *visual)
 {
 	unsigned char	acb;
 	int				res;
@@ -20,6 +29,7 @@ int		dsp_st(t_carriage *carriage, unsigned char *map)
 	int				rev;
 
 	res = 0;
+	visual->op = map[carriage->pc];
 	acb = map[(carriage->pc + 1) % MEM_SIZE];
 	ft_memset(&args, 0, sizeof(t_args));
 	// '||' because of ACB Invalid cases
@@ -43,6 +53,7 @@ int		dsp_st(t_carriage *carriage, unsigned char *map)
 				res = 1;
 			}
 		}
+		visual->args = args;
 		carriage->pc += 1 + args.arg1.size + args.arg2.size;
 	}
 	++carriage->pc;

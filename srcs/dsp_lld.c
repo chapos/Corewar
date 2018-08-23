@@ -6,19 +6,26 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:49:55 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/20 11:53:32 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/23 15:49:09 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-int		dsp_lld(t_carriage *carriage, unsigned char *map)
+void	print_lld(t_carriage *carriage, t_visual *visual)
+{
+		ft_printf("%s %d r%hhu\n", visual->op_names[visual->op - 1], visual->args.arg1.value, (unsigned char)visual->args.arg2.readed);
+	carriage = NULL;
+}
+
+int		dsp_lld(t_carriage *carriage, unsigned char *map, t_visual *visual)
 {
 	unsigned char	acb;
 	t_args			args;
 	int				res;
 
 	res = 0;
+	visual->op = map[carriage->pc];
 	acb = map[(carriage->pc + 1) % MEM_SIZE];
 	ft_memset(&args, 0, sizeof(t_args));
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2))
@@ -33,6 +40,7 @@ int		dsp_lld(t_carriage *carriage, unsigned char *map)
 			res = 1;
 		}
 		carriage->pc += args.arg1.size + args.arg2.size + 1;
+		visual->args = args;
 	}
 	++carriage->pc;
 	carriage->pc %= MEM_SIZE;

@@ -6,25 +6,39 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:55:22 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/19 11:31:08 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/23 15:37:02 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-int		dsp_zjmp(t_carriage *carriage, unsigned char *map)
+void	print_zjmp(t_carriage *carriage, t_visual *visual)
+{
+	ft_printf("%s %d ", visual->op_names[visual->op - 1], visual->args.arg1.value);
+	if (carriage->carry)
+		ft_putstr("OK\n");
+	else
+		ft_putstr("FAILED\n");
+}
+
+int		dsp_zjmp(t_carriage *carriage, unsigned char *map, t_visual *visual)
 {
 	int			res;
-	int			val;
+	t_args		args;
 
-	val = 1;
 	res = 0;
+	visual->op = map[carriage->pc];
+	ft_memset(&visual->args, 0, sizeof(t_args));
+	read_short_from_map(&args.arg1.value, carriage->pc + 1, map);
+	args.arg1.readed = args.arg1.value;
+	args.arg1.type = T_DIR;
+	visual->args = args;
 	if (carriage->carry)
 	{
-		read_short_from_map(&val, carriage->pc + 1, map);
+		carriage->pc += args.arg1.value; // val % IDX_MOD;
 		res = 1;
 	}
-	carriage->pc += val; // val % IDX_MOD;
+	++carriage->pc;
 	carriage->pc %= MEM_SIZE;
 	if (carriage->pc < 0)
 		carriage->pc = MEM_SIZE + carriage->pc;

@@ -6,13 +6,28 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:41:56 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/20 11:56:07 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/23 15:36:46 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-int		dsp_xor(t_carriage *carriage, unsigned char *map)
+void	print_xor(t_carriage *carriage, t_visual *visual)
+{
+	ft_printf("%s", visual->op_names[visual->op - 1]);
+	if (visual->args.arg1.type == T_REG)
+		ft_printf(" r%hhu", visual->args.arg1.readed);
+	else
+		ft_printf(" %d", visual->args.arg1.value);
+	if (visual->args.arg2.type == T_REG)
+		ft_printf(" r%hhu", visual->args.arg2.readed);
+	else
+		ft_printf(" %d", visual->args.arg2.value);
+	ft_printf(" r%hhu\n", visual->args.arg3.readed);
+	carriage = NULL;
+}
+
+int		dsp_xor(t_carriage *carriage, unsigned char *map, t_visual *visual)
 {
 	unsigned char	acb;
 	int				res;
@@ -20,6 +35,7 @@ int		dsp_xor(t_carriage *carriage, unsigned char *map)
 	unsigned int	xor;
 
 	res = 0;
+	visual->op = map[carriage->pc];
 	acb = map[(carriage->pc + 1) % MEM_SIZE];
 	ft_memset(&args, 0, sizeof(t_args));
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2) || (acb & ARG_MASK3))
@@ -34,6 +50,7 @@ int		dsp_xor(t_carriage *carriage, unsigned char *map)
 			res = 1;
 		}
 		carriage->pc += 1 + args.arg1.size + args.arg2.size + args.arg3.size;
+		visual->args = args;
 	}
 	++carriage->pc;
 	carriage->pc %= MEM_SIZE;
