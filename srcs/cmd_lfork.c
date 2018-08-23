@@ -22,6 +22,7 @@ int		cmd_lfork(t_carriage *father, unsigned char *map, t_carriage **root)
 	read_short_from_map(&npos, father->pc + 1, map);
 	son->pc = father->pc + npos;
 	son->pc %= MEM_SIZE;
+	son->num_car = (*root)->num_car + 1;
 	add_car(root, son);
 	father->pc += 3;
 	father->pc %= MEM_SIZE;

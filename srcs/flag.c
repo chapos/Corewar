@@ -31,7 +31,7 @@ int if_flag(t_flags *flag, char *s1, char *s2)
 	if (s2 && !ft_strcmp(s1, "-v"))
 	{
 		if (ft_isvldint(s2))
-			flag->v = ft_atoi(s2);
+			flag->v = (ft_atoi(s2) % 32);
 		return (1);
 	}
 	if (s2 && !ft_strcmp(s1, "-s"))
@@ -96,7 +96,7 @@ int read_argv(t_vm *vm, int ac, char **av)
 		if (!if_flag(&vm->flags, av[i],av[i + 1]))
 		{
 			while (flag_n(vm->players, vm->flags.n))
-				vm->flags.n--;
+				vm->flags.n++;
 			add_player(&vm->players, vm->flags.n, av[i]);
 			count++;
 			if (count > MAX_PLAYERS)

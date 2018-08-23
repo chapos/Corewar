@@ -1,6 +1,24 @@
 
 #include "../includes/op.h"
 
+int		key_validate(int v, int value)
+{
+	int i;
+
+	i = 16;
+	while (v)
+	{
+		if (v >= i)
+		{
+			if (i == value)
+				return (1);
+			v -= i;
+		}
+		i /= 2;
+	}
+	return (0);
+}
+
 int		count_players(t_player *player)
 {
 	int count;
@@ -18,14 +36,15 @@ void free_all(t_vm *vm)
 {
 	t_player	*temp;
 
+	del_cars(&vm->cars, vm->flags.v);
 	while (vm->players)
 	{
-//		ft_printf("%d\n", vm->players->num_player);
 		temp = vm->players->next;
 		free(vm->players->code);
 		free(vm->players);
 		vm->players = temp;
 	}
+	exit(1);
 	//system("leaks corewar");
 }
 

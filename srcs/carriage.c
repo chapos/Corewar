@@ -13,7 +13,7 @@
 
 #include "../includes/op.h"
 
-int		del_cars(t_carriage **cars)
+int		del_cars(t_carriage **cars, int v)
 {
 	t_carriage *temp;
 	t_carriage *temp2;
@@ -21,6 +21,9 @@ int		del_cars(t_carriage **cars)
 	temp = *cars;
 	while (temp)
 		if (temp->life == 0)
+		{
+			if (key_validate(v, 8))
+				ft_printf("Process %d hasn't lived for %d cycles (CTD 436)\n", temp->num_car, temp->count_live);
 			if (temp == *cars)
 			{
 				*cars = temp->next;
@@ -34,42 +37,15 @@ int		del_cars(t_carriage **cars)
 				free(temp);
 				temp = temp2->next;
 			}
+		}
 		else
 		{
+			temp->life = 0;
 			temp2 = temp;
 			temp = temp->next;
 		}
 	return (0);
 }
-
-//int		del_cars(t_carriage **cars)
-//{
-//	t_carriage *temp;
-//	t_carriage *temp2;
-//
-//	temp = *cars;
-//	temp2 = NULL;
-//	while (temp)
-//	{
-//		if (temp->life == 0)
-//		{
-//			x = temp;
-//			if (temp2)
-//				temp2->next = temp->next;
-//			else
-//				*cars = temp->next;
-////			free(temp);
-//		}
-//		else
-//			temp->life = 0;
-//		temp2 = temp;
-//		temp = temp->next;
-//		if (x)
-//			free(temp);
-//	}
-//	ft_printf("ASD\n");
-//	return (0);
-//}
 
 void add_car(t_carriage **cars, t_carriage *car)
 {
@@ -89,8 +65,15 @@ int player_create_car(t_player *players, t_carriage **cars)
 	while (players)
 	{
 		ncar = (t_carriage *)ft_memalloc(sizeof(t_carriage));
+
 		ncar->pc = i;
+		if (*cars)
+			ncar->num_car = (*cars)->num_car + 1;
+		else
+			ncar->num_car = 1;
+		ft_printf("%d\n", ncar->num_car);
 		ncar->life = 1;
+		ncar->count_live = 0;
 		//
 		ncar->wait = -1;
 		//
