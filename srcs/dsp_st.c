@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:37:28 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/23 15:36:03 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/24 10:52:04 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_st(t_carriage *carriage, t_visual *visual)
 	carriage = NULL;
 }
 
-int		dsp_st(t_carriage *carriage, unsigned char *map, t_visual *visual)
+int		dsp_st(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift)
 {
 	unsigned char	acb;
 	int				res;
@@ -36,6 +36,8 @@ int		dsp_st(t_carriage *carriage, unsigned char *map, t_visual *visual)
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2))
 	{
 		read_args_from_map(carriage->pc, map, &args, (t_reader){read_int_from_map, read_short_from_map});
+		if (args.arg2.type == T_IND)
+			args.arg2.readed %= IDX_MOD;
 		if (CHECK_REG(args.arg1.type, args.arg1.readed) && (args.arg2.type == T_IND ||
 				args.arg2.type == T_REG))
 		{
@@ -54,9 +56,7 @@ int		dsp_st(t_carriage *carriage, unsigned char *map, t_visual *visual)
 			}
 		}
 		visual->args = args;
-		carriage->pc += 1 + args.arg1.size + args.arg2.size;
+		*shift = 1 + args.arg1.size + args.arg2.size;
 	}
-	++carriage->pc;
-	carriage->pc %= MEM_SIZE;
 	return (res);
 }

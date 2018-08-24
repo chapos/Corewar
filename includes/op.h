@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/23 15:57:53 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/23 16:37:35 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ typedef	struct		s_reader
 
 typedef struct		s_ama_dispetcher
 {
-	int			(*exec_cmd)(t_carriage*, unsigned char*, t_visual*);
+	int			(*exec_cmd)(t_carriage*, unsigned char*, t_visual*, int*);
 	void		(*print_cmd)(t_carriage *carriage, t_visual *visual);
 }					t_ama_dispatcher;
 
@@ -196,19 +196,19 @@ size_t	read_short_from_map(int *val, int pos, unsigned char *map);
 void	init_args(t_carriage *carriage, unsigned char *map, t_args *args);
 void	write_int_in_map(int *val, int pos, unsigned char *map);
 
-int		dsp_ld(t_carriage *carriage, unsigned char *map, t_visual *visual);
-int		dsp_st(t_carriage *carriage, unsigned char *map, t_visual *visual);
-int		dsp_add(t_carriage *carriage, unsigned char *map, t_visual *visual);
-int		dsp_sub(t_carriage *carriage, unsigned char *map, t_visual *visual);
-int		dsp_and(t_carriage *carriage, unsigned char *map, t_visual *visual);
-int		dsp_or(t_carriage *carriage, unsigned char *map, t_visual *visual);
-int		dsp_xor(t_carriage *carriage, unsigned char *map, t_visual *visual);
-int		dsp_zjmp(t_carriage *carriage, unsigned char *map, t_visual *visual);
-int		dsp_ldi(t_carriage *carriage, unsigned char *map, t_visual *visual);
-int		dsp_sti(t_carriage *carriage, unsigned char *map, t_visual *visual);
-int		dsp_lld(t_carriage *carriage, unsigned char *map, t_visual *visual);
-int		dsp_lldi(t_carriage *carriage, unsigned char *map, t_visual *visual);
-int		dsp_aff(t_carriage *carriage, unsigned char *map, t_visual *visual);
+int		dsp_ld(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
+int		dsp_st(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
+int		dsp_add(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
+int		dsp_sub(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
+int		dsp_and(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
+int		dsp_or(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
+int		dsp_xor(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
+int		dsp_zjmp(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
+int		dsp_ldi(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
+int		dsp_sti(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
+int		dsp_lld(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
+int		dsp_lldi(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
+int		dsp_aff(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
 
 int		cmd_fork(t_carriage *father, unsigned char *map, t_carriage **root);
 int		cmd_lfork(t_carriage *father, unsigned char *map, t_carriage **root);

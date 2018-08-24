@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 11:56:42 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/20 11:49:47 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/23 20:01:06 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,6 @@ static int	read_arg(int pc, unsigned char *map, unsigned int acb_mask, int *shif
 		*shift += size;
 		arg->type = T_DIR;
 		arg->size = size;
-		/*
-		   arg->readed = *(int *)&map[pc + *shift + 1];
-		   ft_byterev_ui32((unsigned int *)&arg->readed);
-		   arg->type = T_DIR;
-		   arg->size = DIR_SIZE;
-		 *shift += sizeof(int);
-		 */
 	}
 	// Register
 	else if (acb_mask == 0x40)
@@ -49,15 +42,6 @@ static int	read_arg(int pc, unsigned char *map, unsigned int acb_mask, int *shif
 		*shift += size;
 		arg->type = T_IND;
 		arg->size = size;
-		/*
-		arg->readed = *(short *)&map[pc + *shift + 1];
-		ft_byterev_us16((unsigned short *)&arg->readed);
-		//arg->value %= IDX_MOD;
-		arg->readed = (short)arg->readed;
-		arg->type = T_IND;
-		arg->size = IND_SIZE;
-		*shift += sizeof(short);
-		*/
 	}
 	return (res);
 }

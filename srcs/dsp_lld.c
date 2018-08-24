@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:49:55 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/23 15:49:09 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/23 16:32:43 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	print_lld(t_carriage *carriage, t_visual *visual)
 	carriage = NULL;
 }
 
-int		dsp_lld(t_carriage *carriage, unsigned char *map, t_visual *visual)
+int		dsp_lld(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift)
 {
 	unsigned char	acb;
 	t_args			args;
@@ -39,10 +39,8 @@ int		dsp_lld(t_carriage *carriage, unsigned char *map, t_visual *visual)
 			carriage->carry = args.arg1.value == 0 ? 1 : 0;
 			res = 1;
 		}
-		carriage->pc += args.arg1.size + args.arg2.size + 1;
+		*shift = args.arg1.size + args.arg2.size + 1;
 		visual->args = args;
 	}
-	++carriage->pc;
-	carriage->pc %= MEM_SIZE;
 	return (res);
 }

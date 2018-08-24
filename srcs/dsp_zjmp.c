@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:55:22 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/23 15:37:02 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/24 14:47:39 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_zjmp(t_carriage *carriage, t_visual *visual)
 		ft_putstr("FAILED\n");
 }
 
-int		dsp_zjmp(t_carriage *carriage, unsigned char *map, t_visual *visual)
+int		dsp_zjmp(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift)
 {
 	int			res;
 	t_args		args;
@@ -32,15 +32,9 @@ int		dsp_zjmp(t_carriage *carriage, unsigned char *map, t_visual *visual)
 	read_short_from_map(&args.arg1.value, carriage->pc + 1, map);
 	args.arg1.readed = args.arg1.value;
 	args.arg1.type = T_DIR;
+	args.arg1.size = 2;
 	visual->args = args;
-	if (carriage->carry)
-	{
-		carriage->pc += args.arg1.value; // val % IDX_MOD;
-		res = 1;
-	}
-	++carriage->pc;
-	carriage->pc %= MEM_SIZE;
-	if (carriage->pc < 0)
-		carriage->pc = MEM_SIZE + carriage->pc;
+	*shift = carriage->carry ? args.arg1.value % IDX_MOD : args.arg1.size;
+	res = 1;
 	return (res);
 }
