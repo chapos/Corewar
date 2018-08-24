@@ -71,7 +71,6 @@ int player_create_car(t_player *players, t_carriage **cars)
 			ncar->num_car = (*cars)->num_car + 1;
 		else
 			ncar->num_car = 1;
-		ft_printf("%d\n", ncar->num_car);
 		ncar->life = 1;
 		ncar->count_live = 0;
 		//

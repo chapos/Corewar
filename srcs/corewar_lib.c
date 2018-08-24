@@ -78,5 +78,5 @@ void print_map(unsigned char *map, t_carriage *cars)
 		if (i % 64 == 0)
 			ft_printf("\n");
 	}
-	ft_printf("\n\n");
+	//ft_printf("\n\n");
 }
