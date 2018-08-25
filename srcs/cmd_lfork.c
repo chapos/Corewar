@@ -6,11 +6,19 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 11:32:06 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/21 16:48:29 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/25 12:02:00 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
+
+void	print_lfork(t_carriage *carriage, t_args *args)
+{
+	int	val;
+
+	val = (carriage->pc + args->arg1.value) % MEM_SIZE;
+	ft_printf("lfork %d (%d)\n", args->arg1.value, val);
+}
 
 int		cmd_lfork(t_carriage *father, unsigned char *map, t_carriage **root)
 {

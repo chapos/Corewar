@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/23 16:37:35 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/25 11:34:39 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef char	t_arg_type;
 # define ARG_MASK4			0x03
 
 # define CHECK_REG(type,reg) ((type) == T_REG && (reg) > 0 && (reg) <= REG_NUMBER)
+# define EXS_DSP(x) ((x) >= 1 && (x) <= 16 && (x) != 12 && (x) != 15 && (x) != 1)
 
 typedef	struct		s_possible_args
 {
@@ -141,14 +142,6 @@ typedef struct		s_carriage
 	struct s_carriage	*next;
 }					t_carriage;
 
-typedef struct		s_visual
-{
-	char			*op_names[16];
-	t_args			args;
-	unsigned char	op;
-	int				pn;
-}					t_visual;
-
 typedef	struct		s_reader
 {
 	size_t		(*read_dir)(int *val, int pos, unsigned char *map);
@@ -157,8 +150,8 @@ typedef	struct		s_reader
 
 typedef struct		s_ama_dispetcher
 {
-	int			(*exec_cmd)(t_carriage*, unsigned char*, t_visual*, int*);
-	void		(*print_cmd)(t_carriage *carriage, t_visual *visual);
+	int			(*exec_cmd)(t_carriage*, unsigned char*, t_args*, int*);
+	void		(*print_cmd)(t_carriage *carriage, t_args *visual);
 }					t_ama_dispatcher;
 
 typedef struct 		s_player
@@ -196,27 +189,27 @@ size_t	read_short_from_map(int *val, int pos, unsigned char *map);
 void	init_args(t_carriage *carriage, unsigned char *map, t_args *args);
 void	write_int_in_map(int *val, int pos, unsigned char *map);
 
-int		dsp_ld(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
-int		dsp_st(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
-int		dsp_add(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
-int		dsp_sub(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
-int		dsp_and(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
-int		dsp_or(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
-int		dsp_xor(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
-int		dsp_zjmp(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
-int		dsp_ldi(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
-int		dsp_sti(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
-int		dsp_lld(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
-int		dsp_lldi(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
-int		dsp_aff(t_carriage *carriage, unsigned char *map, t_visual *visual, int *shift);
+int		dsp_ld(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
+int		dsp_st(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
+int		dsp_add(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
+int		dsp_sub(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
+int		dsp_and(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
+int		dsp_or(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
+int		dsp_xor(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
+int		dsp_zjmp(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
+int		dsp_ldi(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
+int		dsp_sti(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
+int		dsp_lld(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
+int		dsp_lldi(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
+int		dsp_aff(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
 
-int		cmd_fork(t_carriage *father, unsigned char *map, t_carriage **root);
+int		cmd_fork(t_carriage *father, unsigned char *map, t_args *args, t_carriage **root);
 int		cmd_lfork(t_carriage *father, unsigned char *map, t_carriage **root);
 //void	init_dsp(int (**dsp)(t_carriage*, unsigned char*, t_visual*));
 void	init_dsp(t_ama_dispatcher *dsp);
 int		write_in_map(unsigned char map[], t_player *player);
 
-int play_while(t_vm *vm);
+int		play_while(t_vm *vm);
 int		read_player(t_player *player, int fd);
 int		read_argv(t_vm *vm, int ac, char **av);
 int		count_players(t_player *player);
@@ -237,20 +230,23 @@ void 	error_big_prog_size(t_vm * vm, char *file_name, int prog_size);
 //
 
 void	print_map(unsigned char *map, t_carriage *cars);
+int		normalize_pc(int pc);
 
-void	print_add(t_carriage *carriage, t_visual *visual);
-void	print_st(t_carriage *carriage, t_visual *visual);
-void	print_ld(t_carriage *carriage, t_visual *visual);
-void	print_add(t_carriage *carriage, t_visual *visual);
-void	print_sub(t_carriage *carriage, t_visual *visual);
-void	print_and(t_carriage *carriage, t_visual *visual);
-void	print_or(t_carriage *carriage, t_visual *visual);
-void	print_xor(t_carriage *carriage, t_visual *visual);
-void	print_zjmp(t_carriage *carriage, t_visual *visual);
-void	print_ldi(t_carriage *carriage, t_visual *visual);
-void	print_sti(t_carriage *carriage, t_visual *visual);
-void	print_lld(t_carriage *carriage, t_visual *visual);
-void	print_lldi(t_carriage *carriage, t_visual *visual);
-void	print_aff(t_carriage *carriage, t_visual *visual);
+void	print_add(t_carriage *carriage, t_args *args);
+void	print_st(t_carriage *carriage, t_args *args);
+void	print_ld(t_carriage *carriage, t_args *args);
+void	print_add(t_carriage *carriage, t_args *args);
+void	print_sub(t_carriage *carriage, t_args *args);
+void	print_and(t_carriage *carriage, t_args *args);
+void	print_or(t_carriage *carriage, t_args *args);
+void	print_xor(t_carriage *carriage, t_args *args);
+void	print_zjmp(t_carriage *carriage, t_args *args);
+void	print_ldi(t_carriage *carriage, t_args *args);
+void	print_sti(t_carriage *carriage, t_args *args);
+void	print_lld(t_carriage *carriage, t_args *args);
+void	print_lldi(t_carriage *carriage, t_args *args);
+void	print_aff(t_carriage *carriage, t_args *args);
+void	print_lfork(t_carriage *carriage, t_args *args);
+void	print_fork(t_carriage *carriage, t_args *args);
 
 #endif
