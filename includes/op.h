@@ -132,10 +132,12 @@ typedef struct		s_header
 
 typedef struct		s_carriage
 {
+	int					num_car;
 	int					pc;
 	int					num_player;
 	int					carry;
 	int					life;
+	int					count_live;
 	int					comand;
 	int					wait;
 	unsigned int		reg[REG_NUMBER + 1];
@@ -217,8 +219,10 @@ int		add_player(t_player **player, int n, char *file_name);
 void	free_all(t_vm *vm);
 void	add_car(t_carriage **cars, t_carriage *car);
 int		player_create_car(t_player *players, t_carriage **cars);
+
+int		key_validate(int v, int value);
 //free
-int		del_cars(t_carriage **cars, int num_player);
+int		del_cars(t_carriage **cars, int v);
 int		del_plaeyr(t_player **players, int num_player);
 void					free_all(t_vm *vm);
 //errors

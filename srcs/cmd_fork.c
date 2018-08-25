@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 11:02:29 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/25 12:45:42 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/25 16:17:58 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		cmd_fork(t_carriage *father, unsigned char *map, t_args *args, t_carriage *
 	args->arg1.readed = npos;
 	args->arg1.value = npos;
 	son->pc = normalize_pc(npos + father->pc);
+	son->num_car = (*root)->num_car + 1;
 	add_car(root, son);
 	/*
 	father->pc += 3;

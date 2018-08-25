@@ -6,11 +6,29 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 15:53:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/22 15:55:23 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/25 16:16:25 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/op.h"
+
+int		key_validate(int v, int value)
+{
+	int i;
+
+	i = 16;
+	while (v)
+	{
+		if (v >= i)
+		{
+			if (i == value)
+				return (1);
+			v -= i;
+		}
+		i /= 2;
+	}
+	return (0);
+}
 
 int		count_players(t_player *player)
 {
@@ -29,14 +47,15 @@ void free_all(t_vm *vm)
 {
 	t_player	*temp;
 
+	del_cars(&vm->cars, vm->flags.v);
 	while (vm->players)
 	{
-//		ft_printf("%d\n", vm->players->num_player);
 		temp = vm->players->next;
 		free(vm->players->code);
 		free(vm->players);
 		vm->players = temp;
 	}
+	exit(1);
 	//system("leaks corewar");
 }
 
@@ -77,4 +96,3 @@ void print_map(unsigned char *map, t_carriage *cars)
     }
 	ft_putchar('\n');
 }
-

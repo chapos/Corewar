@@ -17,7 +17,7 @@ void init_vm(t_vm *vm)
 	vm->flags.v = 0;
 	vm->flags.s = 0;
 	vm->flags.d = 0;
-	vm->flags.n = -1;
+	vm->flags.n = 1;
 	vm->players = NULL;
 	vm->cars = NULL;
 }
@@ -67,6 +67,7 @@ int main(int argc, char **argv)
 //	}
 
 	play_while(&vm);
+	//key_validate(8, 4);
 
 	free_all(&vm);
 	return (0);
