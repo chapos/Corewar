@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:41:56 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/25 15:41:59 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/25 18:25:50 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_xor(t_carriage *carriage, t_args *args)
 {
-	ft_putstr("xor");
+	ft_printf("P%5d | xor", carriage->num_car);
 	if (args->arg1.type == T_REG)
 		ft_printf(" r%hhu", args->arg1.readed);
 	else

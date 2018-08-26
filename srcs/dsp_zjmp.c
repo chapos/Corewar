@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:55:22 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/25 14:47:42 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/26 11:51:37 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_zjmp(t_carriage *carriage, t_args *args)
 {
-	ft_printf("zjmp %d ", args->arg1.value);
+	ft_printf("P%5d | zjmp %d ", carriage->num_car, args->arg1.value);
 	if (carriage->carry)
 		ft_putstr("OK\n");
 	else
@@ -31,7 +31,12 @@ int		dsp_zjmp(t_carriage *carriage, unsigned char *map, t_args *args, int *shift
 	args->arg1.readed = args->arg1.value;
 	args->arg1.type = T_DIR;
 	args->arg1.size = 2;
-	*shift = carriage->carry ? args->arg1.value % IDX_MOD : args->arg1.size + 1;
-	res = 1;
+	if (carriage->carry)
+	{
+		*shift = args->arg1.value % IDX_MOD;
+		res = 1;
+	}
+	else
+		*shift = args->arg1.size;
 	return (res);
 }

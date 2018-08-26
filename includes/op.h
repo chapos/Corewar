@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/25 11:34:39 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/26 19:08:59 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ typedef struct		s_carriage
 	int					carry;
 	int					life;
 	int					count_live;
-	int					comand;
+	int					command;
 	int					wait;
 	unsigned int		reg[REG_NUMBER + 1];
 	struct s_carriage	*next;
@@ -205,8 +205,8 @@ int		dsp_lld(t_carriage *carriage, unsigned char *map, t_args *args, int *shift)
 int		dsp_lldi(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
 int		dsp_aff(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
 
-int		cmd_fork(t_carriage *father, unsigned char *map, t_args *args, t_carriage **root);
-int		cmd_lfork(t_carriage *father, unsigned char *map, t_carriage **root);
+int		cmd_fork(t_carriage *father, unsigned char *map, t_args *args, t_carriage **root, int process_counter);
+int		cmd_lfork(t_carriage *father, unsigned char *map, t_carriage **root, t_args *args, int process_counter);
 //void	init_dsp(int (**dsp)(t_carriage*, unsigned char*, t_visual*));
 void	init_dsp(t_ama_dispatcher *dsp);
 int		write_in_map(unsigned char map[], t_player *player);
@@ -252,5 +252,7 @@ void	print_lldi(t_carriage *carriage, t_args *args);
 void	print_aff(t_carriage *carriage, t_args *args);
 void	print_lfork(t_carriage *carriage, t_args *args);
 void	print_fork(t_carriage *carriage, t_args *args);
+
+void	print_pc_movement(int cur_pos, int shift, unsigned char *map);
 
 #endif

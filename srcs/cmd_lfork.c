@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 11:32:06 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/25 12:02:00 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/26 19:10:19 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,23 @@ void	print_lfork(t_carriage *carriage, t_args *args)
 	int	val;
 
 	val = (carriage->pc + args->arg1.value) % MEM_SIZE;
-	ft_printf("lfork %d (%d)\n", args->arg1.value, val);
+	ft_printf("P%5d | lfork %d (%d)\n", carriage->num_car, args->arg1.value, val);
 }
 
-int		cmd_lfork(t_carriage *father, unsigned char *map, t_carriage **root)
+int		cmd_lfork(t_carriage *father, unsigned char *map, t_carriage **root, t_args *args, int process_counter)
 {
 	int			npos;
 	t_carriage	*son;
 
 	son = (t_carriage *)ft_memalloc(sizeof(t_carriage));
+	ft_memset(args, 0, sizeof(t_args));
 	ft_memcpy(son, father, sizeof(t_carriage));
 	read_short_from_map(&npos, father->pc + 1, map);
-	son->pc = father->pc + npos;
-	son->pc %= MEM_SIZE;
-	son->num_car = (*root)->num_car + 1;
+	args->arg1.readed = npos;
+	args->arg1.value = npos;
+	son->pc = normalize_pc(npos + father->pc);
+	son->num_car = process_counter;
+	son->command = 0;
 	add_car(root, son);
-	father->pc += 3;
-	father->pc %= MEM_SIZE;
 	return (1);
 }

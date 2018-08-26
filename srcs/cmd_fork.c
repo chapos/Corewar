@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 11:02:29 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/25 16:17:58 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/26 19:10:19 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	print_fork(t_carriage *carriage, t_args *args)
 	int	val;
 
 	val = (carriage->pc + args->arg1.value) % MEM_SIZE;
-	ft_printf("fork %d (%d)\n", args->arg1.value, val);
+	ft_printf("P%5d | fork %d (%d)\n", carriage->num_car, args->arg1.value, val);
 }
 
-int		cmd_fork(t_carriage *father, unsigned char *map, t_args *args, t_carriage **root)
+int		cmd_fork(t_carriage *father, unsigned char *map, t_args *args, t_carriage **root, int process_counter)
 {
 	int			npos;
 	t_carriage	*son;
@@ -33,7 +33,8 @@ int		cmd_fork(t_carriage *father, unsigned char *map, t_args *args, t_carriage *
 	args->arg1.readed = npos;
 	args->arg1.value = npos;
 	son->pc = normalize_pc(npos + father->pc);
-	son->num_car = (*root)->num_car + 1;
+	son->num_car = process_counter;
+	son->command = 0;
 	add_car(root, son);
 	/*
 	father->pc += 3;

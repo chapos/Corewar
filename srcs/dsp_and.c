@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:39:30 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/25 15:38:17 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/25 16:58:26 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_and(t_carriage *carriage, t_args *args)
 {
-	ft_putstr("and");
+	ft_printf("P%5d | and", carriage->num_car);
 	if (args->arg1.type == T_REG)
 		ft_printf(" r%hhu", args->arg1.readed);
 	else

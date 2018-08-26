@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:37:28 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/25 15:40:53 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/26 16:57:56 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	print_st(t_carriage *carriage, t_args *args)
 {
-	ft_putstr("st");
+	ft_printf("P%5d | st", carriage->num_car);
 	if (args->arg2.type == T_IND)
 		ft_printf(" r%d %d\n", (unsigned char)args->arg1.readed, args->arg2.readed);
 	else
-		ft_printf(" r%d r%hhu\n", (unsigned char)args->arg1.readed, (unsigned char)args->arg2.readed);
+		ft_printf(" r%d %hhu\n", (unsigned char)args->arg1.readed, (unsigned char)args->arg2.readed);
 	carriage = NULL;
 }
 

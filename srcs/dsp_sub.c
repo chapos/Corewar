@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:38:57 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/25 15:41:33 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/25 18:25:24 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_sub(t_carriage *carriage, t_args *args)
 {
-	ft_printf("sub r%hhu r%hhu r%hhu\n", (unsigned char)args->arg1.readed,
+	ft_printf("P%5d | sub r%hhu r%hhu r%hhu\n", carriage->num_car, (unsigned char)args->arg1.readed,
 			(unsigned char)args->arg2.readed, (unsigned char)args->arg3.readed);
 	carriage = NULL;
 }

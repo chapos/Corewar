@@ -6,7 +6,7 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/14 19:02:12 by oevtushe          #+#    #+#              #
-#    Updated: 2018/08/24 19:31:36 by oevtushe         ###   ########.fr        #
+#    Updated: 2018/08/25 19:48:47 by oevtushe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ CW_SRCF				:= player.c				\
 					   carriage.c           \
 					   corewar_lib.c        \
 					   normalize_pc.c		\
+					   print_pc_movement.c	\
 					   play_while.c
 
 CW_DEPS				:= $(CW_DEPF:%=$(CW_DEPS_DIR)/%)
