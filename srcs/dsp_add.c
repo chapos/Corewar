@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:38:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/25 16:53:29 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/27 14:57:17 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	print_add(t_carriage *carriage, t_args *args)
 {
-	ft_printf("P%5d | add r%hhu r%hhu r%hhu\n", carriage->num_car, (unsigned char)args->arg1.readed,
+	print_pnum(carriage->num_car);
+	ft_printf("add r%hhu r%hhu r%hhu\n", (unsigned char)args->arg1.readed,
 			(unsigned char)args->arg2.readed, (unsigned char)args->arg3.readed);
 	carriage = NULL;
 }

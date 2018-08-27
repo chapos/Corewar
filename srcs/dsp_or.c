@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:40:02 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/25 18:26:45 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/27 14:49:05 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,10 @@
 
 void	print_or(t_carriage *carriage, t_args *args)
 {
-	ft_printf("P%5d | or", carriage->num_car);
-	if (args->arg1.type == T_REG)
-		ft_printf(" r%hhu", args->arg1.readed);
-	else
-		ft_printf(" %d", args->arg1.value);
-	if (args->arg2.type == T_REG)
-		ft_printf(" r%hhu", args->arg2.readed);
-	else
-		ft_printf(" %d", args->arg2.value);
-	ft_printf(" r%hhu\n", args->arg3.readed);
+	print_pnum(carriage->num_car);
+	ft_printf("or %d", args->arg1.value);
+	ft_printf(" %d", args->arg2.value);
+	ft_printf(" r%hhu\n", (unsigned char)args->arg3.readed);
 	carriage = NULL;
 }
 

@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:53:52 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/25 19:20:07 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/27 14:48:29 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	print_lldi(t_carriage *carriage, t_args *args)
 
 	sum = (args->arg1.value + args->arg2.value) % IDX_MOD;
 	rf = (carriage->pc + sum) % MEM_SIZE;
-	ft_printf("P%5d | lldi %d %d r%hhu\n", carriage->num_car, args->arg1.value,
+	print_pnum(carriage->num_car);
+	ft_printf("lldi %d %d r%hhu\n", args->arg1.value,
 			args->arg2.value, (unsigned char)args->arg3.readed);
 	ft_printf("%6.0d | -> load from %d + %d = %d (with pc and mod %d)\n", 0,
 			args->arg1.value, args->arg2.value,

@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/26 19:54:49 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/27 15:04:09 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,8 @@ int play_cycle(t_vm *vm, int cycle, int *cycles, t_ama_dispatcher *dsp, int *pro
 					read_int_from_map(&pn, tcars->pc + 1, vm->map);
 					tcars->life++;
 					add_player_live(vm->players, tcars->num_player, vm->flags.v);
-					ft_printf("P%5d | live %d\n", tcars->num_car, pn);
+					print_pnum(tcars->num_car);
+					ft_printf("live %d\n", pn);
 					shift = 4;
 					res = 1;
 				}
@@ -162,11 +163,7 @@ int play_cycle(t_vm *vm, int cycle, int *cycles, t_ama_dispatcher *dsp, int *pro
 				if (tcars->command != 9 || (tcars->command == 9 && !res))
 				{
 					if (tcars->command >= 1 && tcars->command <= 16)
-					{
-						//
 						print_pc_movement(tcars->pc, shift, vm->map);
-						//
-					}
 					++tcars->pc;
 				}
 				tcars->pc += shift;
@@ -203,28 +200,30 @@ int play_while(t_vm *vm)
 {
 	int 		cycle_to_die;
 	int 		count_cycle;
-	int 		count_live;
 	t_ama_dispatcher dsp[16];
 	int 		cycles;
 	int			process_counter;
+	int			live;
 
 	cycles = 0;
 	count_cycle = 0;
 	cycle_to_die = CYCLE_TO_DIE;
+	live = 1;
 	init_dsp(dsp);
 	//
 	process_counter = vm->cars->num_car;
 	//
-	while ((count_live = check_live(&vm->players)) && cycle_to_die > 0)
+	while (live && cycle_to_die > 0)
 	{
-		if ((count_cycle && count_cycle % MAX_CHECKS == 0) || count_live >= NBR_LIVE)
+		play_cycle(vm, cycle_to_die, &cycles, dsp, &process_counter);
+		del_cars(&vm->cars, vm->flags.v);
+		if (((live = check_live(&vm->players)) >= NBR_LIVE) || CHECK_MC(count_cycle))
 		{
 			cycle_to_die -= CYCLE_DELTA;
 			ft_printf("Cycle to die is now %d\n", cycle_to_die);
+			count_cycle = 0;
 		}
-		play_cycle(vm, cycle_to_die, &cycles, dsp, &process_counter);
 		count_cycle++;
-		del_cars(&vm->cars, vm->flags.v);
 	}
 	return (0);
 }

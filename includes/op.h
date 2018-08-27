@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/26 19:08:59 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/27 14:44:59 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef char	t_arg_type;
 
 # define CHECK_REG(type,reg) ((type) == T_REG && (reg) > 0 && (reg) <= REG_NUMBER)
 # define EXS_DSP(x) ((x) >= 1 && (x) <= 16 && (x) != 12 && (x) != 15 && (x) != 1)
+# define CHECK_MC(x) ((x) && (x) % MAX_CHECKS == 0)
 
 typedef	struct		s_possible_args
 {
@@ -254,5 +255,6 @@ void	print_lfork(t_carriage *carriage, t_args *args);
 void	print_fork(t_carriage *carriage, t_args *args);
 
 void	print_pc_movement(int cur_pos, int shift, unsigned char *map);
+void	print_pnum(int num);
 
 #endif

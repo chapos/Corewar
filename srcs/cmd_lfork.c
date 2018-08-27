@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 11:32:06 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/26 19:10:19 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/27 15:03:11 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ void	print_lfork(t_carriage *carriage, t_args *args)
 {
 	int	val;
 
-	val = (carriage->pc + args->arg1.value) % MEM_SIZE;
-	ft_printf("P%5d | lfork %d (%d)\n", carriage->num_car, args->arg1.value, val);
+	val = carriage->pc + args->arg1.value;
+	print_pnum(carriage->num_car);
+	ft_printf("lfork %d (%d)\n", args->arg1.value, val);
 }
 
 int		cmd_lfork(t_carriage *father, unsigned char *map, t_carriage **root, t_args *args, int process_counter)

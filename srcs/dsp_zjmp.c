@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:55:22 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/26 11:51:37 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/27 14:52:20 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	print_zjmp(t_carriage *carriage, t_args *args)
 {
-	ft_printf("P%5d | zjmp %d ", carriage->num_car, args->arg1.value);
+	print_pnum(carriage->num_car);
+	ft_printf("zjmp %d ", args->arg1.value);
 	if (carriage->carry)
 		ft_putstr("OK\n");
 	else
