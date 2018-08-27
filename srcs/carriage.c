@@ -6,30 +6,30 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 15:11:47 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/21 19:59:20 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/27 16:56:32 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/op.h"
 
-int		del_cars(t_carriage **cars, int v)
+int		del_cars(t_vm *vm, int ctd, int cycles, int final)
 {
 	t_carriage *temp;
 	t_carriage *temp2;
 
-	temp = *cars;
+	temp = vm->cars;
 	while (temp)
-		if (temp->life == 0)
+		if (temp->life == 0 || final)
 		{
-			if (key_validate(v, 8))
-				ft_printf("Process %d hasn't lived for %d cycles (CTD 436)\n", temp->num_car, temp->count_live);
-			if (temp == *cars)
+			if (key_validate(vm->flags.v, 8))
+				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n", temp->num_car, cycles - temp->last_live_cn, ctd);
+			if (temp == vm->cars)
 			{
-				*cars = temp->next;
-				temp2 = *cars;
+				vm->cars = temp->next;
+				temp2 = vm->cars;
 				free(temp);
-				temp = *cars;
+				temp = vm->cars;
 			}
 			else
 			{

@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/27 15:04:09 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/27 16:56:30 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int play_cycle(t_vm *vm, int cycle, int *cycles, t_ama_dispatcher *dsp, int *pro
 					add_player_live(vm->players, tcars->num_player, vm->flags.v);
 					print_pnum(tcars->num_car);
 					ft_printf("live %d\n", pn);
+					tcars->last_live_cn = *cycles;
 					shift = 4;
 					res = 1;
 				}
@@ -216,7 +217,8 @@ int play_while(t_vm *vm)
 	while (live && cycle_to_die > 0)
 	{
 		play_cycle(vm, cycle_to_die, &cycles, dsp, &process_counter);
-		del_cars(&vm->cars, vm->flags.v);
+		// here because cars are killed before changing ctd
+		del_cars(vm, cycle_to_die, cycles - 1, 0);
 		if (((live = check_live(&vm->players)) >= NBR_LIVE) || CHECK_MC(count_cycle))
 		{
 			cycle_to_die -= CYCLE_DELTA;
@@ -225,5 +227,6 @@ int play_while(t_vm *vm)
 		}
 		count_cycle++;
 	}
+	del_cars(vm, cycle_to_die, cycles, 1);
 	return (0);
 }

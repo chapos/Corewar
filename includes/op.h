@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/27 14:44:59 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/27 16:56:42 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef struct		s_carriage
 	int					carry;
 	int					life;
 	int					count_live;
+	int					last_live_cn;
 	int					command;
 	int					wait;
 	unsigned int		reg[REG_NUMBER + 1];
@@ -223,7 +224,7 @@ int		player_create_car(t_player *players, t_carriage **cars);
 
 int		key_validate(int v, int value);
 //free
-int		del_cars(t_carriage **cars, int v);
+int		del_cars(t_vm *vm, int ctd, int cycles, int final);
 int		del_plaeyr(t_player **players, int num_player);
 void					free_all(t_vm *vm);
 //errors
