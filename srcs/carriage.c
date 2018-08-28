@@ -23,7 +23,16 @@ int		del_cars(t_vm *vm, int ctd, int final)
 		if (temp->life == 0 || final)
 		{
 			if (key_validate(vm->flags.v, 8))
-				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n", temp->num_car, vm->game_cycle - temp->last_live_cn, ctd);
+			{
+				write(1, "Process ", 8);
+				ft_putnbr(temp->num_car);
+				write(1, " hasn't lived for ", 18);
+				ft_putnbr((vm->game_cycle - temp->last_live_cn));
+				write(1, " cycles (CTD ", 13);
+				ft_putnbr(ctd);
+				write(1, ")\n", 2);
+//				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n", temp->num_car, vm->game_cycle - temp->last_live_cn, ctd);
+			}
 			if (temp == vm->cars)
 			{
 				vm->cars = temp->next;

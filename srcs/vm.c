@@ -15,7 +15,7 @@
 void init_vm(t_vm *vm)
 {
 	vm->flags.n = 1;
-	vm->game_cycle = 1;
+	//vm->game_cycle = 1;
 }
 
 int ft_usage()
