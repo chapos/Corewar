@@ -12,19 +12,19 @@
 
 #include "../includes/op.h"
 
-int		count_cars(t_carriage *cars)
-{
-	int		count;
-
-	count = 0;
-	while (cars)
-	{
-		cars = cars->next;
-		count++;
-	}
-	ft_printf("count cars = %d\n", count);
-	return (count);
-}
+//int		count_cars(t_carriage *cars)
+//{
+//	int		count;
+//
+//	count = 0;
+//	while (cars)
+//	{
+//		cars = cars->next;
+//		count++;
+//	}
+//	ft_printf("count cars = %d\n", count);
+//	return (count);
+//}
 
 int		check_live(t_player **players)
 {
@@ -96,9 +96,15 @@ int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
 	ft_memset(&vm->args, 0, sizeof(t_args));
 	while (cycle)
 	{
+		vm->game_cycle++;
 		tcars = vm->cars;
 		if (key_validate(vm->flags.v, 2))
-			ft_printf("It is now cycle %d\n", vm->game_cycle);
+		{
+			//ft_printf("It is now cycle %d\n", vm->game_cycle);
+			write(1, "It is now cycle ", 16);
+			ft_putnbr(vm->game_cycle);
+			write(1, "\n", 1);
+		}
 		while (tcars)
 		{
 			tcars->reg[1] = -1;
@@ -125,7 +131,6 @@ int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
 			tcars = tcars->next;
 		}
 		cycle--;
-		vm->game_cycle++;
 		if (vm->flags.d == vm->game_cycle)
 		{
 			print_map(vm->map, vm->cars);
@@ -155,24 +160,28 @@ int play_while(t_vm *vm)
 	live = 1;
 	init_dsp(dsp);
 	init_times(times);
-	//
 	vm->process_counter = vm->cars->num_car;
-	//
 	while (live && cycle_to_die > 0)
 	{
 		play_cycle(vm, cycle_to_die, dsp, times);
-		// here because cars are killed before changing ctd
-		//del_cars(vm, cycle_to_die, vm->game_cycle - 1, 0); IMPORTANT
 		del_cars(vm, cycle_to_die, 0);
-		//
 		if (((live = check_live(&vm->players)) >= NBR_LIVE) || CHECK_MC(count_cycle))
 		{
 			cycle_to_die -= CYCLE_DELTA;
-			ft_printf("Cycle to die is now %d\n", cycle_to_die);
+			if (key_validate(vm->flags.v, 2))
+			{
+				//ft_printf("Cycle to die is now %d\n", cycle_to_die);
+				write(1, "Cycle to die is now ", 20);
+				ft_putnbr(cycle_to_die);
+				write(1, "\n", 1);
+			}
 			count_cycle = 0;
 		}
 		count_cycle++;
 	}
+	vm->game_cycle++;
 	del_cars(vm, cycle_to_die, 1);
+	//ft_printf("Contestant 3, "Celebration Funebre v0.99pl42", has won !")
+	free_all(vm);
 	return (0);
 }

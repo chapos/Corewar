@@ -184,6 +184,7 @@ typedef struct		s_vm
 	t_args				args;
 	unsigned int		process_counter;
 	unsigned int		game_cycle;
+	int					win;
 }					t_vm;
 
 typedef struct		s_ama_dispetcher
