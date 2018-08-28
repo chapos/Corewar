@@ -13,7 +13,7 @@
 
 #include "../includes/op.h"
 
-int		del_cars(t_vm *vm, int ctd, int cycles, int final)
+int		del_cars(t_vm *vm, int ctd, int final)
 {
 	t_carriage *temp;
 	t_carriage *temp2;
@@ -23,7 +23,7 @@ int		del_cars(t_vm *vm, int ctd, int cycles, int final)
 		if (temp->life == 0 || final)
 		{
 			if (key_validate(vm->flags.v, 8))
-				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n", temp->num_car, cycles - temp->last_live_cn, ctd);
+				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n", temp->num_car, vm->game_cycle - temp->last_live_cn, ctd);
 			if (temp == vm->cars)
 			{
 				vm->cars = temp->next;
@@ -72,7 +72,6 @@ int player_create_car(t_player *players, t_carriage **cars)
 		else
 			ncar->num_car = 1;
 		ncar->life = 1;
-		ncar->count_live = 0;
 		//
 		ncar->wait = -1;
 		//

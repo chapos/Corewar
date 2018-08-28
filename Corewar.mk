@@ -44,8 +44,9 @@ CW_SRCF				:= player.c				\
 					   dsp_lldi.c			\
 					   dsp_sti.c			\
 					   dsp_aff.c			\
-					   cmd_fork.c			\
-					   cmd_lfork.c			\
+					   dsp_fork.c			\
+					   dsp_lfork.c			\
+					   dsp_live.c           \
 					   map.c				\
 					   flag.c      			\
 					   vm.c					\

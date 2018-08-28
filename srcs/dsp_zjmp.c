@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:55:22 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/27 14:52:20 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/28 12:43:45 by rpetluk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,22 @@ void	print_zjmp(t_carriage *carriage, t_args *args)
 		ft_putstr("FAILED\n");
 }
 
-int		dsp_zjmp(t_carriage *carriage, unsigned char *map, t_args *args, int *shift)
+int		dsp_zjmp(t_carriage *carriage, t_vm *vm)
 {
 	int			res;
 
 	res = 0;
-	ft_memset(args, 0, sizeof(t_args));
-	read_short_from_map(&args->arg1.value, carriage->pc + 1, map);
-	args->arg1.readed = args->arg1.value;
-	args->arg1.type = T_DIR;
-	args->arg1.size = 2;
+	ft_memset(&vm->args, 0, sizeof(t_args));
+	read_short_from_map(&vm->args.arg1.value, carriage->pc + 1, vm->map);
+	vm->args.arg1.readed = vm->args.arg1.value;
+	vm->args.arg1.type = T_DIR;
+	vm->args.arg1.size = 2;
 	if (carriage->carry)
 	{
-		*shift = args->arg1.value % IDX_MOD;
+		vm->args.shift = vm->args.arg1.value % IDX_MOD;
 		res = 1;
 	}
 	else
-		*shift = args->arg1.size;
+		vm->args.shift = vm->args.arg1.size;
 	return (res);
 }

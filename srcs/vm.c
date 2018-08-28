@@ -14,12 +14,8 @@
 
 void init_vm(t_vm *vm)
 {
-	vm->flags.v = 0;
-	vm->flags.s = 0;
-	vm->flags.d = 0;
 	vm->flags.n = 1;
-	vm->players = NULL;
-	vm->cars = NULL;
+	vm->game_cycle = 1;
 }
 
 int ft_usage()
@@ -53,6 +49,7 @@ int main(int argc, char **argv)
 
 	if (argc < 2)
 		ft_usage();
+	ft_memset(&vm, 0, sizeof(t_vm));
 	init_vm(&vm);
 	read_argv(&vm, argc, argv);
 	write_in_map(vm.map, vm.players);

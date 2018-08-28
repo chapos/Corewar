@@ -109,8 +109,8 @@ void	init_dsp(int (**dsp)(t_carriage*, unsigned char*, t_visual*))
 
 void	init_dsp(t_ama_dispatcher *dsp)
 {
-	dsp[0].exec_cmd = NULL;
-	dsp[0].print_cmd = NULL;
+	dsp[0].exec_cmd = dsp_live;
+	dsp[0].print_cmd = print_live;
 	dsp[1].exec_cmd = dsp_ld;
 	dsp[1].print_cmd = print_ld;
 	dsp[2].exec_cmd = dsp_st;
@@ -131,14 +131,14 @@ void	init_dsp(t_ama_dispatcher *dsp)
 	dsp[9].print_cmd = print_ldi;
 	dsp[10].exec_cmd = dsp_sti;
 	dsp[10].print_cmd = print_sti;
-	dsp[11].exec_cmd = NULL;
-	dsp[11].print_cmd = NULL;
+	dsp[11].exec_cmd = dsp_fork;
+	dsp[11].print_cmd = print_fork;
 	dsp[12].exec_cmd = dsp_lld;
 	dsp[12].print_cmd = print_lld;
 	dsp[13].exec_cmd = dsp_lldi;
 	dsp[13].print_cmd = print_lldi;
-	dsp[14].exec_cmd = NULL;
-	dsp[14].print_cmd = NULL;
+	dsp[14].exec_cmd = dsp_lfork;
+	dsp[14].print_cmd = print_lfork;
 	dsp[15].exec_cmd = dsp_aff;
 	dsp[15].print_cmd = print_aff;
 }

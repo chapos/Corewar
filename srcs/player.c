@@ -12,7 +12,7 @@
 
 #include "../includes/op.h"
 
-int		del_plaeyr(t_player **players, int num_player)
+int		del_player(t_player **players, int num_player)
 {
 	t_player *temp;
 	t_player *temp2;

@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/27 16:56:42 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/28 11:50:38 by rpetluk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef char	t_arg_type;
 # define ARG_MASK4			0x03
 
 # define CHECK_REG(type,reg) ((type) == T_REG && (reg) > 0 && (reg) <= REG_NUMBER)
-# define EXS_DSP(x) ((x) >= 1 && (x) <= 16 && (x) != 12 && (x) != 15 && (x) != 1)
+# define EXS_DSP(x) ((x) > 0 && (x) < 17)
 # define CHECK_MC(x) ((x) && (x) % MAX_CHECKS == 0)
 
 typedef	struct		s_possible_args
@@ -109,6 +109,7 @@ typedef struct		s_args
 	t_arg		arg2;
 	t_arg		arg3;
 	t_arg		arg4;
+	int			shift;
 }					t_args;
 
 typedef	struct		s_op
@@ -138,7 +139,6 @@ typedef struct		s_carriage
 	int					num_player;
 	int					carry;
 	int					life;
-	int					count_live;
 	int					last_live_cn;
 	int					command;
 	int					wait;
@@ -152,11 +152,6 @@ typedef	struct		s_reader
 	size_t		(*read_ind)(int *val, int pos, unsigned char *map);
 }					t_reader;
 
-typedef struct		s_ama_dispetcher
-{
-	int			(*exec_cmd)(t_carriage*, unsigned char*, t_args*, int*);
-	void		(*print_cmd)(t_carriage *carriage, t_args *visual);
-}					t_ama_dispatcher;
 
 typedef struct 		s_player
 {
@@ -171,10 +166,10 @@ typedef struct 		s_player
 
 typedef struct		s_flags
 {
-	int					v;
-	int					s;
-	int					d;
-	int					n;
+	unsigned		v;
+	unsigned		s;
+	unsigned		d;
+	int				n;
 }					t_flags;
 
 typedef struct		s_vm
@@ -183,7 +178,16 @@ typedef struct		s_vm
 	t_carriage			*cars;
 	t_flags				flags;
 	unsigned char		map[MEM_SIZE];
+	t_args				args;
+	unsigned int		process_counter;
+	unsigned int		game_cycle;
 }					t_vm;
+
+typedef struct		s_ama_dispetcher
+{
+	int			(*exec_cmd)(t_carriage *carriage, t_vm *vm);
+	void		(*print_cmd)(t_carriage *carriage, t_args *visual);
+}					t_ama_dispatcher;
 
 void	ft_byterev_us16(unsigned short *i);
 void	ft_byterev_ui32(unsigned int *i);
@@ -193,22 +197,23 @@ size_t	read_short_from_map(int *val, int pos, unsigned char *map);
 void	init_args(t_carriage *carriage, unsigned char *map, t_args *args);
 void	write_int_in_map(int *val, int pos, unsigned char *map);
 
-int		dsp_ld(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
-int		dsp_st(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
-int		dsp_add(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
-int		dsp_sub(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
-int		dsp_and(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
-int		dsp_or(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
-int		dsp_xor(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
-int		dsp_zjmp(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
-int		dsp_ldi(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
-int		dsp_sti(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
-int		dsp_lld(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
-int		dsp_lldi(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
-int		dsp_aff(t_carriage *carriage, unsigned char *map, t_args *args, int *shift);
+int		dsp_ld(t_carriage *carriage, t_vm *vm);
+int		dsp_st(t_carriage *carriage, t_vm *vm);
+int		dsp_add(t_carriage *carriage, t_vm *vm);
+int		dsp_sub(t_carriage *carriage, t_vm *vm);
+int		dsp_and(t_carriage *carriage, t_vm *vm);
+int		dsp_or(t_carriage *carriage, t_vm *vm);
+int		dsp_xor(t_carriage *carriage, t_vm *vm);
+int		dsp_zjmp(t_carriage *carriage, t_vm *vm);
+int		dsp_ldi(t_carriage *carriage, t_vm *vm);
+int		dsp_sti(t_carriage *carriage, t_vm *vm);
+int		dsp_lld(t_carriage *carriage, t_vm *vm);
+int		dsp_lldi(t_carriage *carriage, t_vm *vm);
+int		dsp_aff(t_carriage *carriage, t_vm *vm);
+int		dsp_fork(t_carriage *father, t_vm *vm);
+int		dsp_lfork(t_carriage *father, t_vm *vm);
+int		dsp_live(t_carriage *carriage, t_vm *vm);
 
-int		cmd_fork(t_carriage *father, unsigned char *map, t_args *args, t_carriage **root, int process_counter);
-int		cmd_lfork(t_carriage *father, unsigned char *map, t_carriage **root, t_args *args, int process_counter);
 //void	init_dsp(int (**dsp)(t_carriage*, unsigned char*, t_visual*));
 void	init_dsp(t_ama_dispatcher *dsp);
 int		write_in_map(unsigned char map[], t_player *player);
@@ -224,8 +229,8 @@ int		player_create_car(t_player *players, t_carriage **cars);
 
 int		key_validate(int v, int value);
 //free
-int		del_cars(t_vm *vm, int ctd, int cycles, int final);
-int		del_plaeyr(t_player **players, int num_player);
+int		del_cars(t_vm *vm, int ctd, int final);
+int		del_player(t_player **players, int num_player);
 void					free_all(t_vm *vm);
 //errors
 void 	error_many_champions(t_vm *vm);
@@ -254,6 +259,7 @@ void	print_lldi(t_carriage *carriage, t_args *args);
 void	print_aff(t_carriage *carriage, t_args *args);
 void	print_lfork(t_carriage *carriage, t_args *args);
 void	print_fork(t_carriage *carriage, t_args *args);
+void	print_live(t_carriage *carriage, t_args *args);
 
 void	print_pc_movement(int cur_pos, int shift, unsigned char *map);
 void	print_pnum(int num);
