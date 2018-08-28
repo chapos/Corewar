@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/28 11:50:38 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/08/28 18:05:34 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef char	t_arg_type;
 # define EXS_DSP(x) ((x) > 0 && (x) < 17)
 # define CHECK_MC(x) ((x) && (x) % MAX_CHECKS == 0)
 
+/*
 typedef	struct		s_possible_args
 {
 	t_arg_type		one;
@@ -94,6 +95,7 @@ typedef	struct		s_possible_args
 	t_arg_type		three;
 	t_arg_type		four;
 }					t_possible_args;
+*/
 
 typedef struct		s_arg
 {
@@ -112,6 +114,7 @@ typedef struct		s_args
 	int			shift;
 }					t_args;
 
+/*
 typedef	struct		s_op
 {
 	char			*name;
@@ -123,6 +126,7 @@ typedef	struct		s_op
 	int				acb;
 	int				idk;
 }					t_op;
+*/
 
 typedef struct		s_header
 {
@@ -160,7 +164,6 @@ typedef struct 		s_player
 	t_header			head;
 	unsigned char		*code;
 	char 				*file_name;
-//	t_list				*cars;
 	struct s_player		*next;
 }						t_player;
 
@@ -214,7 +217,6 @@ int		dsp_fork(t_carriage *father, t_vm *vm);
 int		dsp_lfork(t_carriage *father, t_vm *vm);
 int		dsp_live(t_carriage *carriage, t_vm *vm);
 
-//void	init_dsp(int (**dsp)(t_carriage*, unsigned char*, t_visual*));
 void	init_dsp(t_ama_dispatcher *dsp);
 int		write_in_map(unsigned char map[], t_player *player);
 

@@ -6,24 +6,29 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 11:56:42 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/23 20:01:06 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/28 18:17:18 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-static int	read_arg(int pc, unsigned char *map, unsigned int acb_mask, int *shift, t_arg *arg, t_reader reader)
+static int	read_arg(int pc, t_pair *pair, unsigned int acb_mask, t_reader reader)
 {
-	int		res;
-	char	size;
+	int				res;
+	char			size;
+	int				shift;
+	unsigned char	*map;
+	t_arg			*arg;
 
 	res = 0;
-	pc = (pc + *shift + 1) % MEM_SIZE;
+	shift = 0;
+	arg = (t_arg *)pair->scd;
+	map = (unsigned char *)pair->fst;
 	// Direct
 	if (acb_mask == 0x80)
 	{
 		size = reader.read_dir(&arg->readed, pc, map);
-		*shift += size;
+		shift = size;
 		arg->type = T_DIR;
 		arg->size = size;
 	}
@@ -33,30 +38,36 @@ static int	read_arg(int pc, unsigned char *map, unsigned int acb_mask, int *shif
 		arg->readed = map[pc];
 		arg->type = T_REG;
 		arg->size = 1;
-		*shift += sizeof(unsigned char);
+		shift = sizeof(unsigned char);
 	}
 	// Indirect
 	else if (acb_mask == 0xc0)
 	{
 		size = reader.read_ind(&arg->readed, pc, map);
-		*shift += size;
+		shift = size;
 		arg->type = T_IND;
 		arg->size = size;
 	}
-	return (res);
+	return (shift);
 }
 
 void		read_args_from_map(int pc, unsigned char *map, t_args *args, t_reader reader)
 {
 	unsigned char	acb;
 	int				shift;
+	t_pair			pair;
 
 	shift = 1;
 	acb = map[(pc + 1) % MEM_SIZE];
-	read_arg(pc, map, acb & ARG_MASK1, &shift, &args->arg1, reader);
-	read_arg(pc, map, (acb & ARG_MASK2) << 2, &shift, &args->arg2, reader);
-	read_arg(pc, map, (acb & ARG_MASK3) << 4, &shift, &args->arg3, reader);
-	read_arg(pc, map, (acb & ARG_MASK4) << 6, &shift, &args->arg4, reader);
+	pair.fst = map;
+	pair.scd = &args->arg1;
+	shift += read_arg((pc + shift + 1) % MEM_SIZE, &pair, acb & ARG_MASK1, reader);
+	pair.scd = &args->arg2;
+	shift += read_arg((pc + shift + 1) % MEM_SIZE, &pair, (acb & ARG_MASK2) << 2, reader);
+	pair.scd = &args->arg3;
+	shift += read_arg((pc + shift + 1) % MEM_SIZE, &pair, (acb & ARG_MASK3) << 4, reader);
+	pair.scd = &args->arg4;
+	shift += read_arg((pc + shift + 1) % MEM_SIZE, &pair, (acb & ARG_MASK4) << 6, reader);
 }
 
 size_t		read_short_from_map(int *val, int pos, unsigned char *map)
