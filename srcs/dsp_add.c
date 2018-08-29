@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:38:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/28 18:25:35 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/29 12:33:56 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ int		dsp_add(t_carriage *carriage, t_vm *vm)
 
 	res = 0;
 	acb = vm->map[(carriage->pc + 1) % MEM_SIZE];
+	// optimize 
 	ft_memset(&vm->args, 0, sizeof(t_args));
+	//
 	vm->args.shift = 1;
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2) || (acb & ARG_MASK3))
 	{

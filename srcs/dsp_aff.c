@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 14:17:04 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/28 12:47:36 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/08/29 12:51:42 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ int		dsp_aff(t_carriage *carriage, t_vm *vm)
 		read_args_from_map(carriage->pc, vm->map, &vm->args, (t_reader){read_int_from_map, read_short_from_map});
 		if (CHECK_REG(vm->args.arg1.type, vm->args.arg1.readed))
 		{
+			ft_putstr("Aff: ");
 			ft_putchar((char)carriage->reg[vm->args.arg1.readed]);
+			ft_putchar('\n');
 			res = 1;
 		}
 		vm->args.shift += vm->args.arg1.size;
