@@ -26,9 +26,5 @@ int		dsp_fork(t_carriage *father, t_vm *vm)
 	son->command = 0;
 	add_car(&vm->cars, son);
 	vm->args.shift = 2;
-	/*
-	father->pc += 3;
-	father->pc %= MEM_SIZE;
-	*/
 	return (1);
 }

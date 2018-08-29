@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 11:56:42 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/28 18:17:18 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/28 18:59:06 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void		read_args_from_map(int pc, unsigned char *map, t_args *args, t_reader read
 	int				shift;
 	t_pair			pair;
 
+	// acb
 	shift = 1;
 	acb = map[(pc + 1) % MEM_SIZE];
 	pair.fst = map;

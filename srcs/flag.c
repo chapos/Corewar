@@ -6,14 +6,11 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 15:49:38 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/19 15:49:41 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/28 19:06:03 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/op.h"
-
-
 
 int flag_n(t_player *players, int n)
 {
@@ -96,7 +93,7 @@ int read_argv(t_vm *vm, int ac, char **av)
 		if (!if_flag(&vm->flags, av[i],av[i + 1]))
 		{
 			while (flag_n(vm->players, vm->flags.n))
-				vm->flags.n++;
+				vm->flags.n--;
 			add_player(&vm->players, vm->flags.n, av[i]);
 			count++;
 			if (count > MAX_PLAYERS)

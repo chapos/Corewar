@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/28 12:51:27 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/08/28 19:04:21 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
 		}
 		while (tcars)
 		{
-			tcars->reg[1] = -1;
+			//tcars->reg[1] = -1; // FIX THIS !
 			if (is_time_to_run(vm->map[tcars->pc], tcars, times))
 			{
 				res = 0;

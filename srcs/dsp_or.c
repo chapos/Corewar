@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:40:02 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/28 12:41:29 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/08/28 18:36:36 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,5 @@ int		dsp_or(t_carriage *carriage, t_vm *vm)
 		}
 		vm->args.shift += vm->args.arg1.size + vm->args.arg2.size + vm->args.arg3.size;
 	}
-	++carriage->pc;
-	carriage->pc %= MEM_SIZE;
 	return (res);
 }
