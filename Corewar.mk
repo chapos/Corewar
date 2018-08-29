@@ -56,7 +56,8 @@ CW_SRCF				:= player.c				\
 					   normalize_pc.c		\
 					   print_pc_movement.c	\
 					   print_pnum.c			\
-					   play_while.c
+					   play_while.c         \
+					   print.c
 
 CW_DEPS				:= $(CW_DEPF:%=$(CW_DEPS_DIR)/%)
 CW_SRCS				:= $(CW_SRCF:%=$(CW_SRCS_DIR)/%)

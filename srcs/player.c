@@ -12,30 +12,30 @@
 
 #include "../includes/op.h"
 
-int		del_player(t_player **players, int num_player)
-{
-	t_player *temp;
-	t_player *temp2;
-
-	temp = *players;
-	temp2 = NULL;
-	while (temp)
-	{
-		if (temp->num_player == num_player)
-		{
-			if (temp2)
-				temp2->next = temp->next;
-			else
-				*players = temp->next;
-			//free(temp->code);
-			free(temp);
-			return (0);
-		}
-		temp2 = temp;
-		temp = temp->next;
-	}
-	return (1);
-}
+//int		del_player(t_player **players, int num_player)
+//{
+//	t_player *temp;
+//	t_player *temp2;
+//
+//	temp = *players;
+//	temp2 = NULL;
+//	while (temp)
+//	{
+//		if (temp->num_player == num_player)
+//		{
+//			if (temp2)
+//				temp2->next = temp->next;
+//			else
+//				*players = temp->next;
+//			//free(temp->code);
+//			free(temp);
+//			return (0);
+//		}
+//		temp2 = temp;
+//		temp = temp->next;
+//	}
+//	return (1);
+//}
 
 int		add_player(t_player **player, int n, char *file_name)
 {

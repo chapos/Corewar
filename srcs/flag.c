@@ -80,6 +80,15 @@ int read_plaer(t_vm *vm)
 	return (0);
 }
 
+//void key_fill(t_flags *flags)
+//{
+//	flags->key_v[0] = flags->v & 16;
+//	flags->key_v[1] = flags->v & 8;
+//	flags->key_v[2] = flags->v & 4;
+//	flags->key_v[3] = flags->v & 2;
+//	flags->key_v[4] = flags->v & 1;
+//}
+
 int read_argv(t_vm *vm, int ac, char **av)
 {
 	int i;
@@ -103,6 +112,7 @@ int read_argv(t_vm *vm, int ac, char **av)
 			i++;
 		i++;
 	}
+	//key_fill(&vm->flags);
 	read_plaer(vm);
 	return (0);
 }

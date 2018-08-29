@@ -22,7 +22,7 @@ int		del_cars(t_vm *vm, int ctd, int final)
 	while (temp)
 		if (temp->life == 0 || final)
 		{
-			if (key_validate(vm->flags.v, 8))
+			if (vm->flags.v & 8)
 			{
 				write(1, "Process ", 8);
 				ft_putnbr(temp->num_car);
@@ -31,7 +31,6 @@ int		del_cars(t_vm *vm, int ctd, int final)
 				write(1, " cycles (CTD ", 13);
 				ft_putnbr(ctd);
 				write(1, ")\n", 2);
-//				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n", temp->num_car, vm->game_cycle - temp->last_live_cn, ctd);
 			}
 			if (temp == vm->cars)
 			{
