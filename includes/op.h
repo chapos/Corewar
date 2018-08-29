@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/28 18:05:34 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/29 18:13:52 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ typedef struct		s_vm
 typedef struct		s_ama_dispetcher
 {
 	int			(*exec_cmd)(t_carriage *carriage, t_vm *vm);
-	void		(*print_cmd)(t_carriage *carriage, t_args *visual);
+	void		(*print_cmd)(t_carriage *carriage, t_vm *vm);
 }					t_ama_dispatcher;
 
 void	ft_byterev_us16(unsigned short *i);
@@ -246,23 +246,23 @@ void 	error_big_prog_size(t_vm * vm, char *file_name, int prog_size);
 void	print_map(unsigned char *map, t_carriage *cars);
 int		normalize_pc(int pc);
 
-void	print_add(t_carriage *carriage, t_args *args);
-void	print_st(t_carriage *carriage, t_args *args);
-void	print_ld(t_carriage *carriage, t_args *args);
-void	print_add(t_carriage *carriage, t_args *args);
-void	print_sub(t_carriage *carriage, t_args *args);
-void	print_and(t_carriage *carriage, t_args *args);
-void	print_or(t_carriage *carriage, t_args *args);
-void	print_xor(t_carriage *carriage, t_args *args);
-void	print_zjmp(t_carriage *carriage, t_args *args);
-void	print_ldi(t_carriage *carriage, t_args *args);
-void	print_sti(t_carriage *carriage, t_args *args);
-void	print_lld(t_carriage *carriage, t_args *args);
-void	print_lldi(t_carriage *carriage, t_args *args);
-void	print_aff(t_carriage *carriage, t_args *args);
-void	print_lfork(t_carriage *carriage, t_args *args);
-void	print_fork(t_carriage *carriage, t_args *args);
-void	print_live(t_carriage *carriage, t_args *args);
+void	print_add(t_carriage *carriage, t_vm *vm);
+void	print_st(t_carriage *carriage, t_vm *vm);
+void	print_ld(t_carriage *carriage, t_vm *vm);
+void	print_add(t_carriage *carriage, t_vm *vm);
+void	print_sub(t_carriage *carriage, t_vm *vm);
+void	print_and(t_carriage *carriage, t_vm *vm);
+void	print_or(t_carriage *carriage, t_vm *vm);
+void	print_xor(t_carriage *carriage, t_vm *vm);
+void	print_zjmp(t_carriage *carriage, t_vm *vm);
+void	print_ldi(t_carriage *carriage, t_vm *vm);
+void	print_sti(t_carriage *carriage, t_vm *vm);
+void	print_lld(t_carriage *carriage, t_vm *vm);
+void	print_lldi(t_carriage *carriage, t_vm *vm);
+void	print_aff(t_carriage *carriage, t_vm *vm);
+void	print_lfork(t_carriage *carriage, t_vm *vm);
+void	print_fork(t_carriage *carriage, t_vm *vm);
+void	print_live(t_carriage *carriage, t_vm *vm);
 
 void	print_pc_movement(int cur_pos, int shift, unsigned char *map);
 void	print_pnum(int num);

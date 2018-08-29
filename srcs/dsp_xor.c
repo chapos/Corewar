@@ -6,19 +6,18 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:41:56 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/28 12:42:47 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/08/29 18:13:15 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-void	print_xor(t_carriage *carriage, t_args *args)
+void	print_xor(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
-	ft_printf("xor %d", args->arg1.value);
-	ft_printf(" %d", args->arg2.value);
-	ft_printf(" r%hhu\n", (unsigned char)args->arg3.readed);
-	carriage = NULL;
+	ft_printf("xor %d", vm->args.arg1.value);
+	ft_printf(" %d", vm->args.arg2.value);
+	ft_printf(" r%hhu\n", (unsigned char)vm->args.arg3.readed);
 }
 
 int		dsp_xor(t_carriage *carriage, t_vm *vm)

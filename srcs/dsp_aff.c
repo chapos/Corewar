@@ -6,16 +6,16 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 14:17:04 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/29 12:51:42 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/29 18:05:42 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-void	print_aff(t_carriage *carriage, t_args *args)
+void	print_aff(t_carriage *carriage, t_vm *vm)
 {
 	carriage = NULL;
-	args = NULL;
+	vm = NULL;
 }
 
 int		dsp_aff(t_carriage *carriage, t_vm *vm)

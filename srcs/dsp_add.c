@@ -6,19 +6,18 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:38:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/29 12:33:56 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/29 18:04:33 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-void	print_add(t_carriage *carriage, t_args *args)
+void	print_add(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
-	ft_printf("add r%hhu r%hhu r%hhu\n", (unsigned char)args->arg1.readed,
-			(unsigned char)args->arg2.readed,
-				(unsigned char)args->arg3.readed);
-	carriage = NULL;
+	ft_printf("add r%hhu r%hhu r%hhu\n", (unsigned char)vm->args.arg1.readed,
+			(unsigned char)vm->args.arg2.readed,
+				(unsigned char)vm->args.arg3.readed);
 }
 
 int		dsp_add(t_carriage *carriage, t_vm *vm)

@@ -6,16 +6,16 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:49:55 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/28 12:06:45 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/08/29 18:09:50 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-void	print_lld(t_carriage *carriage, t_args *args)
+void	print_lld(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
-	ft_printf("lld %d r%hhu\n", args->arg1.value, (unsigned char)args->arg2.readed);
+	ft_printf("lld %d r%hhu\n", vm->args.arg1.value, (unsigned char)vm->args.arg2.readed);
 	carriage = NULL;
 }
 

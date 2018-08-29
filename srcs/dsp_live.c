@@ -6,12 +6,13 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:31:19 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/29 17:42:01 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/29 18:18:12 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/op.h"
 
+/*
 static int add_player_live(t_player *players, int num_player, int v)
 {
 	while (players)
@@ -25,9 +26,6 @@ static int add_player_live(t_player *players, int num_player, int v)
 				write(1, " (", 2);
 				ft_putstr(players->head.prog_name);
 				write(1, ") is said to be alive\n", 22);
-
-//				ft_printf("Player %d ", players->num_player);
-//				ft_printf("(%s) is said to be alive\n", players->head.prog_name);
 			}
 			players->live++;
 			return (0);
@@ -36,11 +34,32 @@ static int add_player_live(t_player *players, int num_player, int v)
 	}
 	return (1);
 }
+*/
 
-void		print_live(t_carriage *carriage, t_args *args)
+void		print_live(t_carriage *carriage, t_vm *vm)
 {
+	t_player *players;
+
+	players = vm->players;
 	print_pnum(carriage->num_car);
-	ft_printf("live %d\n", args->arg1.readed);
+	ft_printf("live %d\n", vm->args.arg1.readed);
+	while (players)
+	{
+		if (players->num_player == vm->args.arg1.readed)
+		{
+			if (key_validate(vm->flags.v, 1))
+			{
+				write(1, "Player ", 7);
+				ft_putnbr(players->num_player);
+				write(1, " (", 2);
+				ft_putstr(players->head.prog_name);
+				write(1, ") is said to be alive\n", 22);
+			}
+			players->live++;
+			break ;
+		}
+		players = players->next;
+	}
 }
 
 int			dsp_live(t_carriage *carriage, t_vm *vm)
@@ -53,7 +72,7 @@ int			dsp_live(t_carriage *carriage, t_vm *vm)
 	vm->args.arg1.value = pn;
 	vm->win = pn;
 	carriage->life++;
-	add_player_live(vm->players, pn, vm->flags.v);
+	//add_player_live(vm->players, pn, vm->flags.v);
 	carriage->last_live_cn = vm->game_cycle;
 	vm->args.shift = 4;
 	return (1);

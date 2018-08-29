@@ -6,20 +6,20 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:37:28 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/28 12:16:35 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/08/29 18:11:29 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-void	print_st(t_carriage *carriage, t_args *args)
+void	print_st(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
 	ft_putstr("st");
-	if (args->arg2.type == T_IND)
-		ft_printf(" r%d %d\n", (unsigned char)args->arg1.readed, args->arg2.value);
+	if (vm->args.arg2.type == T_IND)
+		ft_printf(" r%d %d\n", (unsigned char)vm->args.arg1.readed, vm->args.arg2.value);
 	else
-		ft_printf(" r%d %hhu\n", (unsigned char)args->arg1.readed, (unsigned char)args->arg2.readed);
+		ft_printf(" r%d %hhu\n", (unsigned char)vm->args.arg1.readed, (unsigned char)vm->args.arg2.readed);
 	carriage = NULL;
 }
 

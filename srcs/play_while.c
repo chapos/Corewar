@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/28 19:04:21 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/29 18:13:58 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
 				{
 					res = dsp[tcars->command - 1].exec_cmd(tcars, vm);
 					if ((res || tcars->command == 9) && key_validate(vm->flags.v, 4))
-						dsp[tcars->command - 1].print_cmd(tcars, &vm->args);
+						dsp[tcars->command - 1].print_cmd(tcars, vm);
 				}
 				if (tcars->command != 9 || (tcars->command == 9 && !res))
 				{

@@ -6,24 +6,24 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:53:52 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/28 12:45:51 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/08/29 18:10:32 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-void	print_lldi(t_carriage *carriage, t_args *args)
+void	print_lldi(t_carriage *carriage, t_vm *vm)
 {
 	int		sum;
 	int		rf;
 
-	sum = (args->arg1.value + args->arg2.value) % IDX_MOD;
+	sum = (vm->args.arg1.value + vm->args.arg2.value) % IDX_MOD;
 	rf = (carriage->pc + sum) % MEM_SIZE;
 	print_pnum(carriage->num_car);
-	ft_printf("lldi %d %d r%hhu\n", args->arg1.value,
-			args->arg2.value, (unsigned char)args->arg3.readed);
+	ft_printf("lldi %d %d r%hhu\n", vm->args.arg1.value,
+			vm->args.arg2.value, (unsigned char)vm->args.arg3.readed);
 	ft_printf("%6.0d | -> load from %d + %d = %d (with pc and mod %d)\n", 0,
-			args->arg1.value, args->arg2.value,
+			vm->args.arg1.value, vm->args.arg2.value,
 			sum, rf);
 }
 

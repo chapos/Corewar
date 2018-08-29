@@ -6,18 +6,17 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:38:57 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/28 12:37:00 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/08/29 18:12:48 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-void	print_sub(t_carriage *carriage, t_args *args)
+void	print_sub(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
-	ft_printf("sub r%hhu r%hhu r%hhu\n", (unsigned char)args->arg1.readed,
-			(unsigned char)args->arg2.readed, (unsigned char)args->arg3.readed);
-	carriage = NULL;
+	ft_printf("sub r%hhu r%hhu r%hhu\n", (unsigned char)vm->args.arg1.readed,
+			(unsigned char)vm->args.arg2.readed, (unsigned char)vm->args.arg3.readed);
 }
 
 int		dsp_sub(t_carriage *carriage, t_vm *vm)

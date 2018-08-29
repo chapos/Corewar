@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dsp_fork.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/29 18:06:38 by oevtushe          #+#    #+#             */
+/*   Updated: 2018/08/29 18:07:04 by oevtushe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/op.h"
 
-void	print_fork(t_carriage *carriage, t_args *args)
+void	print_fork(t_carriage *carriage, t_vm *vm)
 {
 	int	val;
 
-	val = (carriage->pc + (args->arg1.readed % IDX_MOD)) % MEM_SIZE;
+	val = (carriage->pc + (vm->args.arg1.readed % IDX_MOD)) % MEM_SIZE;
 	print_pnum(carriage->num_car);
-	ft_printf("fork %d (%d)\n", args->arg1.readed, val);
+	ft_printf("fork %d (%d)\n", vm->args.arg1.readed, val);
 }
 
 int		dsp_fork(t_carriage *father, t_vm *vm)

@@ -6,19 +6,19 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 18:37:19 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/28 18:37:20 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/29 18:08:47 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/op.h"
 
-void	print_lfork(t_carriage *carriage, t_args *args)
+void	print_lfork(t_carriage *carriage, t_vm *vm)
 {
 	int	val;
 
-	val = carriage->pc + args->arg1.value;
+	val = carriage->pc + vm->args.arg1.value;
 	print_pnum(carriage->num_car);
-	ft_printf("lfork %d (%d)\n", args->arg1.value, val);
+	ft_printf("lfork %d (%d)\n", vm->args.arg1.value, val);
 }
 
 int		dsp_lfork(t_carriage *father, t_vm *vm)
