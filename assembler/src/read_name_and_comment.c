@@ -34,7 +34,7 @@ static void	validate_syntax(t_db *db, const char *tmp, bool is_name)
 	++i;
 	while (ft_iswhitespace(tmp[i]))
 		++i;
-	if (tmp[i] != '#' && tmp[i] != '\0')
+	if (tmp[i] != '#' && tmp[i] != ';' && tmp[i] != '\0')
 		clean_and_exit(db, "SYNTAX ERROR");
 }
 
@@ -85,7 +85,8 @@ static void	validate_line(t_db *db)
 	tmp = db->v_data.line;
 	db->v_data.line = ft_strtrim(tmp);
 	ft_strdel(&tmp);
-	if (db->v_data.line[0] == '#' || ft_strequ(db->v_data.line, ""))
+	if (db->v_data.line[0] == '#' || db->v_data.line[0] == ';'
+		|| ft_strequ(db->v_data.line, ""))
 		return ;
 	if (!ft_strnequ(db->v_data.line, ".name", 5) &&
 			!ft_strnequ(db->v_data.line, ".comment", 8))

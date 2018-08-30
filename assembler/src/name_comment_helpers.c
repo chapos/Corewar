@@ -59,7 +59,8 @@ static void	validate_multiline(t_db *db, bool is_name)
 	j = i + 1;
 	while (ft_iswhitespace(db->v_data.line[j]))
 		++j;
-	if (db->v_data.line[j] != '\0' && db->v_data.line[j] != '#')
+	if (db->v_data.line[j] != '\0' && db->v_data.line[j] != ';'
+		&& db->v_data.line[j] != '#')
 		clean_and_exit(db, "SYNTAX ERROR");
 	concat_multiline_string(db, is_name, i);
 	db->v_data.multiline_string = false;
