@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 15:49:38 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/28 19:06:03 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 12:55:52 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int flag_n(t_player *players, int n)
 	return (0);
 }
 
-int if_flag(t_flags *flag, char *s1, char *s2)
+int is_flag(t_flags *flag, char *s1, char *s2)
 {
 	if (s2 && !ft_strcmp(s1, "-v"))
 	{
@@ -52,7 +52,7 @@ int if_flag(t_flags *flag, char *s1, char *s2)
 	return (0);
 }
 
-int read_plaer(t_vm *vm)
+static int	read_player(t_vm *vm)
 {
 	int fd;
 	int error;
@@ -61,11 +61,11 @@ int read_plaer(t_vm *vm)
 	temp = vm->players;
 	while (temp)
 	{
-		if (-1 == (fd = open(temp->file_name, O_RDONLY)))
+		if ((fd = open(temp->file_name, O_RDONLY)) == -1)
 			error_read_file(vm, temp->file_name);
 		else
 		{
-			if ((error = read_player(temp, fd)))
+			if ((error = read_header(temp, fd)))
 			{
 				if (error == 1)
 					error_not_validate_file(vm, temp->file_name);
@@ -99,7 +99,7 @@ int read_argv(t_vm *vm, int ac, char **av)
 
 	while (ac > i)
 	{
-		if (!if_flag(&vm->flags, av[i],av[i + 1]))
+		if (!is_flag(&vm->flags, av[i],av[i + 1]))
 		{
 			while (flag_n(vm->players, vm->flags.n))
 				vm->flags.n--;
@@ -113,6 +113,6 @@ int read_argv(t_vm *vm, int ac, char **av)
 		i++;
 	}
 	//key_fill(&vm->flags);
-	read_plaer(vm);
+	read_player(vm);
 	return (0);
 }

@@ -6,55 +6,37 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 15:42:48 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/19 15:42:52 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 12:55:56 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/op.h"
 
-int		map_zero(unsigned char *map)
-{
-	int i;
-
-	i = 0;
-	while (i < MEM_SIZE)
-	{
-		map[i] = 0;
-		i++;
-	}
-	return (0);
-}
-
-int 	map_player(unsigned char *map, t_player *player, unsigned int n)
-{
-	unsigned int i;
-
-	i = 0;
-	while (i < player->head.prog_size)
-	{
-		map[n] = player->code[i];
-		i++;
-		n++;
-	}
-	i = 0;
-	return (0);
-}
-
-
 int		write_in_map(unsigned char *map, t_player *player)
 {
-	unsigned int i;
-	int players_count;
+	unsigned int	i;
+	int				space;
 
 	i = 0;
-	players_count = count_players(player);
-	map_zero(map);
+	/*
+	** Estb libnije funkcii je
+	** map_zero(map);
+	*/
+	space = MEM_SIZE / count_players(player);
 	while (player)
 	{
-		map_player(map, player, i);
+		/*
+		** Dlja etogo toze estb libnaja funkcija
+		** map_player(map, player, i);
+		*/
+		ft_memcpy(&map[i], player->code, player->head.prog_size);
 		player = player->next;
-		i += ((64 / players_count)) * 64;
+		/*
+		** Esli igrokov 3, togda 64 / 3 = 21.3333, no y tebja int
+		** poetomu 21, 21 * 64 = 1344, chto ne ravno 1365 = MEM_SIZE / 3;
+		** i += ((64 / players_count)) * 64;
+		*/
+		i += space;
 	}
-
-	return 0;
+	return (0);
 }

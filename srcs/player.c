@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 15:42:23 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/19 15:42:28 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 12:55:00 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int		add_player(t_player **player, int n, char *file_name)
 	new->live = 1;
 	if (temp)
 	{
-
 		while (temp->next)
 			temp = temp->next;
 		temp->next = new;
@@ -75,7 +74,7 @@ int	read_prog(int fd, unsigned int prog_size, unsigned char **code)
 	return (0);
 }
 
-int read_player(t_player *player, int fd)
+int read_header(t_player *player, int fd)
 {
 	read(fd, &player->head, sizeof(t_header));
 	ft_byterev_ui32(&player->head.magic);

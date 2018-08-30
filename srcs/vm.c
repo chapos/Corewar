@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:22:51 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/30 10:49:15 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 12:48:46 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int ft_usage()
 
 int main(int argc, char **argv)
 {
-
 	t_vm	vm;
 
 	ft_memset(&vm, 0, sizeof(t_vm));
@@ -77,7 +76,7 @@ int main(int argc, char **argv)
 	if (!vm.players)
 	{
 		ft_usage();
-		exit (1);
+		exit(1);
 	}
 	write_in_map(vm.map, vm.players);
 	player_create_car(vm.players , &vm.cars);
@@ -86,4 +85,3 @@ int main(int argc, char **argv)
 	free_all(&vm);
 	return (0);
 }
-

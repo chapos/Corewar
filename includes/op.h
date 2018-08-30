@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/29 19:31:45 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 12:55:34 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ void	init_dsp(t_ama_dispatcher *dsp);
 int		write_in_map(unsigned char map[], t_player *player);
 
 int		play_while(t_vm *vm);
-int		read_player(t_player *player, int fd);
+int		read_header(t_player *player, int fd);
 int		read_argv(t_vm *vm, int ac, char **av);
 int		count_players(t_player *player);
 int		add_player(t_player **player, int n, char *file_name);

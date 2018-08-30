@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 15:11:47 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/27 16:56:32 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 12:38:52 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,17 @@ void add_car(t_carriage **cars, t_carriage *car)
 
 int player_create_car(t_player *players, t_carriage **cars)
 {
-	int players_count;
+	int			players_count;
 	t_carriage	*ncar;
-	int i;
+	int			i;
+	int			space;
 
 	i = 0;
 	players_count = count_players(players);
+	space = MEM_SIZE / players_count;
 	while (players)
 	{
 		ncar = (t_carriage *)ft_memalloc(sizeof(t_carriage));
-
 		ncar->pc = i;
 		if (*cars)
 			ncar->num_car = (*cars)->num_car + 1;
@@ -87,7 +88,10 @@ int player_create_car(t_player *players, t_carriage **cars)
 		ncar->num_player = players->num_player;
 		add_car(cars, ncar);
 		players = players->next;
-		i += ((64 / players_count)) * 64;
+		/*
+		** i += ((64 / players_count)) * 64;
+		*/
+		i += space;
 	}
 	return (0);
 }
