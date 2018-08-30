@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/29 18:13:52 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/29 19:31:45 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ typedef struct 		s_player
 
 typedef struct		s_flags
 {
-	unsigned		v;
+	int				v;
 	unsigned		s;
 	unsigned		d;
 	int				n;
@@ -184,7 +184,8 @@ typedef struct		s_vm
 	t_args				args;
 	unsigned int		process_counter;
 	unsigned int		game_cycle;
-	int					win;
+	unsigned int		lives_in_cur_period;
+	int					winner;
 }					t_vm;
 
 typedef struct		s_ama_dispetcher
@@ -230,20 +231,22 @@ void	free_all(t_vm *vm);
 void	add_car(t_carriage **cars, t_carriage *car);
 int		player_create_car(t_player *players, t_carriage **cars);
 
-int		key_validate(int v, int value);
+//int		key_validate(int v, int value);
 //free
 int		del_cars(t_vm *vm, int ctd, int final);
-int		del_player(t_player **players, int num_player);
 void					free_all(t_vm *vm);
+//int		del_player(t_player **players, int num_player);
 //errors
 void 	error_many_champions(t_vm *vm);
 void 	error_read_file(t_vm *vm, char *file_name);
 void 	error_not_validate_file(t_vm *vm, char *file_name);
 void 	error_differ_prog_size(t_vm *vm, char *file_name);
 void 	error_big_prog_size(t_vm * vm, char *file_name, int prog_size);
+//print
+void	print_winner(t_player *players, int winner);
+void	print_map(unsigned char *map, t_carriage *cars);
 //
 
-void	print_map(unsigned char *map, t_carriage *cars);
 int		normalize_pc(int pc);
 
 void	print_add(t_carriage *carriage, t_vm *vm);

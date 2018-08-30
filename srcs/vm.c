@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:22:51 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/28 19:07:11 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 10:49:15 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,31 @@
 void init_vm(t_vm *vm)
 {
 	vm->flags.n = -1;
+	vm->lives_in_cur_period = 1;
 	//vm->game_cycle = 1;
+}
+
+void print_player(t_player *players)
+{
+	int count;
+
+	count = 1;
+	write(1, "Introducing contestants...\n", 27);
+	while (players)
+	{
+		write(1, "* Player ", 9);
+		ft_putnbr(count);
+		write(1, ", weighing ", 11);
+		ft_putnbr(players->head.prog_size);
+		write(1, " bytes, \"", 9);
+		ft_putstr(players->head.prog_name);
+		write(1, "\" (\"", 4);
+		ft_putstr(players->head.comment);
+		write(1, "\") !\n", 5);
+		count++;
+		players = players->next;
+	}
+	//* Player 1, weighing 325 bytes, "Celebration Funebre v0.99pl42" ("Jour J") !
 }
 
 int ft_usage()
@@ -47,25 +71,18 @@ int main(int argc, char **argv)
 
 	t_vm	vm;
 
-	if (argc < 2)
-		ft_usage();
 	ft_memset(&vm, 0, sizeof(t_vm));
 	init_vm(&vm);
 	read_argv(&vm, argc, argv);
+	if (!vm.players)
+	{
+		ft_usage();
+		exit (1);
+	}
 	write_in_map(vm.map, vm.players);
 	player_create_car(vm.players , &vm.cars);
-	//print_map(vm.map);
-
-//	while(vm.cars)
-//	{
-//		ft_printf("pc = %d\n", vm.cars->pc);
-//		ft_printf("num_player = %d\n", vm.cars->num_player);
-//		vm.cars = vm.cars->next;
-//	}
-
+	print_player(vm.players);
 	play_while(&vm);
-	//key_validate(8, 4);
-
 	free_all(&vm);
 	return (0);
 }

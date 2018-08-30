@@ -6,25 +6,11 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/29 18:13:58 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 10:48:23 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/op.h"
-
-//int		count_cars(t_carriage *cars)
-//{
-//	int		count;
-//
-//	count = 0;
-//	while (cars)
-//	{
-//		cars = cars->next;
-//		count++;
-//	}
-//	ft_printf("count cars = %d\n", count);
-//	return (count);
-//}
 
 int		check_live(t_player **players)
 {
@@ -45,8 +31,6 @@ int		check_live(t_player **players)
 	}
 	return (value);
 }
-
-
 
 int		is_time_to_run(int op, t_carriage *carriage, int *times)
 {
@@ -98,9 +82,8 @@ int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
 	{
 		vm->game_cycle++;
 		tcars = vm->cars;
-		if (key_validate(vm->flags.v, 2))
+		if (vm->flags.v & 2)
 		{
-			//ft_printf("It is now cycle %d\n", vm->game_cycle);
 			write(1, "It is now cycle ", 16);
 			ft_putnbr(vm->game_cycle);
 			write(1, "\n", 1);
@@ -115,12 +98,12 @@ int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
 				if (EXS_DSP(tcars->command))
 				{
 					res = dsp[tcars->command - 1].exec_cmd(tcars, vm);
-					if ((res || tcars->command == 9) && key_validate(vm->flags.v, 4))
+					if ((res || tcars->command == 9) && vm->flags.v & 4)
 						dsp[tcars->command - 1].print_cmd(tcars, vm);
 				}
 				if (tcars->command != 9 || (tcars->command == 9 && !res))
 				{
-					if (EXS_DSP(tcars->command) && key_validate(vm->flags.v, 16))
+					if (EXS_DSP(tcars->command) && vm->flags.v & 16)
 						print_pc_movement(tcars->pc, vm->args.shift, vm->map);
 					++tcars->pc;
 				}
@@ -161,16 +144,17 @@ int play_while(t_vm *vm)
 	init_dsp(dsp);
 	init_times(times);
 	vm->process_counter = vm->cars->num_car;
-	while (live && cycle_to_die > 0)
+	while (vm->lives_in_cur_period && cycle_to_die > 0)
 	{
+		vm->lives_in_cur_period = 0;
 		play_cycle(vm, cycle_to_die, dsp, times);
 		del_cars(vm, cycle_to_die, 0);
-		if (((live = check_live(&vm->players)) >= NBR_LIVE) || CHECK_MC(count_cycle))
+		//if (((live = check_live(&vm->players)) >= NBR_LIVE) || CHECK_MC(count_cycle))
+		if (vm->lives_in_cur_period >= NBR_LIVE || CHECK_MC(count_cycle))
 		{
 			cycle_to_die -= CYCLE_DELTA;
-			if (key_validate(vm->flags.v, 2))
+			if (vm->flags.v & 2)
 			{
-				//ft_printf("Cycle to die is now %d\n", cycle_to_die);
 				write(1, "Cycle to die is now ", 20);
 				ft_putnbr(cycle_to_die);
 				write(1, "\n", 1);
@@ -179,9 +163,18 @@ int play_while(t_vm *vm)
 		}
 		count_cycle++;
 	}
-	vm->game_cycle++;
+	if (cycle_to_die < 1)
+	{
+		play_cycle(vm, 1, dsp, times);
+//		if (vm->flags.v & 2)
+//		{
+//			write(1, "Cycle to die is now ", 20);
+//			ft_putnbr(cycle_to_die);
+//			write(1, "\n", 1);
+//		}
+	}
 	del_cars(vm, cycle_to_die, 1);
-	//ft_printf("Contestant 3, "Celebration Funebre v0.99pl42", has won !")
+	print_winner(vm->players, vm->winner);
 	free_all(vm);
 	return (0);
 }
