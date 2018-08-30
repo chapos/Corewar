@@ -101,8 +101,8 @@ int			main(int argc, char **argv)
 	write(db.output_fd, &db.bot.separator, sizeof(uint32_t));
 	write(db.output_fd, &db.bot.separator, sizeof(uint32_t));
 	write(db.output_fd, db.bot.bot_comment, db.v_data.comment_size);
-	write(db.output_fd, &db.bot.separator, sizeof(uint32_t));
 	write(db.output_fd, db.bot.buff, COMMENT_LENGTH - db.v_data.comment_size);
+	write(db.output_fd, &db.bot.separator, sizeof(uint32_t));
 	clean_and_exit(&db, NULL);
 	return (0);
 }
