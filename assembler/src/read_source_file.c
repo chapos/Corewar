@@ -12,7 +12,7 @@
 
 #include "../inc/asm.h"
 
-void read_source_file(t_db *db)
+void	read_source_file(t_db *db)
 {
 	read_name_and_comment(db);
 }

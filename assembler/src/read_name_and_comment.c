@@ -78,7 +78,7 @@ static void	read_comment(t_db *db)
 	db->v_data.comment_readed = true;
 }
 
-static void validate_line(t_db *db)
+static void	validate_line(t_db *db)
 {
 	char *tmp;
 
@@ -95,7 +95,7 @@ static void validate_line(t_db *db)
 
 void		read_name_and_comment(t_db *db)
 {
-	int 	gnl_ret_value;
+	int		gnl_ret_value;
 
 	while (!db->v_data.name_readed || !db->v_data.comment_readed)
 	{

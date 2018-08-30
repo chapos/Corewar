@@ -30,7 +30,7 @@ static void	concat_multiline_string(t_db *db, bool is_name, size_t size)
 	}
 }
 
-static void validate_multiline(t_db *db, bool is_name)
+static void	validate_multiline(t_db *db, bool is_name)
 {
 	size_t i;
 	size_t j;
@@ -45,7 +45,6 @@ static void validate_multiline(t_db *db, bool is_name)
 		clean_and_exit(db, "SYNTAX ERROR");
 	concat_multiline_string(db, is_name, i);
 	db->v_data.multiline_string = false;
-
 }
 
 void		read_multiline_string(t_db *db, bool is_name)
