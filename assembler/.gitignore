@@ -9,3 +9,6 @@ a.out
 .DS_Store
 .idea/
 *.dSYM
+op.c
+op.h
+asm

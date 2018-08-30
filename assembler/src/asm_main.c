@@ -95,14 +95,15 @@ int			main(int argc, char **argv)
 	db.source_fd = open_source_file(argv[argc - 1]);
 	db.output_fd = create_output_file(argv[argc - 1]);
 	read_source_file(&db);
-//	write(db.output_fd, &db.bot.magic_header, sizeof(uint32_t));
-//	write(db.output_fd, db.bot.bot_name, db.v_data.name_size);
-//	write(db.output_fd, db.bot.buff, PROG_NAME_LENGTH - db.v_data.name_size);
-//	write(db.output_fd, &db.bot.separator, sizeof(uint32_t));
-//	write(db.output_fd, &db.bot.separator, sizeof(uint32_t));
-//	write(db.output_fd, db.bot.bot_comment, db.v_data.comment_size);
-//	write(db.output_fd, &db.bot.separator, sizeof(uint32_t));
-//	write(db.output_fd, db.bot.buff, COMMENT_LENGTH - db.v_data.comment_size);
+	ft_printf("%s\n", db.bot.bot_name);
+	write(db.output_fd, &db.bot.magic_header, sizeof(uint32_t));
+	write(db.output_fd, db.bot.bot_name, db.v_data.name_size);
+	write(db.output_fd, db.bot.buff, PROG_NAME_LENGTH - db.v_data.name_size);
+	write(db.output_fd, &db.bot.separator, sizeof(uint32_t));
+	write(db.output_fd, &db.bot.separator, sizeof(uint32_t));
+	write(db.output_fd, db.bot.bot_comment, db.v_data.comment_size);
+	write(db.output_fd, &db.bot.separator, sizeof(uint32_t));
+	write(db.output_fd, db.bot.buff, COMMENT_LENGTH - db.v_data.comment_size);
 	clean_and_exit(&db, NULL);
 	return (0);
 }

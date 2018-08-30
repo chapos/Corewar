@@ -17,12 +17,13 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include "../libft/includes/libft.h"
-# include "op.h"
 
 # define USAGE "Usage: ./asm <sourcefile.s>\n"
 # define FILE_NAME_ERR "Wrong file format\n"
 # define OPEN_SOURCE_ERR "Can't open source file "
 # define OPEN_OUTPUT_ERR "Can't create or open output file "
+# define PROG_NAME_LENGTH		128
+# define COMMENT_LENGTH			2048
 
 typedef struct		s_bot
 {
