@@ -12,6 +12,24 @@
 
 #include "../inc/asm.h"
 
+static void	concat_new_line_char(t_db *db, bool is_name)
+{
+	if (is_name)
+	{
+		db->v_data.name_size += 1;
+		db->bot.bot_name = (char*)realloc(db->bot.bot_name,
+			ft_strlen(db->bot.bot_name) + 2);
+		ft_strncat(db->bot.bot_name, "\n", 1);
+	}
+	else
+	{
+		db->v_data.comment_size += 1;
+		db->bot.bot_comment = (char*)realloc(db->bot.bot_comment,
+			ft_strlen(db->bot.bot_comment) + 2);
+		ft_strncat(db->bot.bot_comment, "\n", 1);
+	}
+}
+
 static void	concat_multiline_string(t_db *db, bool is_name, size_t size)
 {
 	if (is_name)
@@ -54,6 +72,7 @@ void		read_multiline_string(t_db *db, bool is_name)
 	ft_strdel(&db->v_data.line);
 	while (db->v_data.multiline_string)
 	{
+		concat_new_line_char(db, is_name);
 		gnl_ret_val = get_next_line(db->source_fd, &db->v_data.line);
 		++db->v_data.line_counter;
 		if (gnl_ret_val == 0 || gnl_ret_val == -1)
