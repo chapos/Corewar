@@ -47,7 +47,7 @@ int		add_player(t_player **player, int n, char *file_name)
 	new->next = NULL;
 	new->file_name = file_name;
 	new->num_player = n;
-	new->live = 1;
+	//new->live = 1;
 	if (temp)
 	{
 		while (temp->next)

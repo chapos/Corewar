@@ -51,6 +51,8 @@
 #include <fcntl.h>
 #include <stdlib.h>
 //////
+#include <stdio.h>
+//////
 
 /*
 **
@@ -159,7 +161,7 @@ typedef	struct		s_reader
 typedef struct 		s_player
 {
 	int					num_player;
-	int					live;
+	//int					live;
 	t_header			head;
 	unsigned char		*code;
 	char 				*file_name;

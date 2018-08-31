@@ -23,6 +23,7 @@ static void		show_live(t_player *players, t_args *args, t_flags *flags)
 		{
 			if (flags->v & 1)
 			{
+				//printf("Player %d (%s) is said to be alive\n", cnt, players->head.prog_name);
 				write(1, "Player ", 7);
 				ft_putnbr(cnt);
 				write(1, " (", 2);
@@ -43,7 +44,7 @@ static void		add_live_to_player(t_player *players, int *winner, t_args *args)
 		if (players->num_player == args->arg1.readed)
 		{
 			*winner = players->num_player;
-			players->live++;
+			//players->live++;
 			return ;
 		}
 		players = players->next;
