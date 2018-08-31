@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:49:55 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/29 18:09:50 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 15:21:53 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	print_lld(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
 	ft_printf("lld %d r%hhu\n", vm->args.arg1.value, (unsigned char)vm->args.arg2.readed);
-	carriage = NULL;
 }
 
 int		dsp_lld(t_carriage *carriage, t_vm *vm)

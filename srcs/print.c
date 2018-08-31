@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 19:46:02 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/29 19:46:04 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 15:10:05 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void print_winner(t_player *players, int winner)
 //	return (0);
 //}
 
+/*
 void 		write_2x(char c, int i)
 {
 	//unsigned short	i;
@@ -74,6 +75,7 @@ void 		write_2x(char c, int i)
 	}
 	write(1, " ", 1);
 }
+*/
 
 int		count_players(t_player *player)
 {
@@ -120,14 +122,15 @@ void print_map(unsigned char *map, t_carriage *cars)
 			ft_printf("%s%.2x%s ", GREEN, map[i], RESET);
 		else
 		{
-			write_2x(map[i], 2);
+			//ft_putchar(' ');
+			//write_2x(map[i], 2);
 //			write(1, " ", 1);
-			//ft_printf("%.2x ", map[i]);
+			ft_printf("%.2x ", map[i]);
 		}
 
 		i++;
 		if (i % 64 == 0)
-			ft_printf("\n");
+			ft_putchar('\n');
 	}
 	ft_putchar('\n');
 }

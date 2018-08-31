@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 15:11:47 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/30 12:38:52 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 16:27:44 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,12 @@ int player_create_car(t_player *players, t_carriage **cars)
 			ncar->num_car = (*cars)->num_car + 1;
 		else
 			ncar->num_car = 1;
-		ncar->life = 1;
+		/*
+		** Zachem eto ?
+		** Esli process 0 razov kriknyl live na pervom CYCLE_TO_DIE
+		** on ne ymret imenno izza etoi strochki
+		** ncar->life = 1;
+		*/
 		//
 		ncar->wait = -1;
 		//

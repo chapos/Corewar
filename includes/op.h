@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/30 12:55:34 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 17:58:01 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ typedef	struct		s_reader
 	size_t		(*read_dir)(int *val, int pos, unsigned char *map);
 	size_t		(*read_ind)(int *val, int pos, unsigned char *map);
 }					t_reader;
-
 
 typedef struct 		s_player
 {

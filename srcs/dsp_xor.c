@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:41:56 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/29 18:13:15 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 15:24:12 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 void	print_xor(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
-	ft_printf("xor %d", vm->args.arg1.value);
-	ft_printf(" %d", vm->args.arg2.value);
-	ft_printf(" r%hhu\n", (unsigned char)vm->args.arg3.readed);
+	ft_printf("xor %d %d r%hhu\n", vm->args.arg1.value,
+			vm->args.arg2.value, (unsigned char)vm->args.arg3.readed);
 }
 
 int		dsp_xor(t_carriage *carriage, t_vm *vm)

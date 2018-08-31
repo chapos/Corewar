@@ -6,11 +6,49 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:31:19 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/29 19:45:22 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 18:00:55 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/op.h"
+
+static void		show_live(t_player *players, t_args *args, t_flags *flags)
+{
+	int		cnt;
+
+	cnt = 1;
+	while (players)
+	{
+		if (players->num_player == args->arg1.readed)
+		{
+			if (flags->v & 1)
+			{
+				write(1, "Player ", 7);
+				ft_putnbr(cnt);
+				write(1, " (", 2);
+				ft_putstr(players->head.prog_name);
+				write(1, ") is said to be alive\n", 22);
+			}
+			return ;
+		}
+		players = players->next;
+		cnt++;
+	}
+}
+
+static void		add_live_to_player(t_player *players, int *winner, t_args *args)
+{
+	while (players)
+	{
+		if (players->num_player == args->arg1.readed)
+		{
+			*winner = players->num_player;
+			players->live++;
+			return ;
+		}
+		players = players->next;
+	}
+}
 
 void		print_live(t_carriage *carriage, t_vm *vm)
 {
@@ -21,25 +59,8 @@ void		print_live(t_carriage *carriage, t_vm *vm)
 	players = vm->players;
 	print_pnum(carriage->num_car);
 	ft_printf("live %d\n", vm->args.arg1.readed);
-	while (players)
-	{
-		if (players->num_player == vm->args.arg1.readed)
-		{
-			if (vm->flags.v & 1)
-			{
-				write(1, "Player ", 7);
-				ft_putnbr(cnt);
-				write(1, " (", 2);
-				ft_putstr(players->head.prog_name);
-				write(1, ") is said to be alive\n", 22);
-			}
-			vm->winner = players->num_player;
-			players->live++;
-			return ;
-		}
-		players = players->next;
-		cnt++;
-	}
+	if (vm->flags.v & 1)
+		show_live(vm->players, &vm->args, &vm->flags);
 }
 
 int			dsp_live(t_carriage *carriage, t_vm *vm)
@@ -54,5 +75,8 @@ int			dsp_live(t_carriage *carriage, t_vm *vm)
 	//add_player_live(vm->players, pn, vm->flags.v);
 	carriage->last_live_cn = vm->game_cycle;
 	vm->args.shift = 4;
+	add_live_to_player(vm->players, &vm->winner, &vm->args);
+	if (vm->flags.v & 1 && !(vm->flags.v & 16))
+		show_live(vm->players, &vm->args, &vm->flags);
 	return (1);
 }

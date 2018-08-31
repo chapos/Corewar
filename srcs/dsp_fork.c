@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 18:06:38 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/29 18:07:04 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 15:30:56 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	print_fork(t_carriage *carriage, t_vm *vm)
 {
 	int	val;
 
-	val = (carriage->pc + (vm->args.arg1.readed % IDX_MOD)) % MEM_SIZE;
+	val = carriage->pc + (vm->args.arg1.readed % IDX_MOD);
 	print_pnum(carriage->num_car);
 	ft_printf("fork %d (%d)\n", vm->args.arg1.readed, val);
 }

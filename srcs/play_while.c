@@ -6,30 +6,19 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/30 10:48:23 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/31 09:00:35 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/op.h"
 
-int		check_live(t_player **players)
+void	zero_out_plives(t_player *players)
 {
-	t_player	*tplay;
-	int value;
-	int count;
-
-	tplay = *players;
-	count = 0;
-	value = 0;
-	while (tplay)
+	while (players)
 	{
-		count = tplay->live;
-		tplay->live = 0;
-		if (count > value)
-			value = count;
-		tplay = tplay->next;
+		players->live = 0;
+		players = players->next;
 	}
-	return (value);
 }
 
 int		is_time_to_run(int op, t_carriage *carriage, int *times)
@@ -90,7 +79,6 @@ int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
 		}
 		while (tcars)
 		{
-			//tcars->reg[1] = -1; // FIX THIS !
 			if (is_time_to_run(vm->map[tcars->pc], tcars, times))
 			{
 				res = 0;
@@ -130,6 +118,21 @@ int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
 	return (1);
 }
 
+void	ctd_operator(int licp, int *count_cycle, int *ctd, t_flags *flags)
+{
+	if (licp >= NBR_LIVE || CHECK_MC(*count_cycle))
+	{
+		*ctd -= CYCLE_DELTA;
+		if (flags->v & 2)
+		{
+			write(1, "Cycle to die is now ", 20);
+			ft_putnbr(*ctd);
+			write(1, "\n", 1);
+		}
+		*count_cycle = 0;
+	}
+}
+
 int play_while(t_vm *vm)
 {
 	int 		cycle_to_die;
@@ -149,29 +152,15 @@ int play_while(t_vm *vm)
 		vm->lives_in_cur_period = 0;
 		play_cycle(vm, cycle_to_die, dsp, times);
 		del_cars(vm, cycle_to_die, 0);
-		//if (((live = check_live(&vm->players)) >= NBR_LIVE) || CHECK_MC(count_cycle))
-		if (vm->lives_in_cur_period >= NBR_LIVE || CHECK_MC(count_cycle))
-		{
-			cycle_to_die -= CYCLE_DELTA;
-			if (vm->flags.v & 2)
-			{
-				write(1, "Cycle to die is now ", 20);
-				ft_putnbr(cycle_to_die);
-				write(1, "\n", 1);
-			}
-			count_cycle = 0;
-		}
+		ctd_operator(vm->lives_in_cur_period, &count_cycle, &cycle_to_die, &vm->flags);
+		zero_out_plives(vm->players);
 		count_cycle++;
 	}
 	if (cycle_to_die < 1)
 	{
 		play_cycle(vm, 1, dsp, times);
-//		if (vm->flags.v & 2)
-//		{
-//			write(1, "Cycle to die is now ", 20);
-//			ft_putnbr(cycle_to_die);
-//			write(1, "\n", 1);
-//		}
+		del_cars(vm, cycle_to_die, 1);
+		ctd_operator(vm->lives_in_cur_period, &count_cycle, &cycle_to_die, &vm->flags);
 	}
 	del_cars(vm, cycle_to_die, 1);
 	print_winner(vm->players, vm->winner);

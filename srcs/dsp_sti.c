@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:46:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/29 18:12:13 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 15:29:15 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	print_sti(t_carriage *carriage, t_vm *vm)
 	int		rf;
 
 	sum = (vm->args.arg2.value + vm->args.arg3.value) % IDX_MOD;
-	rf = (carriage->pc + sum) % MEM_SIZE;
+	rf = carriage->pc + sum;
 	print_pnum(carriage->num_car);
 	ft_printf("sti r%hhu %d %d\n", (unsigned char)vm->args.arg1.readed, vm->args.arg2.value, vm->args.arg3.value);
 	ft_printf("%6.0d | -> store to %d + %d = %d (with pc and mod %d)\n", 0,

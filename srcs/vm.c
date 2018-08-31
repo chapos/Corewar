@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:22:51 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/30 12:48:46 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/30 16:02:26 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,25 @@ int ft_usage()
 	return (0);
 }
 
+void	lishnaja_fykcija(t_vm *vm)
+{
+	t_player *players;
+
+	players = vm->players;
+	while (players->next)
+		players = players->next;
+	vm->winner = players->num_player;
+}
+
 int main(int argc, char **argv)
 {
 	t_vm	vm;
 
 	ft_memset(&vm, 0, sizeof(t_vm));
 	init_vm(&vm);
+	/*
+	** Zachem playerov dobalvjat v konec lista ?
+	*/
 	read_argv(&vm, argc, argv);
 	if (!vm.players)
 	{
@@ -81,6 +94,11 @@ int main(int argc, char **argv)
 	write_in_map(vm.map, vm.players);
 	player_create_car(vm.players , &vm.cars);
 	print_player(vm.players);
+	/*
+	*/
+	lishnaja_fykcija(&vm);
+	/*
+	*/
 	play_while(&vm);
 	free_all(&vm);
 	return (0);
