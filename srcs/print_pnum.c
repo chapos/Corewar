@@ -20,5 +20,5 @@ void	print_pnum(int num)
 		align = 5;
 	else
 		align = ft_intln(num) + 1;
-	ft_printf("P%*d | ", align, num);
+	printf("P%*d | ", align, num);
 }

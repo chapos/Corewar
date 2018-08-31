@@ -23,12 +23,7 @@ static void		show_live(t_player *players, t_args *args, t_flags *flags)
 		{
 			if (flags->v & 1)
 			{
-				//printf("Player %d (%s) is said to be alive\n", cnt, players->head.prog_name);
-				write(1, "Player ", 7);
-				ft_putnbr(cnt);
-				write(1, " (", 2);
-				ft_putstr(players->head.prog_name);
-				write(1, ") is said to be alive\n", 22);
+				printf("Player %d (%s) is said to be alive\n", cnt, players->head.prog_name);
 			}
 			return ;
 		}
@@ -59,7 +54,8 @@ void		print_live(t_carriage *carriage, t_vm *vm)
 	cnt = 1;
 	players = vm->players;
 	print_pnum(carriage->num_car);
-	ft_printf("live %d\n", vm->args.arg1.readed);
+	printf("live %d\n", vm->args.arg1.readed);
+//	ft_printf("live %d\n", vm->args.arg1.readed);
 	if (vm->flags.v & 1)
 		show_live(vm->players, &vm->args, &vm->flags);
 }

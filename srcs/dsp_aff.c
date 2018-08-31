@@ -32,9 +32,7 @@ int		dsp_aff(t_carriage *carriage, t_vm *vm)
 		read_args_from_map(carriage->pc, vm->map, &vm->args, (t_reader){read_int_from_map, read_short_from_map});
 		if (CHECK_REG(vm->args.arg1.type, vm->args.arg1.readed))
 		{
-			ft_putstr("Aff: ");
-			ft_putchar((char)carriage->reg[vm->args.arg1.readed]);
-			ft_putchar('\n');
+			printf("Aff: %c\n", (char)carriage->reg[vm->args.arg1.readed]);
 			res = 1;
 		}
 		vm->args.shift += vm->args.arg1.size;

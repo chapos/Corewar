@@ -18,7 +18,7 @@ void	print_fork(t_carriage *carriage, t_vm *vm)
 
 	val = carriage->pc + (vm->args.arg1.readed % IDX_MOD);
 	print_pnum(carriage->num_car);
-	ft_printf("fork %d (%d)\n", vm->args.arg1.readed, val);
+	printf("fork %d (%d)\n", vm->args.arg1.readed, val);
 }
 
 int		dsp_fork(t_carriage *father, t_vm *vm)

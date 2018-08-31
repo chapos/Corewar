@@ -15,11 +15,11 @@
 void	print_zjmp(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
-	ft_printf("zjmp %d ", vm->args.arg1.value);
+	printf("zjmp %d ", vm->args.arg1.value);
 	if (carriage->carry)
-		ft_putstr("OK\n");
+		printf("OK\n");
 	else
-		ft_putstr("FAILED\n");
+		printf("FAILED\n");
 }
 
 int		dsp_zjmp(t_carriage *carriage, t_vm *vm)

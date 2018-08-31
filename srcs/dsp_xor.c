@@ -15,8 +15,8 @@
 void	print_xor(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
-	ft_printf("xor %d %d r%hhu\n", vm->args.arg1.value,
-			vm->args.arg2.value, (unsigned char)vm->args.arg3.readed);
+	printf("xor %d %d r%hhu\n", vm->args.arg1.value,
+			  vm->args.arg2.value, (unsigned char)vm->args.arg3.readed);
 }
 
 int		dsp_xor(t_carriage *carriage, t_vm *vm)

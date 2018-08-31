@@ -15,7 +15,7 @@
 void	print_ld(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
-	ft_printf("ld %d r%hhu\n", vm->args.arg1.value, (unsigned char)vm->args.arg2.readed);
+	printf("ld %d r%hhu\n", vm->args.arg1.value, (unsigned char)vm->args.arg2.readed);
 }
 
 /*

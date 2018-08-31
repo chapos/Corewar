@@ -15,7 +15,7 @@
 void	print_add(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
-	ft_printf("add r%hhu r%hhu r%hhu\n", (unsigned char)vm->args.arg1.readed,
+	printf("add r%hhu r%hhu r%hhu\n", (unsigned char)vm->args.arg1.readed,
 			(unsigned char)vm->args.arg2.readed,
 				(unsigned char)vm->args.arg3.readed);
 }

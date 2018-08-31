@@ -66,13 +66,13 @@ void	print_mapz(unsigned char *map, const int map_size)
 	i = 0;
 	while (i < map_size)
 	{
-		ft_printf("%.2x ", map[i]);
+		printf("%.2x ", map[i]);
 		if (i && i % 64 == 0)
-			ft_putchar('\n');
+			printf("\n");
 		++i;
 	}
 	if (i % 64)
-		ft_putchar('\n');
+		printf("\n");
 }
 
 void	print_regs(unsigned int *reg)
@@ -81,8 +81,8 @@ void	print_regs(unsigned int *reg)
 
 	i = 1;
 	while (i < REG_NUMBER)
-		ft_printf("%.8X ", reg[i++]);
-	ft_printf("%.8X\n", reg[i]);
+		printf("%.8X ", reg[i++]);
+	printf("%.8X\n", reg[i]);
 }
 
 /*

@@ -18,7 +18,7 @@ void	print_lfork(t_carriage *carriage, t_vm *vm)
 
 	val = carriage->pc + vm->args.arg1.value;
 	print_pnum(carriage->num_car);
-	ft_printf("lfork %d (%d)\n", vm->args.arg1.value, val);
+	printf("lfork %d (%d)\n", vm->args.arg1.value, val);
 }
 
 int		dsp_lfork(t_carriage *father, t_vm *vm)

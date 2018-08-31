@@ -15,7 +15,7 @@
 void	print_lld(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
-	ft_printf("lld %d r%hhu\n", vm->args.arg1.value, (unsigned char)vm->args.arg2.readed);
+	printf("lld %d r%hhu\n", vm->args.arg1.value, (unsigned char)vm->args.arg2.readed);
 }
 
 int		dsp_lld(t_carriage *carriage, t_vm *vm)

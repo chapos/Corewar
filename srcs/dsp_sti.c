@@ -20,10 +20,10 @@ void	print_sti(t_carriage *carriage, t_vm *vm)
 	sum = (vm->args.arg2.value + vm->args.arg3.value) % IDX_MOD;
 	rf = carriage->pc + sum;
 	print_pnum(carriage->num_car);
-	ft_printf("sti r%hhu %d %d\n", (unsigned char)vm->args.arg1.readed, vm->args.arg2.value, vm->args.arg3.value);
-	ft_printf("%6.0d | -> store to %d + %d = %d (with pc and mod %d)\n", 0,
-			vm->args.arg2.value, vm->args.arg3.value,
-			vm->args.arg2.value + vm->args.arg3.value, rf);
+	printf("sti r%hhu %d %d\n", (unsigned char)vm->args.arg1.readed, vm->args.arg2.value, vm->args.arg3.value);
+	printf("%6.0d | -> store to %d + %d = %d (with pc and mod %d)\n", 0,
+			  vm->args.arg2.value, vm->args.arg3.value,
+			  vm->args.arg2.value + vm->args.arg3.value, rf);
 }
 
 int		dsp_sti(t_carriage *carriage, t_vm *vm)

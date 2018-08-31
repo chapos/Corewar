@@ -104,10 +104,10 @@ int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
 		tcars = vm->cars;
 		if (vm->flags.v & 2)
 		{
-			//printf("It is now cycle %d\n", vm->game_cycle);
-			write(1, "It is now cycle ", 16);
-			ft_putnbr(vm->game_cycle);
-			write(1, "\n", 1);
+			printf("It is now cycle %d\n", vm->game_cycle);
+//			write(1, "It is now cycle ", 16);
+//			ft_putnbr(vm->game_cycle);
+//			write(1, "\n", 1);
 		}
 
 		while_tcars(tcars, vm, dsp, times);
@@ -135,10 +135,7 @@ void	ctd_operator(int licp, int *count_cycle, int *ctd, t_flags *flags)
 		*ctd -= CYCLE_DELTA;
 		if (flags->v & 2)
 		{
-			//printf("Cycle to die is now %d\n", *ctd);
-			write(1, "Cycle to die is now ", 20);
-			ft_putnbr(*ctd);
-			write(1, "\n", 1);
+			printf("Cycle to die is now %d\n", *ctd);
 		}
 		*count_cycle = 0;
 	}

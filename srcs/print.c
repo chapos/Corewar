@@ -21,11 +21,12 @@ void print_winner(t_player *players, int winner)
 	{
 		if (players->num_player == winner)
 		{
-			write(1, "Contestant ", 11);
-			ft_putnbr(count);
-			write(1, ", \"", 3);
-			ft_putstr(players->head.prog_name);
-			write(1, "\", has won !\n", 13);
+			ft_printf("Contestant %d, \"%s\", has won !\n", count, players->head.prog_name);
+//			write(1, "Contestant ", 11);
+//			ft_putnbr(count);
+//			write(1, ", \"", 3);
+//			ft_putstr(players->head.prog_name);
+//			write(1, "\", has won !\n", 13);
 			return ;
 		}
 		count++;
@@ -122,9 +123,6 @@ void print_map(unsigned char *map, t_carriage *cars)
 			ft_printf("%s%.2x%s ", GREEN, map[i], RESET);
 		else
 		{
-			//ft_putchar(' ');
-			//write_2x(map[i], 2);
-//			write(1, " ", 1);
 			ft_printf("%.2x ", map[i]);
 		}
 

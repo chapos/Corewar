@@ -15,8 +15,8 @@
 void	print_and(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
-	ft_printf("and %d %d r%hhu\n", vm->args.arg1.value, vm->args.arg2.value,
-			(unsigned char)vm->args.arg3.readed);
+	printf("and %d %d r%hhu\n", vm->args.arg1.value, vm->args.arg2.value,
+			  (unsigned char)vm->args.arg3.readed);
 }
 
 int		dsp_and(t_carriage *carriage, t_vm *vm)

@@ -17,9 +17,9 @@ void	print_st(t_carriage *carriage, t_vm *vm)
 	print_pnum(carriage->num_car);
 	ft_putstr("st");
 	if (vm->args.arg2.type == T_IND)
-		ft_printf(" r%d %d\n", (unsigned char)vm->args.arg1.readed, vm->args.arg2.value);
+		printf(" r%d %d\n", (unsigned char)vm->args.arg1.readed, vm->args.arg2.value);
 	else
-		ft_printf(" r%d %hhu\n", (unsigned char)vm->args.arg1.readed, (unsigned char)vm->args.arg2.readed);
+		printf(" r%d %hhu\n", (unsigned char)vm->args.arg1.readed, (unsigned char)vm->args.arg2.readed);
 	carriage = NULL;
 }
 

@@ -19,7 +19,7 @@ static void	print_cmd(unsigned char *map, int size)
 	i = 0;
 	// get rid off ' ' in the end
 	while (i < size)
-		ft_printf("%.2x ", (int)map[i++]);
+		printf("%.2x ", (int)map[i++]);
 }
 
 void	print_pc_movement(int cur_pos, int shift, unsigned char *map)
@@ -29,18 +29,18 @@ void	print_pc_movement(int cur_pos, int shift, unsigned char *map)
 	shift += 1;
 	new_pos = (cur_pos + shift) % MEM_SIZE;
 	if (!cur_pos)
-		ft_printf("ADV %d (0x0000 -> %#.4x) ", shift, cur_pos + shift);
+		printf("ADV %d (0x0000 -> %#.4x) ", shift, cur_pos + shift);
 	else
-		ft_printf("ADV %d (%#.4x -> %#.4x) ", shift, cur_pos, cur_pos + shift);
+		printf("ADV %d (%#.4x -> %#.4x) ", shift, cur_pos, cur_pos + shift);
 	if (new_pos >= cur_pos)
 	{
 		print_cmd(&map[cur_pos], shift);
-		ft_putchar('\n');
+		printf("\n");
 	}
 	else
 	{
 		print_cmd(&map[cur_pos], MEM_SIZE - cur_pos);
 		print_cmd(map, shift - (MEM_SIZE - cur_pos));
-		ft_putchar('\n');
+		printf("\n");
 	}
 }

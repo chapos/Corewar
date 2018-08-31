@@ -20,11 +20,11 @@ void	print_lldi(t_carriage *carriage, t_vm *vm)
 	sum = (vm->args.arg1.value + vm->args.arg2.value) % IDX_MOD;
 	rf = carriage->pc + sum;
 	print_pnum(carriage->num_car);
-	ft_printf("lldi %d %d r%hhu\n", vm->args.arg1.value,
-			vm->args.arg2.value, (unsigned char)vm->args.arg3.readed);
-	ft_printf("%6.0d | -> load from %d + %d = %d (with pc and mod %d)\n", 0,
-			vm->args.arg1.value, vm->args.arg2.value,
-			sum, rf);
+	printf("lldi %d %d r%hhu\n", vm->args.arg1.value,
+			  vm->args.arg2.value, (unsigned char)vm->args.arg3.readed);
+	printf("%6.0d | -> load from %d + %d = %d (with pc and mod %d)\n", 0,
+			  vm->args.arg1.value, vm->args.arg2.value,
+			  sum, rf);
 }
 
 int		dsp_lldi(t_carriage *carriage, t_vm *vm)
