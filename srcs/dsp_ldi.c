@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:11:31 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/30 15:37:07 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/01 12:25:34 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		dsp_ldi(t_carriage *carriage, t_vm *vm)
 		read_args_from_map(carriage->pc, vm->map, &vm->args, (t_reader){read_short_from_map, read_short_from_map});
 		if (vm->args.arg1.type == T_IND)
 			vm->args.arg1.readed %= IDX_MOD;
-		if ((acb & ARG_MASK1) && (vm->args.arg2.type == T_DIR ||
+		if (CH_ALL(vm->args.arg1.type, vm->args.arg1.readed) && (vm->args.arg2.type == T_DIR ||
 					CHECK_REG(vm->args.arg2.type, vm->args.arg2.readed)) && CHECK_REG(vm->args.arg3.type, vm->args.arg3.readed))
 		{
 			init_args(carriage, vm->map, &vm->args);

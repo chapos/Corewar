@@ -6,20 +6,11 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/31 09:00:35 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/08/31 18:33:31 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/op.h"
-
-//void	zero_out_plives(t_player *players)
-//{
-//	while (players)
-//	{
-//		players->live = 0;
-//		players = players->next;
-//	}
-//}
 
 int		is_time_to_run(int op, t_carriage *carriage, int *times)
 {
@@ -148,7 +139,7 @@ int play_while(t_vm *vm)
 	t_ama_dispatcher dsp[16];
 	int			times[16];
 
-	count_cycle = 0;
+	count_cycle = 1;
 	cycle_to_die = CYCLE_TO_DIE;
 	init_dsp(dsp);
 	init_times(times);
@@ -159,16 +150,18 @@ int play_while(t_vm *vm)
 		play_cycle(vm, cycle_to_die, dsp, times);
 		del_cars(vm, cycle_to_die, 0);
 		ctd_operator(vm->lives_in_cur_period, &count_cycle, &cycle_to_die, &vm->flags);
-		//zero_out_plives(vm->players);
 		count_cycle++;
 	}
 	if (cycle_to_die < 1)
 	{
+		vm->lives_in_cur_period = 0;
 		play_cycle(vm, 1, dsp, times);
-		del_cars(vm, cycle_to_die, 1);
+		if (vm->lives_in_cur_period)
+			del_cars(vm, cycle_to_die, 1);
 		ctd_operator(vm->lives_in_cur_period, &count_cycle, &cycle_to_die, &vm->flags);
 	}
 	del_cars(vm, cycle_to_die, 1);
+	fflush(stdout);
 	print_winner(vm->players, vm->winner);
 	free_all(vm);
 	return (0);

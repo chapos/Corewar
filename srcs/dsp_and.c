@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:39:30 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/30 15:20:08 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/01 12:24:21 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int		dsp_and(t_carriage *carriage, t_vm *vm)
 			vm->args.arg1.readed %= IDX_MOD;
 		if (vm->args.arg2.type == T_IND)
 			vm->args.arg2.readed %= IDX_MOD;
-		if ((acb & ARG_MASK1) && (acb & ARG_MASK2) && CHECK_REG(vm->args.arg3.type, vm->args.arg3.readed))
+		if (CH_ALL(vm->args.arg1.type, vm->args.arg1.readed) && CH_ALL(vm->args.arg2.type, vm->args.arg2.readed)
+				&& CHECK_REG(vm->args.arg3.type, vm->args.arg3.readed))
 		{
 			init_args(carriage, vm->map, &vm->args);
 			and = vm->args.arg1.value & vm->args.arg2.value;

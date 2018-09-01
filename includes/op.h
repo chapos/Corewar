@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/08/30 17:58:01 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/01 12:06:53 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef char	t_arg_type;
 # define ARG_MASK4			0x03
 
 # define CHECK_REG(type,reg) ((type) == T_REG && (reg) > 0 && (reg) <= REG_NUMBER)
+# define CH_ALL(t,v) (CHECK_REG((t),(v)) || (t) == T_DIR || (t) == T_IND)
 # define EXS_DSP(x) ((x) > 0 && (x) < 17)
 # define CHECK_MC(x) ((x) && (x) % MAX_CHECKS == 0)
 
@@ -161,7 +162,7 @@ typedef	struct		s_reader
 typedef struct 		s_player
 {
 	int					num_player;
-	//int					live;
+	int					live;
 	t_header			head;
 	unsigned char		*code;
 	char 				*file_name;
