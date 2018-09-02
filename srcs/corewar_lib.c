@@ -12,7 +12,7 @@
 
 #include "../includes/op.h"
 
-void free_all(t_vm *vm)
+void			free_all(t_vm *vm)
 {
 	t_player	*temp;
 
@@ -24,5 +24,4 @@ void free_all(t_vm *vm)
 		vm->players = temp;
 	}
 	exit(1);
-	//system("leaks corewar");
 }

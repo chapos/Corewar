@@ -10,29 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/op.h"
 
-int		del_cars(t_vm *vm, int ctd, int final)
+void	del_first_car(t_carriage **cars, t_carriage **temp, t_carriage **temp2)
 {
-	t_carriage *temp;
-	t_carriage *temp2;
+	*cars = (*temp)->next;
+	*temp2 = *cars;
+	free(*temp);
+	*temp = *cars;
+}
+
+void	del_cars(t_vm *vm, int ctd, int final)
+{
+	t_carriage	*temp;
+	t_carriage	*temp2;
 
 	temp = vm->cars;
 	while (temp)
 		if (temp->life == 0 || final)
 		{
 			if (vm->flags.v & 8)
-			{
-				printf("Process %d hasn't lived for %d cycles (CTD %d)\n", temp->num_car, vm->game_cycle - temp->last_live_cn, ctd);
-			}
+				printf("Process %d hasn't lived for %d cycles (CTD %d)\n",
+					temp->num_car, vm->game_cycle - temp->last_live_cn, ctd);
 			if (temp == vm->cars)
-			{
-				vm->cars = temp->next;
-				temp2 = vm->cars;
-				free(temp);
-				temp = vm->cars;
-			}
+				del_first_car(&vm->cars, &temp, &temp2);
 			else
 			{
 				temp2->next = temp->next;
@@ -46,17 +47,16 @@ int		del_cars(t_vm *vm, int ctd, int final)
 			temp2 = temp;
 			temp = temp->next;
 		}
-	return (0);
 }
 
-void add_car(t_carriage **cars, t_carriage *car)
+void	add_car(t_carriage **cars, t_carriage *car)
 {
 	if (*cars)
 		car->next = *cars;
 	*cars = car;
 }
 
-int player_create_car(t_player *players, t_carriage **cars)
+int		player_create_car(t_player *players, t_carriage **cars)
 {
 	int			players_count;
 	t_carriage	*ncar;
@@ -74,22 +74,11 @@ int player_create_car(t_player *players, t_carriage **cars)
 			ncar->num_car = (*cars)->num_car + 1;
 		else
 			ncar->num_car = 1;
-		/*
-		** Zachem eto ?
-		** Esli process 0 razov kriknyl live na pervom CYCLE_TO_DIE
-		** on ne ymret imenno izza etoi strochki
-		** ncar->life = 1;
-		*/
-		//
 		ncar->wait = -1;
-		//
 		ncar->reg[1] = players->num_player;
 		ncar->num_player = players->num_player;
 		add_car(cars, ncar);
 		players = players->next;
-		/*
-		** i += ((64 / players_count)) * 64;
-		*/
 		i += space;
 	}
 	return (0);

@@ -12,7 +12,7 @@
 
 #include "../includes/op.h"
 
-int flag_n(t_player *players, int n)
+int				flag_n(t_player *players, int n)
 {
 	while (players)
 	{
@@ -23,7 +23,12 @@ int flag_n(t_player *players, int n)
 	return (0);
 }
 
-int is_flag(t_flags *flag, char *s1, char *s2)
+//int				is_flag2(t_flags *flag, char *s1, char *s2)
+//{
+//
+//}
+
+int				is_flag(t_flags *flag, char *s1, char *s2)
 {
 	if (s2 && !ft_strcmp(s1, "-v"))
 	{
@@ -52,11 +57,11 @@ int is_flag(t_flags *flag, char *s1, char *s2)
 	return (0);
 }
 
-static int	read_player(t_vm *vm)
+static int		read_player(t_vm *vm)
 {
-	int fd;
-	int error;
-	t_player *temp;
+	int			fd;
+	int			error;
+	t_player	*temp;
 
 	temp = vm->players;
 	while (temp)
@@ -72,7 +77,8 @@ static int	read_player(t_vm *vm)
 				if (error == 2)
 					error_differ_prog_size(vm, temp->file_name);
 				if (error == 3)
-					error_big_prog_size(vm, temp->file_name, temp->head.prog_size);
+					error_big_prog_size(vm, temp->file_name,
+										temp->head.prog_size);
 			}
 		}
 		temp = temp->next;
@@ -80,17 +86,16 @@ static int	read_player(t_vm *vm)
 	return (0);
 }
 
-int read_argv(t_vm *vm, int ac, char **av)
+int				read_argv(t_vm *vm, int ac, char **av)
 {
-	int i;
-	int count;
+	int			i;
+	int			count;
 
 	count = 0;
 	i = 1;
-
 	while (ac > i)
 	{
-		if (!is_flag(&vm->flags, av[i],av[i + 1]))
+		if (!is_flag(&vm->flags, av[i], av[i + 1]))
 		{
 			while (flag_n(vm->players, vm->flags.n))
 				vm->flags.n--;

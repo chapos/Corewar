@@ -52,16 +52,14 @@ void	init_times(int *times)
 	times[15] = 2;
 }
 
-void while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp, int *times)
+void	while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp, int *times)
 {
 	int res;
 
-	//res = 0;
 	while (tcars)
 	{
 		if (is_time_to_run(vm->map[tcars->pc], tcars, times))
 		{
-
 			vm->args.shift = 0;
 			if (EXS_DSP(tcars->command))
 			{
@@ -83,10 +81,9 @@ void while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp, int *times)
 	}
 }
 
-int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
+void	play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
 {
 	t_carriage	*tcars;
-	//int			res;
 
 	ft_memset(&vm->args, 0, sizeof(t_args));
 	while (cycle)
@@ -94,15 +91,8 @@ int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
 		vm->game_cycle++;
 		tcars = vm->cars;
 		if (vm->flags.v & 2)
-		{
 			printf("It is now cycle %d\n", vm->game_cycle);
-//			write(1, "It is now cycle ", 16);
-//			ft_putnbr(vm->game_cycle);
-//			write(1, "\n", 1);
-		}
-
 		while_tcars(tcars, vm, dsp, times);
-
 		cycle--;
 		if (vm->flags.d == vm->game_cycle)
 		{
@@ -116,10 +106,9 @@ int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
 			read(1, &c, 1);
 		}
 	}
-	return (1);
 }
 
-void	ctd_operator(int licp, int *count_cycle, int *ctd, t_flags *flags)
+void		ctd_operator(int licp, int *count_cycle, int *ctd, t_flags *flags)
 {
 	if (licp >= NBR_LIVE || CHECK_MC(*count_cycle))
 	{
@@ -132,10 +121,10 @@ void	ctd_operator(int licp, int *count_cycle, int *ctd, t_flags *flags)
 	}
 }
 
-int play_while(t_vm *vm)
+void		play_while(t_vm *vm)
 {
-	int 		cycle_to_die;
-	int 		count_cycle;
+	int			cycle_to_die;
+	int			count_cycle;
 	t_ama_dispatcher dsp[16];
 	int			times[16];
 
@@ -164,5 +153,4 @@ int play_while(t_vm *vm)
 	fflush(stdout);
 	print_winner(vm->players, vm->winner);
 	free_all(vm);
-	return (0);
 }

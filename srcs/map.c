@@ -12,6 +12,19 @@
 
 #include "../includes/op.h"
 
+int		count_players(t_player *player)
+{
+	int				count;
+
+	count = 0;
+	while (player)
+	{
+		player = player->next;
+		count++;
+	}
+	return (count);
+}
+
 int		write_in_map(unsigned char *map, t_player *player)
 {
 	unsigned int	i;

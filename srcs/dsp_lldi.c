@@ -47,8 +47,8 @@ int		dsp_lldi(t_carriage *carriage, t_vm *vm)
 		{
 			init_args(carriage, vm->map, &vm->args);
 			val = vm->args.arg1.value + vm->args.arg2.value;
-			carriage->carry = val ? 0 : 1;
 			read_int_from_map(&val, carriage->pc + val, vm->map);
+			carriage->carry = val ? 0 : 1;
 			carriage->reg[vm->args.arg3.readed] = val;
 			res = 1;
 		}

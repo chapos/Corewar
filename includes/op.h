@@ -224,7 +224,7 @@ int		dsp_live(t_carriage *carriage, t_vm *vm);
 void	init_dsp(t_ama_dispatcher *dsp);
 int		write_in_map(unsigned char map[], t_player *player);
 
-int		play_while(t_vm *vm);
+void	play_while(t_vm *vm);
 int		read_header(t_player *player, int fd);
 int		read_argv(t_vm *vm, int ac, char **av);
 int		count_players(t_player *player);
@@ -232,12 +232,9 @@ int		add_player(t_player **player, int n, char *file_name);
 void	free_all(t_vm *vm);
 void	add_car(t_carriage **cars, t_carriage *car);
 int		player_create_car(t_player *players, t_carriage **cars);
-
-//int		key_validate(int v, int value);
 //free
-int		del_cars(t_vm *vm, int ctd, int final);
+void	del_cars(t_vm *vm, int ctd, int final);
 void					free_all(t_vm *vm);
-//int		del_player(t_player **players, int num_player);
 //errors
 void 	error_many_champions(t_vm *vm);
 void 	error_read_file(t_vm *vm, char *file_name);

@@ -28,9 +28,7 @@ int		dsp_add(t_carriage *carriage, t_vm *vm)
 
 	res = 0;
 	acb = vm->map[(carriage->pc + 1) % MEM_SIZE];
-	// optimize 
 	ft_memset(&vm->args, 0, sizeof(t_args));
-	//
 	vm->args.shift = 1;
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2) || (acb & ARG_MASK3))
 	{
