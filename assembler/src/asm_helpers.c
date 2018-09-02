@@ -23,11 +23,18 @@ uint32_t	big_little_endian(uint32_t n)
 
 void		clean_and_exit(t_db *db, const char *log)
 {
+	size_t i;
+
 	if (log != NULL)
 		ft_dprintf(STDERR_FILENO, "{red}ERROR[line %zu] - %s\n{def}",
 												db->v_data.line_counter, log);
 	ft_strdel(&db->v_data.line);
 	ft_strdel(&db->bot.bot_comment);
 	ft_strdel(&db->bot.bot_name);
+	i = 0;
+	while (i < db->labels_counter)
+		ft_strdel(&db->labels[i++].name);
+	if (db->labels != NULL)
+		free(db->labels);
 	exit(0);
 }

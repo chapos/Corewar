@@ -24,6 +24,13 @@
 # define OPEN_OUTPUT_ERR "Can't create or open output file "
 # define PROG_NAME_LENGTH		128
 # define COMMENT_LENGTH			2048
+# define LABEL_CHARS			"abcdefghijklmnopqrstuvwxyz_0123456789"
+
+typedef struct		s_label
+{
+	char 			*name;
+	uint32_t		bytes_position;
+}					t_label;
 
 typedef struct		s_bot
 {
@@ -52,6 +59,8 @@ typedef struct		s_db
 	t_validation	v_data;
 	int				output_fd;
 	int				source_fd;
+	t_label			*labels;
+	size_t			labels_counter;
 }					t_db;
 
 void				read_source_file(t_db *db);
@@ -59,5 +68,7 @@ void				read_name_and_comment(t_db *db);
 void				clean_and_exit(t_db *db, const char *log);
 void				read_multiline_string(t_db *db, bool is_name);
 uint32_t			big_little_endian(uint32_t n);
+bool				is_instruction(const char *line);
+size_t				validate_and_save_lable(t_db *db);
 
 #endif
