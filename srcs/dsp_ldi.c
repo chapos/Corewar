@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:11:31 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/01 12:25:34 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/03 16:19:22 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ int		dsp_ldi(t_carriage *carriage, t_vm *vm)
 	vm->args.shift = 1;
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2) || (acb & ARG_MASK3))
 	{
-		read_args_from_map(carriage->pc, vm->map, &vm->args, (t_reader){read_short_from_map, read_short_from_map});
+		read_args_from_map(carriage->pc, vm->map, &vm->args,
+				(t_reader){read_short_from_map, read_short_from_map});
 		if (vm->args.arg1.type == T_IND)
 			vm->args.arg1.readed %= IDX_MOD;
-		if (CH_ALL(vm->args.arg1.type, vm->args.arg1.readed) && (vm->args.arg2.type == T_DIR ||
-					CHECK_REG(vm->args.arg2.type, vm->args.arg2.readed)) && CHECK_REG(vm->args.arg3.type, vm->args.arg3.readed))
+		if (validate_args(&vm->args, &vm->ops[9].pargs))
 		{
 			init_args(carriage, vm->map, &vm->args);
 			val = (vm->args.arg1.value + vm->args.arg2.value) % IDX_MOD;
@@ -51,7 +51,8 @@ int		dsp_ldi(t_carriage *carriage, t_vm *vm)
 			carriage->reg[vm->args.arg3.readed] = val;
 			res = 1;
 		}
-		vm->args.shift += vm->args.arg1.size + vm->args.arg2.size + vm->args.arg3.size;
+		vm->args.shift += vm->args.arg1.size + vm->args.arg2.size
+			+ vm->args.arg3.size;
 	}
 	return (res);
 }

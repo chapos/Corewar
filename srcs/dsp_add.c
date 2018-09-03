@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:38:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/29 18:04:33 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/03 16:14:41 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,13 @@ int		dsp_add(t_carriage *carriage, t_vm *vm)
 
 	res = 0;
 	acb = vm->map[(carriage->pc + 1) % MEM_SIZE];
-	// optimize 
 	ft_memset(&vm->args, 0, sizeof(t_args));
-	//
 	vm->args.shift = 1;
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2) || (acb & ARG_MASK3))
 	{
 		read_args_from_map(carriage->pc, vm->map, &vm->args, 
 				(t_reader){read_int_from_map, read_short_from_map});
-		if (CHECK_REG(vm->args.arg1.type, vm->args.arg1.readed) &&
-				CHECK_REG(vm->args.arg2.type, vm->args.arg2.readed) &&
-					CHECK_REG(vm->args.arg3.type, vm->args.arg3.readed))
+		if (validate_args(&vm->args, &vm->ops[3].pargs))
 		{
 			sum = carriage->reg[vm->args.arg1.readed] + 
 				carriage->reg[vm->args.arg2.readed];

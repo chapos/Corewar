@@ -6,22 +6,24 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/31 18:33:31 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/03 19:41:34 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/op.h"
 
-int		is_time_to_run(int op, t_carriage *carriage, int *times)
+int		is_time_to_run(t_vm *vm, t_carriage *carriage)
 {
+	int		op;
 	int		res;
 
 	res = 0;
+	op = vm->map[carriage->pc];
 	if (carriage->wait > 0)
 		--carriage->wait;
 	else if (carriage->wait == -1 && (op >= 1 && op <= 16))
 	{
-		carriage->wait = times[op - 1] - 2;
+		carriage->wait = vm->ops[op - 1].wait - 2;
 		carriage->command = op;
 	}
 	else
@@ -32,6 +34,7 @@ int		is_time_to_run(int op, t_carriage *carriage, int *times)
 	return (res);
 }
 
+/*
 void	init_times(int *times)
 {
 	times[0] = 10;
@@ -51,15 +54,16 @@ void	init_times(int *times)
 	times[14] = 1000;
 	times[15] = 2;
 }
+*/
 
-void while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp, int *times)
+void while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp)
 {
 	int res;
 
 	//res = 0;
 	while (tcars)
 	{
-		if (is_time_to_run(vm->map[tcars->pc], tcars, times))
+		if (is_time_to_run(vm, tcars))
 		{
 
 			vm->args.shift = 0;
@@ -83,7 +87,7 @@ void while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp, int *times)
 	}
 }
 
-int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
+int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp)
 {
 	t_carriage	*tcars;
 	//int			res;
@@ -101,7 +105,7 @@ int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp, int *times)
 //			write(1, "\n", 1);
 		}
 
-		while_tcars(tcars, vm, dsp, times);
+		while_tcars(tcars, vm, dsp);
 
 		cycle--;
 		if (vm->flags.d == vm->game_cycle)
@@ -137,17 +141,17 @@ int play_while(t_vm *vm)
 	int 		cycle_to_die;
 	int 		count_cycle;
 	t_ama_dispatcher dsp[16];
-	int			times[16];
+	//int			times[16];
 
 	count_cycle = 1;
 	cycle_to_die = CYCLE_TO_DIE;
 	init_dsp(dsp);
-	init_times(times);
+	//init_times(times);
 	vm->process_counter = vm->cars->num_car;
 	while (vm->lives_in_cur_period && cycle_to_die > 0)
 	{
 		vm->lives_in_cur_period = 0;
-		play_cycle(vm, cycle_to_die, dsp, times);
+		play_cycle(vm, cycle_to_die, dsp);
 		del_cars(vm, cycle_to_die, 0);
 		ctd_operator(vm->lives_in_cur_period, &count_cycle, &cycle_to_die, &vm->flags);
 		count_cycle++;
@@ -155,7 +159,7 @@ int play_while(t_vm *vm)
 	if (cycle_to_die < 1)
 	{
 		vm->lives_in_cur_period = 0;
-		play_cycle(vm, 1, dsp, times);
+		play_cycle(vm, 1, dsp);
 		if (vm->lives_in_cur_period)
 			del_cars(vm, cycle_to_die, 1);
 		ctd_operator(vm->lives_in_cur_period, &count_cycle, &cycle_to_die, &vm->flags);

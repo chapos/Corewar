@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:49:55 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/30 15:21:53 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/03 16:20:24 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int		dsp_lld(t_carriage *carriage, t_vm *vm)
 	vm->args.shift = 1;
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2))
 	{
-		read_args_from_map(carriage->pc, vm->map, &vm->args, (t_reader){read_short_from_map, read_short_from_map});
-		if (CHECK_REG(vm->args.arg2.type, vm->args.arg2.readed) && (vm->args.arg1.type == T_DIR ||
-					vm->args.arg1.type == T_IND))
+		read_args_from_map(carriage->pc, vm->map, &vm->args,
+				(t_reader){read_short_from_map, read_short_from_map});
+		if (validate_args(&vm->args, &vm->ops[12].pargs))
 		{
 			init_args(carriage, vm->map, &vm->args);
 			if (vm->args.arg1.type == T_IND)

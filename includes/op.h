@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/01 12:06:53 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/03 15:36:08 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@
 
 typedef char	t_arg_type;
 
+# define T_NONE					0
 # define T_REG					1
 # define T_DIR					2
 # define T_IND					4
@@ -90,15 +91,13 @@ typedef char	t_arg_type;
 # define EXS_DSP(x) ((x) > 0 && (x) < 17)
 # define CHECK_MC(x) ((x) && (x) % MAX_CHECKS == 0)
 
-/*
-typedef	struct		s_possible_args
+typedef	struct		s_pargs
 {
-	t_arg_type		one;
-	t_arg_type		two;
-	t_arg_type		three;
-	t_arg_type		four;
-}					t_possible_args;
-*/
+	t_arg_type		arg1;
+	t_arg_type		arg2;
+	t_arg_type		arg3;
+	t_arg_type		arg4;
+}					t_pargs;
 
 typedef struct		s_arg
 {
@@ -177,12 +176,21 @@ typedef struct		s_flags
 	int				n;
 }					t_flags;
 
+typedef	struct		s_op
+{
+	t_pargs	pargs;
+	int		opc;
+	int		wait;
+	int		has_acb;
+}					t_op;
+
 typedef struct		s_vm
 {
 	t_player			*players;
 	t_carriage			*cars;
 	t_flags				flags;
 	unsigned char		map[MEM_SIZE];
+	t_op				ops[16];
 	t_args				args;
 	unsigned int		process_counter;
 	unsigned int		game_cycle;
@@ -232,6 +240,7 @@ int		add_player(t_player **player, int n, char *file_name);
 void	free_all(t_vm *vm);
 void	add_car(t_carriage **cars, t_carriage *car);
 int		player_create_car(t_player *players, t_carriage **cars);
+int		validate_args(t_args *args, t_pargs *pargs);
 
 //int		key_validate(int v, int value);
 //free

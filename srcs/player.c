@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 15:42:23 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/30 12:55:00 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/03 19:26:56 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,11 @@ int	read_prog(int fd, unsigned int prog_size, unsigned char **code)
 		free(prog);
 		return (-1);
 	}
-	prog[prog_size + 1] = '\0';
+	/*
+	** Pam, pam. Znai svoe mesto.
+	** @malloc
+	** prog[prog_size + 1] = '\0';
+	*/
 	*code = prog;
 	return (0);
 }
