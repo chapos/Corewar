@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:36:19 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/29 18:07:33 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/03 16:18:51 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,9 @@
 void	print_ld(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
-	printf("ld %d r%hhu\n", vm->args.arg1.value, (unsigned char)vm->args.arg2.readed);
+	printf("ld %d r%hhu\n", vm->args.arg1.value,
+			(unsigned char)vm->args.arg2.readed);
 }
-
-/*
-** Modifies carry
-** Has ACB
-*/
 
 int		dsp_ld(t_carriage *carriage, t_vm *vm)
 {
@@ -34,11 +30,11 @@ int		dsp_ld(t_carriage *carriage, t_vm *vm)
 	vm->args.shift = 1;
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2))
 	{
-		read_args_from_map(carriage->pc, vm->map, &vm->args, (t_reader){read_int_from_map, read_short_from_map});
+		read_args_from_map(carriage->pc, vm->map, &vm->args,
+				(t_reader){read_int_from_map, read_short_from_map});
 		if (vm->args.arg1.type == T_IND)
 			vm->args.arg1.readed %= IDX_MOD;
-		if (CHECK_REG(vm->args.arg2.type, vm->args.arg2.readed) && (vm->args.arg1.type == T_DIR ||
-					vm->args.arg1.type == T_IND))
+		if (validate_args(&vm->args, &vm->ops[1].pargs))
 		{
 			init_args(carriage, vm->map, &vm->args);
 			carriage->reg[vm->args.arg2.readed] = vm->args.arg1.value;

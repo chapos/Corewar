@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 14:33:26 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/23 15:56:05 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/03 19:43:21 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,28 +85,6 @@ void	print_regs(unsigned int *reg)
 	printf("%.8X\n", reg[i]);
 }
 
-/*
-void	init_dsp(int (**dsp)(t_carriage*, unsigned char*, t_visual*))
-{
-	dsp[0] = NULL;
-	dsp[1] = dsp_ld;
-	dsp[2] = dsp_st;
-	dsp[3] = dsp_add;
-	dsp[4] = dsp_sub;
-	dsp[5] = dsp_and;
-	dsp[6] = dsp_or;
-	dsp[7] = dsp_xor;
-	dsp[8] = dsp_zjmp;
-	dsp[9] = dsp_ldi;
-	dsp[10] = dsp_sti;
-	dsp[11] = NULL;
-	dsp[12] = dsp_lld;
-	dsp[13] = dsp_lldi;
-	dsp[14] = NULL;
-	dsp[15] = dsp_aff;
-}
-*/
-
 void	init_dsp(t_ama_dispatcher *dsp)
 {
 	dsp[0].exec_cmd = dsp_live;
@@ -142,38 +120,3 @@ void	init_dsp(t_ama_dispatcher *dsp)
 	dsp[15].exec_cmd = dsp_aff;
 	dsp[15].print_cmd = print_aff;
 }
-
-//int		main(void)
-//{
-//	t_carriage		carriage;
-//	const int		map_size = 21;
-//	unsigned char	map[map_size];
-//	int				(*dsp[16])(t_carriage*, unsigned char*);
-//
-//	init_dsp(dsp);
-//	ft_memset(&carriage, 0, sizeof(t_carriage));
-//	ft_memset(map, 0, map_size);
-//	// get value from [10]
-//	map[0] = 0x02;
-//	map[1] = 0xD0;
-//	map[2] = 0x00;
-//	map[3] = 0x0a;
-//	map[4] = 0x02;
-//
-//	// store it at [14]
-//	map[5] = 0x03;
-//	map[6] = 0x70;
-//	map[7] = 0x02;
-//	map[8] = 0x00;
-//	map[9] = 0x09;
-//
-//	// value to get from
-//	map[10] = 0x49;
-//	map[11] = 0x96;
-//	map[12] = 0x02;
-//	map[13] = 0xD2;
-//	dsp[map[0] - 1](&carriage, map);
-//	dsp[map[5] - 1](&carriage, map);
-//	print_mapz(map, map_size);
-//	return (0);
-//}

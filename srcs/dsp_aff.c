@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 14:17:04 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/29 18:05:42 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/03 16:15:50 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ int		dsp_aff(t_carriage *carriage, t_vm *vm)
 	vm->args.shift = 1;
 	if ((acb & ARG_MASK1))
 	{
-		read_args_from_map(carriage->pc, vm->map, &vm->args, (t_reader){read_int_from_map, read_short_from_map});
-		if (CHECK_REG(vm->args.arg1.type, vm->args.arg1.readed))
+		read_args_from_map(carriage->pc, vm->map, &vm->args,
+				(t_reader){read_int_from_map, read_short_from_map});
+		if (validate_args(&vm->args, &vm->ops[15].pargs))
 		{
-			printf("Aff: %c\n", (char)carriage->reg[vm->args.arg1.readed]);
+			printf("Aff: %c\n",
+					(unsigned char)carriage->reg[vm->args.arg1.readed]);
 			res = 1;
 		}
 		vm->args.shift += vm->args.arg1.size;
