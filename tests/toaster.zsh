@@ -6,7 +6,7 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/03 11:19:01 by oevtushe          #+#    #+#              #
-#    Updated: 2018/09/03 15:48:14 by oevtushe         ###   ########.fr        #
+#    Updated: 2018/09/04 11:46:05 by rpetluk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,7 @@ function enter_point()
 {
 	if (( $1 == 1 ))
 	then
-		for ((i=si;i<$arr_size;i++))
+		for ((i=si;i<=$arr_size;i++))
 		do
 			echo "$ops" > $fstate
 			echo "$i" >> $fstate
@@ -77,9 +77,9 @@ function enter_point()
 		done
 	elif (( $1 == 2 ))
 	then
-		for ((i=si;i<$arr_size;i++))
+		for ((i=si;i<=$arr_size;i++))
 		do
-			for ((j=sj;j<$arr_size;j++))
+			for ((j=sj;j<=$arr_size;j++))
 			do
 				echo "$ops" > $fstate
 				echo "$i $j" >> $fstate
@@ -88,14 +88,15 @@ function enter_point()
 				ours_prog_said=$(./$ours_prog $ops "$my_arr[$i]" "$my_arr[$j]" 2>&1 1>$fours)
 				check_it
 			done
+			sj=1
 		done
 	elif (( $1 == 3 ))
 	then
-		for ((i=si;i<$arr_size;i++))
+		for ((i=si;i<=$arr_size;i++))
 		do
-			for ((j=sj;j<$arr_size;j++))
+			for ((j=sj;j<=$arr_size;j++))
 			do
-				for ((k=sk;k<$arr_size;k++))
+				for ((k=sk;k<=$arr_size;k++))
 				do
 					echo "$ops" > $fstate
 					echo "$i $j $k" >> $fstate
@@ -104,17 +105,19 @@ function enter_point()
 					ours_prog_said=$(./$ours_prog $ops "$my_arr[$i]" "$my_arr[$j]" "$my_arr[$k]" 2>&1 1>$fours)
 					check_it
 				done
+				sk=1
 			done
+			sj=1
 		done
 	elif (( $1 == 4 ))
 	then
-		for ((i=si;i<$arr_size;i++))
+		for ((i=si;i<=$arr_size;i++))
 		do
-			for ((j=sj;j<$arr_size;j++))
+			for ((j=sj;j<=$arr_size;j++))
 			do
-				for ((k=sk;k<$arr_size;k++))
+				for ((k=sk;k<=$arr_size;k++))
 				do
-					for ((m=sm;m<$arr_size;m++))
+					for ((m=sm;m<=$arr_size;m++))
 					do
 						echo "$ops" > $fstate
 						echo "$i $j $k $m" >> $fstate
@@ -123,8 +126,11 @@ function enter_point()
 						ours_prog_said=$(./$ours_prog $ops "$my_arr[$i]" "$my_arr[$j]" "$my_arr[$k]" "$my_arr[$m]" 2>&1 1>$fours)
 						check_it
 					done
+					sm=1
 				done
+				sk=1
 			done
+			sj=1
 		done
 	fi
 }

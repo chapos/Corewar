@@ -43,11 +43,6 @@ static int	read_prog(int fd, unsigned int prog_size, unsigned char **code)
 		free(prog);
 		return (-1);
 	}
-	/*
-	** Pam, pam. Znai svoe mesto.
-	** @malloc
-	** prog[prog_size + 1] = '\0';
-	*/
 	*code = prog;
 	return (0);
 }

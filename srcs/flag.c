@@ -23,10 +23,20 @@ int				flag_n(t_player *players, int n)
 	return (0);
 }
 
-//int				is_flag2(t_flags *flag, char *s1, char *s2)
-//{
-//
-//}
+int				is_flag2(t_flags *flag, char *s1)
+{
+	if (!ft_strcmp(s1, "-a"))
+	{
+		flag->a = 1;
+		return (1);
+	}
+	if (!ft_strcmp(s1, "-visual"))
+	{
+		flag->visual = 1;
+		return (1);
+	}
+	return (0);
+}
 
 int				is_flag(t_flags *flag, char *s1, char *s2)
 {
@@ -95,17 +105,20 @@ int				read_argv(t_vm *vm, int ac, char **av)
 	i = 1;
 	while (ac > i)
 	{
-		if (!is_flag(&vm->flags, av[i], av[i + 1]))
+		if (!is_flag2(&vm->flags, av[i]))
 		{
-			while (flag_n(vm->players, vm->flags.n))
-				vm->flags.n--;
-			add_player(&vm->players, vm->flags.n, av[i]);
-			count++;
-			if (count > MAX_PLAYERS)
-				error_many_champions(vm);
+			if (!is_flag(&vm->flags, av[i], av[i + 1]))
+			{
+				while (flag_n(vm->players, vm->flags.n))
+					vm->flags.n--;
+				add_player(&vm->players, vm->flags.n, av[i]);
+				count++;
+				if (count > MAX_PLAYERS)
+					error_many_champions(vm);
+			}
+			else
+				i++;
 		}
-		else
-			i++;
 		i++;
 	}
 	read_player(vm);

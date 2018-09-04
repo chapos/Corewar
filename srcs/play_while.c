@@ -85,7 +85,7 @@ void while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp)
 	}
 }
 
-int play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp)
+void play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp)
 {
 	t_carriage	*tcars;
 

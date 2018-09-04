@@ -174,6 +174,8 @@ typedef struct		s_flags
 	unsigned		s;
 	unsigned		d;
 	int				n;
+	int				a;
+	int				visual;
 }					t_flags;
 
 typedef	struct		s_op

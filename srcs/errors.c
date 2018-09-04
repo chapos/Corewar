@@ -44,10 +44,10 @@ void	error_differ_prog_size(t_vm *vm, char *file_name)
 
 void	error_big_prog_size(t_vm *vm, char *file_name, int prog_size)
 {
-	write(2, "File ", 5);
+	write(2, "Error: File ", 12);
 	write(2, file_name, ft_strlen(file_name));
 	write(2, " has too large a code (", 23);
 	ft_putnbr_fd(prog_size, 2);
-	write(2, " > 682 bytes)\n", 14);
+	write(2, " bytes > 682 bytes)\n", 20);
 	free_all(vm);
 }

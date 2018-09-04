@@ -33,8 +33,11 @@ int		dsp_aff(t_carriage *carriage, t_vm *vm)
 				(t_reader){read_int_from_map, read_short_from_map});
 		if (validate_args(&vm->args, &vm->ops[15].pargs))
 		{
-			printf("Aff: %c\n",
-					(unsigned char)carriage->reg[vm->args.arg1.readed]);
+			if (vm->flags.a)
+			{
+				printf("Aff: %c\n",
+					   (char) carriage->reg[vm->args.arg1.readed]);
+			}
 			res = 1;
 		}
 		vm->args.shift += vm->args.arg1.size;
