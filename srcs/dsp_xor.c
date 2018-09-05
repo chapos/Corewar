@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:41:56 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/03 16:27:43 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/04 19:03:46 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,20 @@ void	print_xor(t_carriage *carriage, t_vm *vm)
 			  vm->args.arg2.value, (unsigned char)vm->args.arg3.readed);
 }
 
+static void	do_xor(t_carriage *carriage, t_vm *vm)
+{
+	int		xor;
+
+	init_args(carriage, vm->map, &vm->args);
+	xor = vm->args.arg1.value ^ vm->args.arg2.value;
+	carriage->reg[vm->args.arg3.readed] = xor;
+	carriage->carry = xor ? 0 : 1;
+}
+
 int		dsp_xor(t_carriage *carriage, t_vm *vm)
 {
 	unsigned char	acb;
 	int				res;
-	unsigned int	xor;
 
 	res = 0;
 	acb = vm->map[(carriage->pc + 1) % MEM_SIZE];
@@ -39,10 +48,7 @@ int		dsp_xor(t_carriage *carriage, t_vm *vm)
 			vm->args.arg2.readed %= IDX_MOD;
 		if (validate_args(&vm->args, &vm->ops[7].pargs))
 		{
-			init_args(carriage, vm->map, &vm->args);
-			xor = vm->args.arg1.value ^ vm->args.arg2.value;
-			carriage->reg[vm->args.arg3.readed] = xor;
-			carriage->carry = xor ? 0 : 1;
+			do_xor(carriage, vm);
 			res = 1;
 		}
 		vm->args.shift += vm->args.arg1.size +

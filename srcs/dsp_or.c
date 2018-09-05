@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:40:02 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/03 16:22:33 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/04 19:04:44 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,20 @@ void	print_or(t_carriage *carriage, t_vm *vm)
 			  (unsigned char)vm->args.arg3.readed);
 }
 
+static void	do_or(t_carriage *carriage, t_vm *vm)
+{
+	unsigned int	or;
+
+	init_args(carriage, vm->map, &vm->args);
+	or = vm->args.arg1.value | vm->args.arg2.value;
+	carriage->reg[vm->args.arg3.readed] = or;
+	carriage->carry = or ? 0 : 1;
+}
+
 int		dsp_or(t_carriage *carriage, t_vm *vm)
 {
 	unsigned char	acb;
 	int				res;
-	unsigned int	or;
 
 	res = 0;
 	acb = vm->map[(carriage->pc + 1) % MEM_SIZE];
@@ -39,10 +48,7 @@ int		dsp_or(t_carriage *carriage, t_vm *vm)
 			vm->args.arg2.readed %= IDX_MOD;
 		if (validate_args(&vm->args, &vm->ops[6].pargs))
 		{
-			init_args(carriage, vm->map, &vm->args);
-			or = vm->args.arg1.value | vm->args.arg2.value;
-			carriage->reg[vm->args.arg3.readed] = or;
-			carriage->carry = or ? 0 : 1;
+			do_or(carriage, vm);
 			res = 1;
 		}
 		vm->args.shift += vm->args.arg1.size +

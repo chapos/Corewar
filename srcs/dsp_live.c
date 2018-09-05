@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:31:19 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/30 18:00:55 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/04 15:11:52 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int			dsp_live(t_carriage *carriage, t_vm *vm)
 	vm->args.arg1.readed = pn;
 	carriage->life++;
 	vm->lives_in_cur_period++;
-	//add_player_live(vm->players, pn, vm->flags.v);
 	carriage->last_live_cn = vm->game_cycle;
 	vm->args.shift = 4;
 	add_live_to_player(vm->players, &vm->winner, &vm->args);

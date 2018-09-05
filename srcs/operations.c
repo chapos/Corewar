@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/16 14:33:26 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/03 19:43:21 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/04 15:23:06 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,6 @@ int		dsp_fork(t_carriage *carriage, unsigned char *map, t_op *op_tab)
 {
 }
 */
-
-void	print_mapz(unsigned char *map, const int map_size)
-{
-	int		i;
-
-	i = 0;
-	while (i < map_size)
-	{
-		printf("%.2x ", map[i]);
-		if (i && i % 64 == 0)
-			printf("\n");
-		++i;
-	}
-	if (i % 64)
-		printf("\n");
-}
 
 void	print_regs(unsigned int *reg)
 {

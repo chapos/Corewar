@@ -6,13 +6,13 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:11:31 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/03 16:19:22 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/04 17:34:50 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-void	print_ldi(t_carriage *carriage, t_vm *vm)
+void		print_ldi(t_carriage *carriage, t_vm *vm)
 {
 	int		sum;
 	int		rf;
@@ -27,11 +27,20 @@ void	print_ldi(t_carriage *carriage, t_vm *vm)
 			  vm->args.arg1.value + vm->args.arg2.value, rf);
 }
 
-int		dsp_ldi(t_carriage *carriage, t_vm *vm)
+static void	do_ldi(t_carriage *carriage, t_vm *vm)
+{
+	int		val;
+
+	init_args(carriage, vm->map, &vm->args);
+	val = (vm->args.arg1.value + vm->args.arg2.value) % IDX_MOD;
+	read_int_from_map(&val, carriage->pc + val, vm->map);
+	carriage->reg[vm->args.arg3.readed] = val;
+}
+
+int			dsp_ldi(t_carriage *carriage, t_vm *vm)
 {
 	unsigned char	acb;
 	int				res;
-	int				val;
 
 	res = 0;
 	acb = vm->map[(carriage->pc + 1) % MEM_SIZE];
@@ -45,10 +54,7 @@ int		dsp_ldi(t_carriage *carriage, t_vm *vm)
 			vm->args.arg1.readed %= IDX_MOD;
 		if (validate_args(&vm->args, &vm->ops[9].pargs))
 		{
-			init_args(carriage, vm->map, &vm->args);
-			val = (vm->args.arg1.value + vm->args.arg2.value) % IDX_MOD;
-			read_int_from_map(&val, carriage->pc + val, vm->map);
-			carriage->reg[vm->args.arg3.readed] = val;
+			do_ldi(carriage, vm);
 			res = 1;
 		}
 		vm->args.shift += vm->args.arg1.size + vm->args.arg2.size

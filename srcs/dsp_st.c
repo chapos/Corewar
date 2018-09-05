@@ -6,13 +6,13 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:37:28 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/03 16:25:27 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/04 15:58:35 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-void	print_st(t_carriage *carriage, t_vm *vm)
+void		print_st(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
 	printf("st");
@@ -23,11 +23,31 @@ void	print_st(t_carriage *carriage, t_vm *vm)
 	carriage = NULL;
 }
 
-int		dsp_st(t_carriage *carriage, t_vm *vm)
+static int	do_st(t_carriage *carriage, t_vm *vm)
+{
+	int		res;
+	int		rev;
+
+	res = 0;
+	if (vm->args.arg2.type == T_REG)
+	{
+		carriage->reg[vm->args.arg2.readed] = vm->args.arg1.value;
+		res = 1;
+	}
+	else
+	{
+		rev = vm->args.arg1.value;
+		ft_byterev_ui32((unsigned int *)&rev);
+		write_int_in_map(&rev, carriage->pc + vm->args.arg2.readed, vm->map);
+		res = 1;
+	}
+	return (res);
+}
+
+int			dsp_st(t_carriage *carriage, t_vm *vm)
 {
 	unsigned char	acb;
 	int				res;
-	int				rev;
 	int				tmp;
 
 	tmp = 0;
@@ -35,7 +55,6 @@ int		dsp_st(t_carriage *carriage, t_vm *vm)
 	acb = vm->map[(carriage->pc + 1) % MEM_SIZE];
 	ft_memset(&vm->args, 0, sizeof(t_args));
 	vm->args.shift = 1;
-	// '||' because of ACB Invalid cases
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2))
 	{
 		read_args_from_map(carriage->pc, vm->map, &vm->args,
@@ -48,18 +67,7 @@ int		dsp_st(t_carriage *carriage, t_vm *vm)
 		if (validate_args(&vm->args, &vm->ops[2].pargs))
 		{
 			init_args(carriage, vm->map, &vm->args);
-			if (vm->args.arg2.type == T_REG)
-			{
-				carriage->reg[vm->args.arg2.readed] = vm->args.arg1.value;
-				res = 1;
-			}
-			else
-			{
-				rev = vm->args.arg1.value;
-				ft_byterev_ui32((unsigned int *)&rev);
-				write_int_in_map(&rev, carriage->pc + vm->args.arg2.readed, vm->map);
-				res = 1;
-			}
+			res = do_st(carriage, vm);
 		}
 		vm->args.shift += vm->args.arg1.size + vm->args.arg2.size;
 		vm->args.arg2.value = tmp;

@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:46:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/03 16:23:36 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/04 19:02:14 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,22 @@ void	print_sti(t_carriage *carriage, t_vm *vm)
 			  vm->args.arg2.value + vm->args.arg3.value, rf);
 }
 
+static void do_sti(t_carriage *carriage, t_vm *vm)
+{
+	int		rev;
+	int		addr;
+
+	init_args(carriage, vm->map, &vm->args);
+	addr = (vm->args.arg2.value + vm->args.arg3.value) % IDX_MOD;
+	rev = vm->args.arg1.value;
+	ft_byterev_ui32((unsigned int *)&rev);
+	write_int_in_map(&rev, carriage->pc + addr, vm->map);
+}
+
 int		dsp_sti(t_carriage *carriage, t_vm *vm)
 {
 	unsigned char	acb;
 	int				res;
-	int				addr;
-	int				rev;
 
 	res = 0;
 	acb = vm->map[(carriage->pc + 1) % MEM_SIZE];
@@ -46,11 +56,7 @@ int		dsp_sti(t_carriage *carriage, t_vm *vm)
 			vm->args.arg2.readed %= IDX_MOD;
 		if (validate_args(&vm->args, &vm->ops[10].pargs))
 		{
-			init_args(carriage, vm->map, &vm->args);
-			addr = (vm->args.arg2.value + vm->args.arg3.value) % IDX_MOD;
-			rev = vm->args.arg1.value;
-			ft_byterev_ui32((unsigned int *)&rev);
-			write_int_in_map(&rev, carriage->pc + addr, vm->map);
+			do_sti(carriage, vm);
 			res = 1;
 		}
 		vm->args.shift += vm->args.arg1.size + vm->args.arg2.size

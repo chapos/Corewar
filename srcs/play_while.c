@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/04 09:45:50 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/09/05 13:06:23 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,28 +33,6 @@ int		is_time_to_run(t_vm *vm, t_carriage *carriage)
 	}
 	return (res);
 }
-
-/*
-void	init_times(int *times)
-{
-	times[0] = 10;
-	times[1] = 5;
-	times[2] = 5;
-	times[3] = 10;
-	times[4] = 10;
-	times[5] = 6;
-	times[6] = 6;
-	times[7] = 6;
-	times[8] = 20;
-	times[9] = 25;
-	times[10] = 25;
-	times[11] = 800;
-	times[12] = 10;
-	times[13] = 50;
-	times[14] = 1000;
-	times[15] = 2;
-}
-*/
 
 void while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp)
 {
@@ -143,7 +121,7 @@ void		play_while(t_vm *vm)
 		ctd_operator(vm->lives_in_cur_period, &count_cycle, &cycle_to_die, &vm->flags);
 		count_cycle++;
 	}
-	if (cycle_to_die < 1)
+	if (cycle_to_die < 1 && vm->lives_in_cur_period)
 	{
 		vm->lives_in_cur_period = 0;
 		play_cycle(vm, 1, dsp);
