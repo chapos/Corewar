@@ -50,6 +50,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <ncurses.h>
 //////
 #include <stdio.h>
 //////
@@ -90,6 +91,12 @@ typedef char	t_arg_type;
 # define CH_ALL(t,v) (CHECK_REG((t),(v)) || (t) == T_DIR || (t) == T_IND)
 # define EXS_DSP(x) ((x) > 0 && (x) < 17)
 # define CHECK_MC(x) ((x) && (x) % MAX_CHECKS == 0)
+
+typedef struct		s_visual
+{
+	WINDOW			*map;
+	WINDOW			*text;
+}					t_visual;
 
 typedef	struct		s_pargs
 {
@@ -198,6 +205,7 @@ typedef struct		s_vm
 	unsigned int		game_cycle;
 	unsigned int		lives_in_cur_period;
 	int					winner;
+	t_visual			*visual;
 }					t_vm;
 
 typedef struct		s_ama_dispetcher
@@ -279,5 +287,8 @@ void	print_live(t_carriage *carriage, t_vm *vm);
 
 void	print_pc_movement(int cur_pos, int shift, unsigned char *map);
 void	print_pnum(int num);
+
+//visual
+void			visual(t_vm *vm, int cycle_to_die);
 
 #endif

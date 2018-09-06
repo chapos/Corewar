@@ -37,6 +37,7 @@ void init_vm(t_vm *vm)
 	vm->flags.n = -1;
 	vm->lives_in_cur_period = 1;
 	init_op_arr(vm->ops);
+	vm->visual = NULL;
 }
 
 void	print_player(t_player *players)

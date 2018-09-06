@@ -23,6 +23,8 @@ include				$(FT_DIR)/Pretty.mk
 include				$(FTP_DIR)/Libftp.mk
 include				$(FT_DIR)/Templates.mk
 
+CFLAGS_LINKAGE      := -lncurses
+
 CW_DEPF				:= op.h
 CW_SRCF				:= player.c				\
 					   operations.c			\
@@ -58,7 +60,8 @@ CW_SRCF				:= player.c				\
 					   print_pnum.c			\
 					   play_while.c         \
 					   validate_args.c		\
-					   print.c
+					   print.c              \
+					   visual.c             \
 
 CW_DEPS				:= $(CW_DEPF:%=$(CW_DEPS_DIR)/%)
 CW_SRCS				:= $(CW_SRCF:%=$(CW_SRCS_DIR)/%)

@@ -12,7 +12,7 @@
 
 #include "../includes/op.h"
 
-int		is_time_to_run(t_vm *vm, t_carriage *carriage)
+int			is_time_to_run(t_vm *vm, t_carriage *carriage)
 {
 	int		op;
 	int		res;
@@ -34,7 +34,7 @@ int		is_time_to_run(t_vm *vm, t_carriage *carriage)
 	return (res);
 }
 
-void while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp)
+void		while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp)
 {
 	int res;
 
@@ -63,7 +63,7 @@ void while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp)
 	}
 }
 
-void play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp)
+void		play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp)
 {
 	t_carriage	*tcars;
 
@@ -113,6 +113,7 @@ void		play_while(t_vm *vm)
 	cycle_to_die = CYCLE_TO_DIE;
 	init_dsp(dsp);
 	vm->process_counter = vm->cars->num_car;
+	visual(vm, count_cycle);
 	while (vm->lives_in_cur_period && cycle_to_die > 0)
 	{
 		vm->lives_in_cur_period = 0;
