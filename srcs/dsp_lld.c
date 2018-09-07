@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:49:55 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/03 16:20:24 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/07 12:59:11 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int		dsp_lld(t_carriage *carriage, t_vm *vm)
 			res = 1;
 		}
 		vm->args.shift += vm->args.arg1.size + vm->args.arg2.size;
+		if (vm->args.arg1.type == T_DIR || vm->args.arg2.type == T_DIR)
+			vm->args.shift += 2;
 	}
 	return (res);
 }
