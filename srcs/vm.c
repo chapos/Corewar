@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:22:51 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/04 09:47:10 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/09/08 16:11:35 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	init_op_arr(t_op *op)
 void init_vm(t_vm *vm)
 {
 	vm->flags.n = -1;
-	vm->lives_in_cur_period = 1;
+	vm->alicp = 1;
 	init_op_arr(vm->ops);
 }
 

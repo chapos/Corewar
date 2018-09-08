@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:37:28 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/04 15:58:35 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/07 18:29:33 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static int	do_st(t_carriage *carriage, t_vm *vm)
 	int		rev;
 
 	res = 0;
+	init_args(carriage, vm->map, &vm->args);
 	if (vm->args.arg2.type == T_REG)
 	{
 		carriage->reg[vm->args.arg2.readed] = vm->args.arg1.value;
@@ -65,10 +66,7 @@ int			dsp_st(t_carriage *carriage, t_vm *vm)
 			vm->args.arg2.readed %= IDX_MOD;
 		}
 		if (validate_args(&vm->args, &vm->ops[2].pargs))
-		{
-			init_args(carriage, vm->map, &vm->args);
 			res = do_st(carriage, vm);
-		}
 		vm->args.shift += vm->args.arg1.size + vm->args.arg2.size;
 		vm->args.arg2.value = tmp;
 	}

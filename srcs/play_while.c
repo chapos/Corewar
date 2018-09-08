@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/05 13:06:23 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/08 17:26:28 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		is_time_to_run(t_vm *vm, t_carriage *carriage)
 	return (res);
 }
 
-void while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp)
+void while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
 {
 	int res;
 
@@ -63,7 +63,7 @@ void while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp)
 	}
 }
 
-void play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp)
+void play_cycle(t_vm *vm, int cycle, t_dsp *dsp)
 {
 	t_carriage	*tcars;
 
@@ -96,10 +96,17 @@ void		ctd_operator(int licp, int *count_cycle, int *ctd, t_flags *flags)
 	{
 		*ctd -= CYCLE_DELTA;
 		if (flags->v & 2)
-		{
 			printf("Cycle to die is now %d\n", *ctd);
-		}
 		*count_cycle = 0;
+	}
+}
+
+void		refresh_players(t_player *players)
+{
+	while (players)
+	{
+		players->licp = 0;
+		players = players->next;
 	}
 }
 
@@ -107,27 +114,28 @@ void		play_while(t_vm *vm)
 {
 	int			cycle_to_die;
 	int			count_cycle;
-	t_ama_dispatcher dsp[16];
+	t_dsp		dsp[16];
 
 	count_cycle = 1;
 	cycle_to_die = CYCLE_TO_DIE;
 	init_dsp(dsp);
 	vm->process_counter = vm->cars->num_car;
-	while (vm->lives_in_cur_period && cycle_to_die > 0)
+	while (vm->alicp && cycle_to_die > 0)
 	{
-		vm->lives_in_cur_period = 0;
+		vm->alicp = 0;
 		play_cycle(vm, cycle_to_die, dsp);
 		del_cars(vm, cycle_to_die, 0);
-		ctd_operator(vm->lives_in_cur_period, &count_cycle, &cycle_to_die, &vm->flags);
+		ctd_operator(vm->alicp, &count_cycle, &cycle_to_die, &vm->flags);
 		count_cycle++;
+		refresh_players(vm->players);
 	}
-	if (cycle_to_die < 1 && vm->lives_in_cur_period)
+	if (cycle_to_die < 1 && vm->alicp)
 	{
-		vm->lives_in_cur_period = 0;
+		vm->alicp = 0;
 		play_cycle(vm, 1, dsp);
-		if (vm->lives_in_cur_period)
+		//if (vm->alicp)
 			del_cars(vm, cycle_to_die, 1);
-		ctd_operator(vm->lives_in_cur_period, &count_cycle, &cycle_to_die, &vm->flags);
+		ctd_operator(vm->alicp, &count_cycle, &cycle_to_die, &vm->flags);
 	}
 	del_cars(vm, cycle_to_die, 1);
 	fflush(stdout);
