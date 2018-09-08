@@ -3,15 +3,16 @@
 #include <ncurses.h>
 #include <zconf.h>
 
-#define COLOR_BORDER	10
-#define COLOR1			11
-#define COLOR2			12
-#define COLOR3			13
-#define COLOR4			14
-#define COLOR5			15
-#define COLOR6			16
-#define COLOR7			17
-#define COLOR8			18
+#define COLOR_BORDER	20
+#define COLOR1			21
+#define COLOR2			22
+#define COLOR3			23
+#define COLOR4			24
+#define COLOR5			25
+#define COLOR6			26
+#define COLOR7			27
+#define COLOR8			28
+#define COLOR9			29
 
 WINDOW	*create_new_win(int width, int height, int start_x, int start_y)
 {
@@ -67,6 +68,9 @@ void			create_colors()
 	init_pair(17, COLOR7, COLOR_BLACK);
 	init_color(COLOR8, 400, 900, 1000);
 	init_pair(18, COLOR8, COLOR_BLACK);
+	//text
+	init_color(COLOR9, 1000, 1000, 1000);
+	init_pair(19, COLOR9, COLOR_BLACK);
 }
 
 void			on_color_caret(int num_player, t_vm *vm, int died)
@@ -143,6 +147,30 @@ void			off_color_player(int num_player, t_vm *vm)
 		wattroff(vm->visual->map, COLOR_PAIR(5));
 	else if (num_player == 4)
 		wattroff(vm->visual->map, COLOR_PAIR(6));
+}
+
+void			on_color_player_t(int num_player, t_vm *vm)
+{
+	if (num_player == 1)
+		wattron(vm->visual->text, COLOR_PAIR(3));
+	else if (num_player == 2)
+		wattron(vm->visual->text, COLOR_PAIR(4));
+	else if (num_player == 3)
+		wattron(vm->visual->text, COLOR_PAIR(5));
+	else if (num_player == 4)
+		wattron(vm->visual->text, COLOR_PAIR(6));
+}
+
+void			off_color_player_t(int num_player, t_vm *vm)
+{
+	if (num_player == 1)
+		wattroff(vm->visual->text, COLOR_PAIR(3));
+	else if (num_player == 2)
+		wattroff(vm->visual->text, COLOR_PAIR(4));
+	else if (num_player == 3)
+		wattroff(vm->visual->text, COLOR_PAIR(5));
+	else if (num_player == 4)
+		wattroff(vm->visual->text, COLOR_PAIR(6));
 }
 
 /*COLORS***********************************/
@@ -232,17 +260,75 @@ void			wprint_map(t_vm *vm)
 	}
 }
 
+size_t				len_number(int i)
+{
+	return (ft_strlen(ft_itoa(i)));
+}
+
 void			wprint_text(t_vm *vm)
 {
+	t_player		*temp;
+	int				i;
+	size_t			len;
 
+	i = 0;
+	temp = vm->players;
+	wrefresh(vm->visual->text);
+	wattron(vm->visual->text, COLOR_PAIR(19));
+	mvwprintw(vm->visual->text, 4, 2, "**PLAY**");
+	mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: ***");
+	mvwprintw(vm->visual->text, 8, 2, "Cycles: ***");
+	mvwprintw(vm->visual->text, 10, 2, "Processes: ***");
+	wattroff(vm->visual->text, COLOR_PAIR(19));
+	while (temp)
+	{
+		wattron(vm->visual->text, COLOR_PAIR(19));
+		len = len_number(temp->num_player);
+		mvwprintw(vm->visual->text, 12 + i, 2, "Player ");
+		wattroff(vm->visual->text, COLOR_PAIR(19));
+		on_color_player_t(i / 4 + 1, vm);
+		mvwprintw(vm->visual->text, 12 + i, 9, "%d", temp->num_player);
+		off_color_player_t(i / 4 + 1, vm);
+		wattron(vm->visual->text, COLOR_PAIR(19));
+		mvwprintw(vm->visual->text, 12 + i, 9 + len, " : ");
+		wattroff(vm->visual->text, COLOR_PAIR(19));
+		on_color_player_t(i / 4 + 1, vm);
+		mvwprintw(vm->visual->text, 12 + i, 12 + len, "%s", temp->head.prog_name);
+		off_color_player_t(i / 4 + 1, vm);
+		wattron(vm->visual->text, COLOR_PAIR(19));
+		mvwprintw(vm->visual->text, 13 + i, 4, "Last live: ***");
+		mvwprintw(vm->visual->text, 14 + i, 4, "Lives in current period: ***");
+		i = i + 4;
+		temp = temp->next;
+		wattroff(vm->visual->text, COLOR_PAIR(19));
+	}
+	wattron(vm->visual->text, COLOR_PAIR(19));
+	mvwprintw(vm->visual->text, 22 + i, 2, "Cycle_to_Die: %d", CYCLE_TO_DIE);
+	mvwprintw(vm->visual->text, 24 + i, 2, "Cycle_Delta: %d", CYCLE_DELTA);
+	mvwprintw(vm->visual->text, 26 + i, 2, "NBR_Live: %d", NBR_LIVE);
+	mvwprintw(vm->visual->text, 28 + i, 2, "Max_Checks: %d", MAX_CHECKS);
+	wattroff(vm->visual->text, COLOR_PAIR(19));
+	wrefresh(vm->visual->text);
+
+}
+
+void			catch_keys(t_vm *vm)
+{
+	while (vm->winner )
+	{
+
+	}
 }
 
 void			visual(t_vm *vm, int cycle_to_die)
 {
+
 	initscr();
+	cbreak();
 	noecho();
 	start_color();
 	curs_set(0);
+//	nodelay(stdscr, TRUE);
 	refresh();
 	create_colors();
 	if (vm->visual == NULL)
@@ -252,8 +338,8 @@ void			visual(t_vm *vm, int cycle_to_die)
 	getch();
 	wprint_map(vm);
 	wrefresh(vm->visual->map);
-	getch();
 	wprint_text(vm);
+	getch();
 	wprintw(vm->visual->text, "%d", cycle_to_die);
 	destroy_win(vm->visual->map);
 	destroy_win(vm->visual->text);

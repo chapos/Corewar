@@ -113,7 +113,8 @@ void		play_while(t_vm *vm)
 	cycle_to_die = CYCLE_TO_DIE;
 	init_dsp(dsp);
 	vm->process_counter = vm->cars->num_car;
-	visual(vm, count_cycle);
+	if (vm->flags.visual)
+		visual(vm, count_cycle);
 	while (vm->lives_in_cur_period && cycle_to_die > 0)
 	{
 		vm->lives_in_cur_period = 0;
