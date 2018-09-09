@@ -76,16 +76,13 @@ void play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp)
 			printf("It is now cycle %d\n", vm->game_cycle);
 		while_tcars(tcars, vm, dsp);
 		cycle--;
-		if (vm->flags.d == vm->game_cycle)
+		if (vm->flags.d)
 		{
-			print_map(vm->map, vm->cars);
-			free_all(vm);
+			flags_d(vm);
 		}
-		if (vm->flags.s && vm->game_cycle % vm->flags.s == 0)
+		if (vm->flags.s)
 		{
-			print_map(vm->map, vm->cars);
-			char c;
-			read(1, &c, 1);
+			flags_s(vm);
 		}
 	}
 }
@@ -131,6 +128,4 @@ void		play_while(t_vm *vm)
 	}
 	del_cars(vm, cycle_to_die, 1);
 	fflush(stdout);
-	print_winner(vm->players, vm->winner);
-	free_all(vm);
 }

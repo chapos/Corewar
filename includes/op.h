@@ -176,6 +176,7 @@ typedef struct		s_flags
 	int				n;
 	int				a;
 	int				visual;
+	int				sound;
 }					t_flags;
 
 typedef	struct		s_op
@@ -254,7 +255,11 @@ void 	error_differ_prog_size(t_vm *vm, char *file_name);
 void 	error_big_prog_size(t_vm * vm, char *file_name, int prog_size);
 //print
 void	print_winner(t_player *players, int winner);
-void	print_map(unsigned char *map, t_carriage *cars);
+void	print_map(unsigned char *map);
+//bonus
+int		sound_kill_car();
+void	flags_s(t_vm *vm);
+void	flags_d(t_vm *vm);
 //
 
 int		normalize_pc(int pc);

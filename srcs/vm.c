@@ -61,6 +61,7 @@ int		ft_usage(void)
 				"#### TEXT OUTPUT MODE #################################\n"
 				"-d N : Dumps memory after N cycles then exits\n"
 				"-s N : Runs N cycles, dumps memory, pauses, then repeats\n"
+				"-n N : sets the number of the next player\n"
 				"-v N "
 				": Verbosity levels, can be added together to enable several\n"
 				"       - 0 : Show only essentials\n"
@@ -70,7 +71,8 @@ int		ft_usage(void)
 				"       - 8 : Show deaths\n"
 				"       - 16 : Show PC movements (Except for jumps)\n"
 				"#### NCURSES OUTPUT MODE #################################\n"
-				"    -n        : Ncurses output mode\n"
+				"    -visual : Ncurses output mode\n"
+				"    -sound : play sound when process die\n"
 				"##########################################################\n");
 	return (0);
 }

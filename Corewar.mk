@@ -58,7 +58,8 @@ CW_SRCF				:= player.c				\
 					   print_pnum.c			\
 					   play_while.c         \
 					   validate_args.c		\
-					   print.c
+					   print.c              \
+					   bonus_func.c
 
 CW_DEPS				:= $(CW_DEPF:%=$(CW_DEPS_DIR)/%)
 CW_SRCS				:= $(CW_SRCF:%=$(CW_SRCS_DIR)/%)
