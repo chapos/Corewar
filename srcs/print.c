@@ -31,17 +31,6 @@ void		print_winner(t_player *players, int winner)
 	}
 }
 
-//static int	color_car(t_carriage *cars, int pc)
-//{
-//	while (cars)
-//	{
-//		if (cars->pc == pc)
-//			return (1);
-//		cars = cars->next;
-//	}
-//	return (0);
-//}
-
 void		print_map(unsigned char *map)
 {
 	unsigned int	i;
@@ -59,10 +48,7 @@ void		print_map(unsigned char *map)
 				ft_printf("%#.4x : ", n);
 			n += 64;
 		}
-//		if (color_car(cars, i))
-//			ft_printf("%s%.2x%s ", GREEN, map[i], RESET);
-//		else
-			ft_printf("%.2x ", map[i]);
+		ft_printf("%.2x ", map[i]);
 		i++;
 		if (i % 64 == 0)
 			ft_putchar('\n');

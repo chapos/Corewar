@@ -233,6 +233,7 @@ int		dsp_fork(t_carriage *father, t_vm *vm);
 int		dsp_lfork(t_carriage *father, t_vm *vm);
 int		dsp_live(t_carriage *carriage, t_vm *vm);
 
+void	init_op_arr(t_op *op);
 void	init_dsp(t_dsp *dsp);
 int		write_in_map(unsigned char map[], t_player *player);
 

@@ -18,18 +18,18 @@ static int	a_check(t_arg *arg, t_arg_type parg)
 
 	res = 0;
 	if (parg & T_DIR && arg->type == T_DIR)
-			res = 1;
+		res = 1;
 	else if (parg & T_IND && arg->type == T_IND)
-			res = 1;
+		res = 1;
 	else if ((parg & T_REG && arg->type == T_REG) &&
 				(arg->readed > 0 && arg->readed <= REG_NUMBER))
-			res = 1;
+		res = 1;
 	else if (!parg)
 		res = 1;
 	return (res);
 }
 
-int		validate_args(t_args *args, t_pargs *pargs)
+int			validate_args(t_args *args, t_pargs *pargs)
 {
 	int		res;
 

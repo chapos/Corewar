@@ -12,7 +12,7 @@
 
 #include "../includes/op.h"
 
-int		is_time_to_run(t_vm *vm, t_carriage *carriage)
+int			is_time_to_run(t_vm *vm, t_carriage *carriage)
 {
 	int		op;
 	int		res;
@@ -34,7 +34,7 @@ int		is_time_to_run(t_vm *vm, t_carriage *carriage)
 	return (res);
 }
 
-void while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
+void		while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
 {
 	int res;
 
@@ -63,7 +63,7 @@ void while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
 	}
 }
 
-void play_cycle(t_vm *vm, int cycle, t_dsp *dsp)
+static void	play_cycle(t_vm *vm, int cycle, t_dsp *dsp)
 {
 	t_carriage	*tcars;
 
@@ -87,7 +87,7 @@ void play_cycle(t_vm *vm, int cycle, t_dsp *dsp)
 	}
 }
 
-void		ctd_operator(int licp, int *count_cycle, int *ctd, t_flags *flags)
+static void	ctd_operator(int licp, int *count_cycle, int *ctd, t_flags *flags)
 {
 	if (licp >= NBR_LIVE || CHECK_MC(*count_cycle))
 	{
@@ -98,7 +98,7 @@ void		ctd_operator(int licp, int *count_cycle, int *ctd, t_flags *flags)
 	}
 }
 
-void		refresh_players(t_player *players)
+static void	refresh_players(t_player *players)
 {
 	while (players)
 	{
@@ -131,7 +131,7 @@ void		play_while(t_vm *vm)
 		vm->alicp = 0;
 		play_cycle(vm, 1, dsp);
 		//if (vm->alicp)
-			del_cars(vm, cycle_to_die, 1);
+		del_cars(vm, cycle_to_die, 1);
 		ctd_operator(vm->alicp, &count_cycle, &cycle_to_die, &vm->flags);
 	}
 	del_cars(vm, cycle_to_die, 1);

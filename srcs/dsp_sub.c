@@ -16,7 +16,8 @@ void	print_sub(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
 	printf("sub r%hhu r%hhu r%hhu\n", (unsigned char)vm->args.arg1.readed,
-			  (unsigned char)vm->args.arg2.readed, (unsigned char)vm->args.arg3.readed);
+		(unsigned char)vm->args.arg2.readed,
+		(unsigned char)vm->args.arg3.readed);
 }
 
 int		dsp_sub(t_carriage *carriage, t_vm *vm)
