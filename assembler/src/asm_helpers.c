@@ -21,6 +21,21 @@ uint32_t	big_little_endian(uint32_t n)
 	return (result);
 }
 
+void		allocate_new_instruction(t_db *db)
+{
+	if (db->bot.instructions == NULL)
+	{
+		db->bot.instructions = (t_instr_data*)malloc(sizeof(t_instr_data));
+		++db->instructions_counter;
+	}
+	else
+	{
+		db->bot.instructions = realloc(db->bot.instructions,
+			sizeof(t_instr_data) * (db->instructions_counter + 1));
+		++db->instructions_counter;
+	}
+}
+
 void		clean_and_exit(t_db *db, const char *log)
 {
 	size_t i;
@@ -36,5 +51,7 @@ void		clean_and_exit(t_db *db, const char *log)
 		ft_strdel(&db->labels[i++].name);
 	if (db->labels != NULL)
 		free(db->labels);
+	if (db->bot.instructions != NULL)
+		free(db->bot.instructions);
 	exit(0);
 }

@@ -26,6 +26,52 @@
 # define COMMENT_LENGTH			2048
 # define LABEL_CHARS			"abcdefghijklmnopqrstuvwxyz_0123456789"
 
+typedef enum		e_instruction
+{
+	e_live = 1,
+	e_ld = 2,
+	e_st = 3,
+	e_add = 4,
+	e_sub = 5,
+	e_and = 6,
+	e_or = 7,
+	e_xor = 8,
+	e_zjmp = 9,
+	e_ldi = 10,
+	e_sti = 11,
+	e_fork = 12,
+	e_lld = 13,
+	e_lldi = 14,
+	e_lfork = 15,
+	e_aff = 16,
+	not_instruction = 17
+}					t_instruction;
+
+typedef enum 		e_argument
+{
+	e_direct = 1,
+	e_undirect = 2,
+	e_register = 3,
+}					t_argument;
+
+typedef struct		s_argument_data
+{
+	t_argument		type;
+	uint32_t		value;
+	bool			value_from_lable;
+	char 			*label_name;
+
+}					t_argument_data;
+
+typedef struct		s_instruction_data
+{
+	t_instruction	type;
+	t_argument_data	arguments[4];
+	size_t			arguments_count;
+	uint8_t			codage;
+	size_t			size;
+}					t_instr_data;
+
 typedef struct		s_label
 {
 	char 			*name;
@@ -40,6 +86,7 @@ typedef struct		s_bot
 	char			buff[COMMENT_LENGTH];
 	uint32_t		separator;
 	uint32_t		magic_header;
+	t_instr_data	*instructions;
 }					t_bot;
 
 typedef struct		s_validation
@@ -48,6 +95,7 @@ typedef struct		s_validation
 	bool			name_readed;
 	bool			comment_readed;
 	bool			multiline_string;
+	bool			last_line_is_insturction;
 	size_t			name_size;
 	size_t			comment_size;
 	char			*line;
@@ -61,6 +109,7 @@ typedef struct		s_db
 	int				source_fd;
 	t_label			*labels;
 	size_t			labels_counter;
+	size_t			instructions_counter;
 }					t_db;
 
 void				read_source_file(t_db *db);
@@ -68,7 +117,10 @@ void				read_name_and_comment(t_db *db);
 void				clean_and_exit(t_db *db, const char *log);
 void				read_multiline_string(t_db *db, bool is_name);
 uint32_t			big_little_endian(uint32_t n);
-bool				is_instruction(const char *line);
+t_instruction		get_instruction(const char *line);
 size_t				validate_and_save_lable(t_db *db);
+void				handle_live_instruction(t_db *db, const char *instruction);
+size_t				handle_direct_argument(t_db *db, const char *instruction, int arg_num);
+void				allocate_new_instruction(t_db *db);
 
 #endif
