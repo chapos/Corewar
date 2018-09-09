@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/04 09:44:37 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/09/08 17:18:13 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,8 @@ typedef	struct		s_reader
 typedef struct 		s_player
 {
 	int					num_player;
-	int					live;
+	int					last_live;
+	int					licp;
 	t_header			head;
 	unsigned char		*code;
 	char 				*file_name;
@@ -197,7 +198,7 @@ typedef struct		s_vm
 	t_args				args;
 	unsigned int		process_counter;
 	unsigned int		game_cycle;
-	unsigned int		lives_in_cur_period;
+	unsigned int		alicp;
 	int					winner;
 }					t_vm;
 
@@ -205,7 +206,7 @@ typedef struct		s_ama_dispetcher
 {
 	int			(*exec_cmd)(t_carriage *carriage, t_vm *vm);
 	void		(*print_cmd)(t_carriage *carriage, t_vm *vm);
-}					t_ama_dispatcher;
+}					t_dsp;
 
 void	ft_byterev_us16(unsigned short *i);
 void	ft_byterev_ui32(unsigned int *i);
@@ -232,7 +233,7 @@ int		dsp_fork(t_carriage *father, t_vm *vm);
 int		dsp_lfork(t_carriage *father, t_vm *vm);
 int		dsp_live(t_carriage *carriage, t_vm *vm);
 
-void	init_dsp(t_ama_dispatcher *dsp);
+void	init_dsp(t_dsp *dsp);
 int		write_in_map(unsigned char map[], t_player *player);
 
 void	play_while(t_vm *vm);
