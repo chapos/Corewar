@@ -6,7 +6,7 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/03 11:19:01 by oevtushe          #+#    #+#              #
-#    Updated: 2018/09/05 11:30:59 by oevtushe         ###   ########.fr        #
+#    Updated: 2018/09/10 11:31:13 by oevtushe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,19 @@ fst="\033[38;5;88m"
 scd="\033[38;5;124m"
 trd="\033[38;5;160m"
 frt="\033[38;5;196m"
+
+function shuffle_arr()
+{
+	shuffled=($my_arr)
+	for ((i=1;i<${#my_arr};++i))
+	do
+		shuffled[$i]=$my_arr[$(( RANDOM % (${#my_arr} - 1)  + 1 ))]
+		my_arr=($my_arr[1,$i-1] $my_arr[$i+1,${#my_arr}])
+	done
+	unset my_arr
+	my_arr=($shuffled)
+	catch_state_enabled=0
+}
 
 function init_usr_input()
 {
@@ -42,17 +55,23 @@ function init_usr_input()
 		ftheirs=$tmp_ftheirs
 	fi
 	echo -n "Champ ${fg[green]}names$reset_color (${fg[cyan]}globing enabled$reset_color): "
-	read -r read_from
-	if [[ -z $read_from ]]
+	read -r tmp_read_from
+	if [[ -n $tmp_read_from ]]
 	then
-		echo "This field can't be empty, ${fg[red]}try again$reset_color ."
-		exit 6
+		read_from=$tmp_read_from
+		my_arr=($(eval "echo $read_from"))
 	fi
 	echo -n "Write ${fg[green]}diff$reset_color to: "
 	read -r tmp_fdname
 	if [[ -n $tmp_fdname ]]
 	then
 		fdname=$tmp_fdname
+	fi
+	echo "Run it in ${fg[green]}random$reset_color sequence ? (y/n) (if no, then players will be subtituted ${fg[green]}sequently$reset_color)"
+	read -q -s answer
+	if [[ $answer == "y" ]]
+	then
+		shuffle_arr
 	fi
 }
 
@@ -90,17 +109,23 @@ function check_it()
 	fi
 }
 
+function catch_state()
+{
+	echo "$fours" > $fstate
+	echo "$ftheirs" >> $fstate
+	echo "$read_from" >> $fstate
+	echo "$fdname" >> $fstate
+	echo "$ops" >> $fstate
+}
+
 function enter_point()
 {
 	if (( $1 == 1 ))
 	then
 		for ((i=si;i<=$arr_size;i++))
 		do
-			echo "$fours" > $fstate
-			echo "$ftheirs" >> $fstate
-			echo "$read_from" >> $fstate
-			echo "$fdname" >> $fstate
-			echo "$ops" >> $fstate
+			echo "catch = $catch_state_enabled"
+			if (( catch_state_enabled )); then catch_state; fi
 			echo "$i" >> $fstate
 			echo "${fg[yellow]}Current files$reset_color [${fg[green]}$i$reset_color]/$arr_size: ${fst}${ul}$my_arr[$i]$reset_color"
 			theirs_prog_said=$(./$theirs_prog $ops "$my_arr[$i]" 2>&1 1>$ftheirs)
@@ -113,11 +138,7 @@ function enter_point()
 		do
 			for ((j=sj;j<=$arr_size;j++))
 			do
-				echo "$fours" > $fstate
-				echo "$ftheirs" >> $fstate
-				echo "$read_from" >> $fstate
-				echo "$fdname" >> $fstate
-				echo "$ops" >> $fstate
+				if (( catch_state_enabled )); then catch_state; fi
 				echo "$i $j" >> $fstate
 				echo "${fg[yellow]}Current files$reset_color [${fg[green]}$i $j$reset_color]/$arr_size: ${fst}${ul}$my_arr[$i]$reset_color ${scd}${ul}$my_arr[$j]$reset_color"
 				theirs_prog_said=$(./$theirs_prog $ops "$my_arr[$i]" "$my_arr[$j]" 2>&1 1>$ftheirs)
@@ -134,11 +155,7 @@ function enter_point()
 			do
 				for ((k=sk;k<=$arr_size;k++))
 				do
-					echo "$fours" > $fstate
-					echo "$ftheirs" >> $fstate
-					echo "$read_from" >> $fstate
-					echo "$fdname" >> $fstate
-					echo "$ops" >> $fstate
+					if (( catch_state_enabled )); then catch_state; fi
 					echo "$i $j $k" >> $fstate
 					echo "${fg[yellow]}Current files$reset_color [${fg[green]}$i $j $k$reset_color]/$arr_size: ${fst}${ul}$my_arr[$i]$reset_color ${scd}${ul}$my_arr[$j]$reset_color ${trd}${ul}$my_arr[$k]$reset_color"
 					theirs_prog_said=$(./$theirs_prog $ops "$my_arr[$i]" "$my_arr[$j]" "$my_arr[$k]" 2>&1 1>$ftheirs)
@@ -159,11 +176,7 @@ function enter_point()
 				do
 					for ((m=sm;m<=$arr_size;m++))
 					do
-						echo "$fours" > $fstate
-						echo "$ftheirs" >> $fstate
-						echo "$read_from" >> $fstate
-						echo "$fdname" >> $fstate
-						echo "$ops" >> $fstate
+						if (( catch_state_enabled )); then catch_state; fi
 						echo "$i $j $k $m" >> $fstate
 						echo "${fg[yellow]}Current files$reset_color [${fg[green]}$i $j $k $m$reset_color]/$arr_size: ${fst}${ul}$my_arr[$i]$reset_color ${scd}${ul}$my_arr[$j]$reset_color ${trd}${ul}$my_arr[$k]$reset_color ${frt}${ul}$my_arr[$m]$reset_color"
 						theirs_prog_said=$(./$theirs_prog $ops "$my_arr[$i]" "$my_arr[$j]" "$my_arr[$k]" "$my_arr[$m]" 2>&1 1>$ftheirs)
@@ -194,6 +207,9 @@ ops=""
 ours_prog_said=""
 theirs_prog_said=""
 st=""
+integer catch_state_enabled=1
+read_from="champs/**/*.cor"
+my_arr=($(eval "echo $read_from"))
 
 autoload colors
 colors
@@ -241,9 +257,9 @@ sk=$(( loaded[3] ? loaded[3] : 1))
 sm=$(( loaded[4] ? loaded[4] : 1))
 
 nplayers=$(( nplayers ))
-my_arr=($(eval "echo $read_from"))
 arr_size=${#my_arr}
 
+echo "Fix me, i cant continue at prev state"
 echo "${fg[cyan]}Starting ...${reset_color}"
 # Start here
 enter_point $nplayers
