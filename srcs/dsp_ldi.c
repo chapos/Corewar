@@ -21,10 +21,10 @@ void		print_ldi(t_carriage *carriage, t_vm *vm)
 	rf = carriage->pc + sum;
 	print_pnum(carriage->num_car);
 	printf("ldi %d %d r%hhu\n", vm->args.arg1.value,
-			  vm->args.arg2.value, (unsigned char)vm->args.arg3.readed);
+			vm->args.arg2.value, (unsigned char)vm->args.arg3.readed);
 	printf("%6.0d | -> load from %d + %d = %d (with pc and mod %d)\n", 0,
-			  vm->args.arg1.value, vm->args.arg2.value,
-			  vm->args.arg1.value + vm->args.arg2.value, rf);
+			vm->args.arg1.value, vm->args.arg2.value,
+			vm->args.arg1.value + vm->args.arg2.value, rf);
 }
 
 static void	do_ldi(t_carriage *carriage, t_vm *vm)

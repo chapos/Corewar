@@ -51,7 +51,8 @@ static int	read_arg(int pc, t_pair *pair, unsigned int acb_mask, t_reader reader
 	return (shift);
 }
 
-void		read_args_from_map(int pc, unsigned char *map, t_args *args, t_reader reader)
+void		read_args_from_map(int pc, unsigned char *map,
+							t_args *args, t_reader reader)
 {
 	unsigned char	acb;
 	int				shift;
@@ -62,13 +63,17 @@ void		read_args_from_map(int pc, unsigned char *map, t_args *args, t_reader read
 	acb = map[(pc + 1) % MEM_SIZE];
 	pair.fst = map;
 	pair.scd = &args->arg1;
-	shift += read_arg((pc + shift + 1) % MEM_SIZE, &pair, acb & ARG_MASK1, reader);
+	shift += read_arg((pc + shift + 1) % MEM_SIZE,
+					&pair, acb & ARG_MASK1, reader);
 	pair.scd = &args->arg2;
-	shift += read_arg((pc + shift + 1) % MEM_SIZE, &pair, (acb & ARG_MASK2) << 2, reader);
+	shift += read_arg((pc + shift + 1) % MEM_SIZE,
+					&pair, (acb & ARG_MASK2) << 2, reader);
 	pair.scd = &args->arg3;
-	shift += read_arg((pc + shift + 1) % MEM_SIZE, &pair, (acb & ARG_MASK3) << 4, reader);
+	shift += read_arg((pc + shift + 1) % MEM_SIZE,
+					&pair, (acb & ARG_MASK3) << 4, reader);
 	pair.scd = &args->arg4;
-	shift += read_arg((pc + shift + 1) % MEM_SIZE, &pair, (acb & ARG_MASK4) << 6, reader);
+	shift += read_arg((pc + shift + 1) % MEM_SIZE,
+					&pair, (acb & ARG_MASK4) << 6, reader);
 }
 
 size_t		read_short_from_map(int *val, int pos, unsigned char *map)

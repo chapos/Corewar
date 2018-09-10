@@ -12,7 +12,7 @@
 
 #include "../includes/op.h"
 
-static void		show_live(t_player *players, t_args *args, t_flags *flags)
+static void	show_live(t_player *players, t_args *args, t_flags *flags)
 {
 	int		cnt;
 
@@ -23,7 +23,8 @@ static void		show_live(t_player *players, t_args *args, t_flags *flags)
 		{
 			if (flags->v & 1)
 			{
-				printf("Player %d (%s) is said to be alive\n", cnt, players->head.prog_name);
+				printf("Player %d (%s) is said to be alive\n",
+					cnt, players->head.prog_name);
 			}
 			return ;
 		}
@@ -32,7 +33,8 @@ static void		show_live(t_player *players, t_args *args, t_flags *flags)
 	}
 }
 
-static void		add_live_to_player(t_player *players, int *winner, t_args *args, int gc)
+static void	add_live_to_player(t_player *players,
+								int *winner, t_args *args, int gc)
 {
 	while (players)
 	{
@@ -41,7 +43,6 @@ static void		add_live_to_player(t_player *players, int *winner, t_args *args, in
 			*winner = players->num_player;
 			players->last_live = gc;
 			++players->licp;
-			//players->live++;
 			return ;
 		}
 		players = players->next;

@@ -12,15 +12,24 @@
 
 #include "../includes/op.h"
 
-void	del_first_car(t_carriage **cars, t_carriage **temp, t_carriage **temp2)
+static void	del_car(t_carriage **cars, t_carriage **del, t_carriage **temp2)
 {
-	*cars = (*temp)->next;
-	*temp2 = *cars;
-	free(*temp);
-	*temp = *cars;
+	if (*del == *cars)
+	{
+		*cars = (*cars)->next;
+		*temp2 = *cars;
+		free(*del);
+		*del = *cars;
+	}
+	else
+	{
+		(*temp2)->next = (*del)->next;
+		free(*del);
+		*del = (*temp2)->next;
+	}
 }
 
-void	del_cars(t_vm *vm, int ctd, int final)
+void		del_cars(t_vm *vm, int ctd, int final)
 {
 	t_carriage	*temp;
 	t_carriage	*temp2;
@@ -32,14 +41,9 @@ void	del_cars(t_vm *vm, int ctd, int final)
 			if (vm->flags.v & 8)
 				printf("Process %d hasn't lived for %d cycles (CTD %d)\n",
 					temp->num_car, vm->game_cycle - temp->last_live_cn, ctd);
-			if (temp == vm->cars)
-				del_first_car(&vm->cars, &temp, &temp2);
-			else
-			{
-				temp2->next = temp->next;
-				free(temp);
-				temp = temp2->next;
-			}
+			if (vm->flags.sound)
+				sound_kill_car();
+			del_car(&vm->cars, &temp, &temp2);
 		}
 		else
 		{
@@ -49,14 +53,14 @@ void	del_cars(t_vm *vm, int ctd, int final)
 		}
 }
 
-void	add_car(t_carriage **cars, t_carriage *car)
+void		add_car(t_carriage **cars, t_carriage *car)
 {
 	if (*cars)
 		car->next = *cars;
 	*cars = car;
 }
 
-int		player_create_car(t_player *players, t_carriage **cars)
+int			player_create_car(t_player *players, t_carriage **cars)
 {
 	int			players_count;
 	t_carriage	*ncar;
