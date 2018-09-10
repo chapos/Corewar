@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:49:55 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/07 12:59:11 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/10 15:29:12 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		dsp_lld(t_carriage *carriage, t_vm *vm)
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2))
 	{
 		read_args_from_map(carriage->pc, vm->map, &vm->args,
-				(t_reader){read_short_from_map, read_short_from_map});
+				(t_reader){read_int_from_map, read_short_from_map});
 		if (validate_args(&vm->args, &vm->ops[12].pargs))
 		{
 			init_args(carriage, vm->map, &vm->args);
@@ -42,8 +42,6 @@ int		dsp_lld(t_carriage *carriage, t_vm *vm)
 			res = 1;
 		}
 		vm->args.shift += vm->args.arg1.size + vm->args.arg2.size;
-		if (vm->args.arg1.type == T_DIR || vm->args.arg2.type == T_DIR)
-			vm->args.shift += 2;
 	}
 	return (res);
 }
