@@ -6,7 +6,7 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/03 11:19:01 by oevtushe          #+#    #+#              #
-#    Updated: 2018/09/11 18:30:27 by oevtushe         ###   ########.fr        #
+#    Updated: 2018/09/15 12:59:19 by oevtushe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,10 +38,6 @@ function init_usr_input()
 	loaded=()
 	echo -n "Which ${fg[green]}options$reset_color would you like to use: "
 	read -rA ops
-	if [[ -n $ops ]]
-	then
-		echo "Options is: ${fg[green]}$ops$reset_color"
-	fi
 	echo -n "How much ${fg[green]}players$reset_color would you like to set: "
 	read -r nplayers
 	if (( nplayers <= 0 || nplayers > 4 ))
@@ -92,7 +88,7 @@ function check_it()
 	differ=$(diff -q $ftheirs $fours)
 	if [[ $differ != "" ]]
 	then
-		echo "Oh no ..."
+		echo "${fg[red]}KO!$reset_color"
 		diff $ftheirs $fours > $fdname
 		echo "Diff is writen to $fdname"
 		echo "Would you like to open ${fg[green]}VIM$reset_color ? (y/n)"
@@ -109,7 +105,7 @@ function check_it()
 			exit 0
 		fi
 	else
-		echo "OK !"
+		echo " [${fg[green]}OK!$reset_color]"
 	fi
 }
 
@@ -149,7 +145,7 @@ function players2()
 			echo -n "${fg[yellow]}Current files$reset_color "
 			echo -n "[${fg[green]}$i $j$reset_color]/$arr_size: "
 			echo -n "${fst}${ul}$my_arr[$i]$reset_color "
-			echo "${scd}${ul}$my_arr[$j]$reset_color"
+			echo -n "${scd}${ul}$my_arr[$j]$reset_color"
 			theirs_prog_said=$(./$theirs_prog $ops "$my_arr[$i]" "$my_arr[$j]" 2>&1 1>$ftheirs)
 			ours_prog_said=$(./$ours_prog $ops "$my_arr[$i]" "$my_arr[$j]" 2>&1 1>$fours)
 			check_it
@@ -173,7 +169,7 @@ function players3()
 				echo -n "[${fg[green]}$i $j $k$reset_color]/$arr_size: "
 				echo -n "${fst}${ul}$my_arr[$i]$reset_color "
 				echo -n "${scd}${ul}$my_arr[$j]$reset_color "
-				echo "${trd}${ul}$my_arr[$k]$reset_color"
+				echo -n "${trd}${ul}$my_arr[$k]$reset_color"
 				theirs_prog_said=$(./$theirs_prog $ops "$my_arr[$i]" "$my_arr[$j]" "$my_arr[$k]" 2>&1 1>$ftheirs)
 				ours_prog_said=$(./$ours_prog $ops "$my_arr[$i]" "$my_arr[$j]" "$my_arr[$k]" 2>&1 1>$fours)
 				check_it
@@ -202,7 +198,7 @@ function players4()
 					echo -n "${fst}${ul}$my_arr[$i]$reset_color "
 					echo -n "${scd}${ul}$my_arr[$j]$reset_color "
 					echo -n "${trd}${ul}$my_arr[$k]$reset_color "
-					echo "${frt}${ul}$my_arr[$m]$reset_color"
+					echo -n "${frt}${ul}$my_arr[$m]$reset_color"
 					theirs_prog_said=$(./$theirs_prog $ops "$my_arr[$i]" "$my_arr[$j]" "$my_arr[$k]" "$my_arr[$m]" 2>&1 1>$ftheirs)
 					ours_prog_said=$(./$ours_prog $ops "$my_arr[$i]" "$my_arr[$j]" "$my_arr[$k]" "$my_arr[$m]" 2>&1 1>$fours)
 					check_it

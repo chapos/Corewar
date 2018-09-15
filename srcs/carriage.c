@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/21 15:11:47 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/30 16:27:44 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/15 12:44:06 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ static void	del_car(t_carriage **cars, t_carriage **del, t_carriage **temp2)
 	}
 }
 
-void		del_cars(t_vm *vm, int ctd, int final)
+void		del_cars(t_vm *vm, int ctd)
 {
 	t_carriage	*temp;
 	t_carriage	*temp2;
 
 	temp = vm->cars;
 	while (temp)
-		if (temp->life == 0 || final)
+		if (temp->life == 0 || ctd < 0)
 		{
 			if (vm->flags.v & 8)
 				printf("Process %d hasn't lived for %d cycles (CTD %d)\n",

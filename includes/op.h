@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/08 17:18:13 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/15 12:47:16 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,7 +247,7 @@ void	add_car(t_carriage **cars, t_carriage *car);
 int		player_create_car(t_player *players, t_carriage **cars);
 int		validate_args(t_args *args, t_pargs *pargs);
 //free
-void	del_cars(t_vm *vm, int ctd, int final);
+void	del_cars(t_vm *vm, int ctd);
 void					free_all(t_vm *vm);
 //errors
 void 	error_many_champions(t_vm *vm);

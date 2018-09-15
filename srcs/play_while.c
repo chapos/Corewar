@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/08 17:26:28 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/15 12:58:25 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,20 +112,25 @@ void		play_while(t_vm *vm)
 	int			cycle_to_die;
 	int			count_cycle;
 	t_dsp		dsp[16];
+	int			condition;
 
+	condition = 1;
 	count_cycle = 1;
 	cycle_to_die = CYCLE_TO_DIE;
 	init_dsp(dsp);
 	vm->process_counter = vm->cars->num_car;
-	while (vm->alicp && cycle_to_die > 0)
+	while (condition && vm->alicp)
 	{
 		vm->alicp = 0;
-		play_cycle(vm, cycle_to_die, dsp);
-		del_cars(vm, cycle_to_die, 0);
+		condition = cycle_to_die > 0;
+		condition ? play_cycle(vm, cycle_to_die, dsp) :
+			play_cycle(vm, 1, dsp);
+		del_cars(vm, cycle_to_die);
 		ctd_operator(vm->alicp, &count_cycle, &cycle_to_die, &vm->flags);
 		count_cycle++;
 		refresh_players(vm->players);
 	}
+	/*
 	if (cycle_to_die < 1 && vm->alicp)
 	{
 		vm->alicp = 0;
@@ -134,6 +139,7 @@ void		play_while(t_vm *vm)
 		del_cars(vm, cycle_to_die, 1);
 		ctd_operator(vm->alicp, &count_cycle, &cycle_to_die, &vm->flags);
 	}
-	del_cars(vm, cycle_to_die, 1);
+	*/
+	del_cars(vm, cycle_to_die);
 	fflush(stdout);
 }
