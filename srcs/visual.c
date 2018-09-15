@@ -2,6 +2,7 @@
 
 #include <ncurses.h>
 #include <zconf.h>
+#include <pthread.h>
 
 #define COLOR_BORDER	20
 #define COLOR1			21
@@ -258,6 +259,7 @@ void			wprint_map(t_vm *vm)
 			x = x + 3;
 		i++;
 	}
+	wrefresh(vm->visual->map);
 }
 
 size_t				len_number(int i)
@@ -275,9 +277,9 @@ void			wprint_text(t_vm *vm)
 	temp = vm->players;
 	wrefresh(vm->visual->text);
 	wattron(vm->visual->text, COLOR_PAIR(19));
-	mvwprintw(vm->visual->text, 4, 2, "**PLAY**");
-	mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: ***");
-	mvwprintw(vm->visual->text, 8, 2, "Cycles: ***");
+	mvwprintw(vm->visual->text, 4, 2, "**PLAY** ");
+	mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: %3d", vm->visual->lim);
+	mvwprintw(vm->visual->text, 8, 2, "Cycles: %u", vm->game_cycle);
 	mvwprintw(vm->visual->text, 10, 2, "Processes: ***");
 	wattroff(vm->visual->text, COLOR_PAIR(19));
 	while (temp)
@@ -312,12 +314,96 @@ void			wprint_text(t_vm *vm)
 
 }
 
-void			catch_keys(t_vm *vm)
+void			pause_processing(t_vm *vm)
 {
-	while (vm->winner )
-	{
+	char		ch;
 
+	wattron(vm->visual->text, COLOR_PAIR(19));
+	while ((ch = getch()) != 32)
+	{
+		if (vm->players && ch == 113)
+			vm->visual->lim++;
+		else if (vm->players && ch == 101)
+		{
+			if (vm->visual->lim > 1)
+				vm->visual->lim--;
+		}
+		mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: %3d", vm->visual->lim);
+		wrefresh(vm->visual->text);
+		if (ch == 115)
+		{
+			wattroff(vm->visual->text, COLOR_PAIR(19));
+			return;
+		}
 	}
+	wattroff(vm->visual->text, COLOR_PAIR(19));
+	vm->visual->pause = 0;
+}
+
+void			*catch_keys(void *temp)
+{
+	char		ch;
+	t_vm		*vm;
+
+	vm = (t_vm*)temp;
+	while (vm->players && (ch = getch()) != 27)
+	{
+		if (vm->players && ch == 32)
+		{
+			vm->visual->pause = 1;
+			return (NULL);
+		}
+		else if (vm->players && ch == 113)
+			vm->visual->lim++;
+		else if (vm->players && ch == 101)
+			vm->visual->lim--;
+		else if (vm->players == NULL)
+			return (NULL);
+	}
+	if (vm->players == NULL)
+		return (NULL);
+	endwin();
+	exit(0);
+}
+
+void			interrupt(t_vm *vm)
+{
+	usleep((useconds_t)(1000000 / vm->visual->lim));
+	if (vm->visual->pause == 1)
+	{
+		wattron(vm->visual->text, COLOR_PAIR(19));
+		mvwprintw(vm->visual->text, 4, 2, "**PAUSE**");
+		wattroff(vm->visual->text, COLOR_PAIR(19));
+		wrefresh(vm->visual->text);
+		pause_processing(vm);
+		if (vm->visual->pause == 0)
+		{
+			if (pthread_create(&vm->visual->keys_thread, NULL, catch_keys, vm))
+			{
+				endwin();
+				exit(0);
+			}
+		}
+	}
+	vm->game_cycle++;
+	wattron(vm->visual->text, COLOR_PAIR(19));
+	mvwprintw(vm->visual->text, 8, 2, "Cycles: %u", vm->game_cycle);
+	mvwprintw(vm->visual->text, 4, 2, "**PLAY**");
+	mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: %3d", vm->visual->lim);
+	wattroff(vm->visual->text, COLOR_PAIR(19));
+	wrefresh(vm->visual->text);
+	wrefresh(vm->visual->map);
+}
+
+void			init_visual(t_vm *vm)
+{
+	if (vm->visual == NULL)
+		vm->visual = (t_visual*)malloc(sizeof(t_visual));
+	vm->visual->map = create_new_win(197, 68, 1, 1);
+	vm->visual->text = create_new_win(60, 68, 197, 1);
+	vm->visual->lim = 50;
+	vm->visual->game_cycle = 0;
+	vm->visual->pause = 1;
 }
 
 void			visual(t_vm *vm, int cycle_to_die)
@@ -330,21 +416,21 @@ void			visual(t_vm *vm, int cycle_to_die)
 	curs_set(0);
 //	nodelay(stdscr, TRUE);
 	refresh();
+	cycle_to_die = 0;
 	create_colors();
-	if (vm->visual == NULL)
-		vm->visual = (t_visual*)malloc(sizeof(t_visual));
-	vm->visual->map = create_new_win(197, 68, 1, 1);
-	vm->visual->text = create_new_win(60, 68, 197, 1);
-	getch();
+	init_visual(vm);
 	wprint_map(vm);
-	wrefresh(vm->visual->map);
 	wprint_text(vm);
+}
+
+void			wait_end(t_vm *vm)
+{
 	getch();
-	wprintw(vm->visual->text, "%d", cycle_to_die);
 	destroy_win(vm->visual->map);
 	destroy_win(vm->visual->text);
 	endwin();
-	exit(0);
+	pthread_join(vm->visual->keys_thread, NULL);
+	free(vm->visual);
 }
 
 //int		main()

@@ -51,6 +51,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <ncurses.h>
+#include <pthread.h>
 //////
 #include <stdio.h>
 //////
@@ -96,6 +97,10 @@ typedef struct		s_visual
 {
 	WINDOW			*map;
 	WINDOW			*text;
+	int				pause;
+	int				lim;
+	unsigned int	game_cycle;
+	pthread_t		keys_thread;
 }					t_visual;
 
 typedef	struct		s_pargs
@@ -290,5 +295,7 @@ void	print_pnum(int num);
 
 //visual
 void			visual(t_vm *vm, int cycle_to_die);
+void			interrupt(t_vm *vm);
+void			wait_end(t_vm *vm);
 
 #endif

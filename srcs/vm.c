@@ -103,7 +103,8 @@ int		main(int argc, char **argv)
 	print_player(vm.players);
 	lishnaja_fykcija(&vm);
 	play_while(&vm);
-	print_winner(vm.players, vm.winner);
+//	print_winner(vm.players, vm.winner);
 	free_all(&vm);
+	wait_end(&vm);
 	return (0);
 }

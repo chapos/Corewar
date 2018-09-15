@@ -69,7 +69,7 @@ AR			 		:= ar
 CC			 		:= gcc
 ARFLAGS		 		:= rc
 CFLAGS_COMPILE		:= -Wall -Werror -Wextra
-CFLAGS_LINKAGE      := $CFLAGS_COMPILE
+CFLAGS_LINKAGE      := $(CFLAGS_COMPILE)
 MFLAGS		 		:= --no-print-directory -C
 
 define BINARY_template1

@@ -23,7 +23,7 @@ include				$(FT_DIR)/Pretty.mk
 include				$(FTP_DIR)/Libftp.mk
 include				$(FT_DIR)/Templates.mk
 
-CFLAGS_LINKAGE      := -lncurses
+CFLAGS_LINKAGE      += -lncurses -lpthread
 
 CW_DEPF				:= op.h
 CW_SRCF				:= player.c				\
