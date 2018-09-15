@@ -301,8 +301,10 @@ void	print_pc_movement(int cur_pos, int shift, unsigned char *map);
 void	print_pnum(int num);
 
 //visual
-void			visual(t_vm *vm, int cycle_to_die);
+void			visual(t_vm *vm);
 void			interrupt(t_vm *vm);
 void			wait_end(t_vm *vm);
+void			renew_ctd(t_vm *vm, int ctd);
+void			renew_lives(t_vm *vm);
 
 #endif

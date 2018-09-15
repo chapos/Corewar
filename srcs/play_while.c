@@ -90,12 +90,14 @@ static void	play_cycle(t_vm *vm, int cycle, t_dsp *dsp)
 	}
 }
 
-static void	ctd_operator(int licp, int *count_cycle, int *ctd, t_flags *flags)
+static void	ctd_operator(t_vm *vm, int *count_cycle, int *ctd)
 {
-	if (licp >= NBR_LIVE || CHECK_MC(*count_cycle))
+	if (vm->alicp >= NBR_LIVE || CHECK_MC(*count_cycle))
 	{
 		*ctd -= CYCLE_DELTA;
-		if (flags->v & 2)
+		if (vm->flags.visual)
+			renew_ctd(vm, *ctd);
+		if (vm->flags.v & 2)
 			printf("Cycle to die is now %d\n", *ctd);
 		*count_cycle = 0;
 	}
@@ -123,7 +125,7 @@ void		play_while(t_vm *vm)
 	init_dsp(dsp);
 	vm->process_counter = vm->cars->num_car;
 	if (vm->flags.visual)
-		visual(vm, count_cycle);
+		visual(vm);
 	while (condition && vm->alicp)
 	{
 		vm->alicp = 0;
@@ -131,7 +133,7 @@ void		play_while(t_vm *vm)
 		condition ? play_cycle(vm, cycle_to_die, dsp) :
 			play_cycle(vm, 1, dsp);
 		del_cars(vm, cycle_to_die);
-		ctd_operator(vm->alicp, &count_cycle, &cycle_to_die, &vm->flags);
+		ctd_operator(vm, &count_cycle, &cycle_to_die);
 		count_cycle++;
 		refresh_players(vm->players);
 	}

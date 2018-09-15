@@ -298,8 +298,8 @@ void			wprint_text(t_vm *vm)
 		mvwprintw(vm->visual->text, 12 + i, 12 + len, "%s", temp->head.prog_name);
 		off_color_player_t(i / 4 + 1, vm);
 		wattron(vm->visual->text, COLOR_PAIR(19));
-		mvwprintw(vm->visual->text, 13 + i, 4, "Last live: ***");
-		mvwprintw(vm->visual->text, 14 + i, 4, "Lives in current period: ***");
+		mvwprintw(vm->visual->text, 13 + i, 4, "Last live: %-6d", temp->licp);
+		mvwprintw(vm->visual->text, 14 + i, 4, "Lives in current period: %-6d", temp->last_live);
 		i = i + 4;
 		temp = temp->next;
 		wattroff(vm->visual->text, COLOR_PAIR(19));
@@ -313,6 +313,10 @@ void			wprint_text(t_vm *vm)
 	wrefresh(vm->visual->text);
 
 }
+
+
+/*key processing******************************/
+
 
 void			pause_processing(t_vm *vm)
 {
@@ -348,7 +352,9 @@ void			*catch_keys(void *temp)
 	vm = (t_vm*)temp;
 	while (vm->players && (ch = getch()) != 27)
 	{
-		if (vm->players && ch == 32)
+		if (vm->players == NULL)
+			return (NULL);
+		else if (vm->players && ch == 32)
 		{
 			vm->visual->pause = 1;
 			return (NULL);
@@ -357,13 +363,8 @@ void			*catch_keys(void *temp)
 			vm->visual->lim++;
 		else if (vm->players && ch == 101)
 			vm->visual->lim--;
-		else if (vm->players == NULL)
-			return (NULL);
 	}
-	if (vm->players == NULL)
-		return (NULL);
-	endwin();
-	exit(0);
+	return (NULL);
 }
 
 void			interrupt(t_vm *vm)
@@ -388,12 +389,16 @@ void			interrupt(t_vm *vm)
 	vm->game_cycle++;
 	wattron(vm->visual->text, COLOR_PAIR(19));
 	mvwprintw(vm->visual->text, 8, 2, "Cycles: %u", vm->game_cycle);
-	mvwprintw(vm->visual->text, 4, 2, "**PLAY**");
-	mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: %3d", vm->visual->lim);
+	mvwprintw(vm->visual->text, 4, 2, "**PLAY** ");
+	mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: %-4d", vm->visual->lim);
+	renew_lives(vm);
 	wattroff(vm->visual->text, COLOR_PAIR(19));
 	wrefresh(vm->visual->text);
 	wrefresh(vm->visual->map);
 }
+
+/*key processing******************************/
+
 
 void			init_visual(t_vm *vm)
 {
@@ -401,12 +406,12 @@ void			init_visual(t_vm *vm)
 		vm->visual = (t_visual*)malloc(sizeof(t_visual));
 	vm->visual->map = create_new_win(197, 68, 1, 1);
 	vm->visual->text = create_new_win(60, 68, 197, 1);
-	vm->visual->lim = 50;
+	vm->visual->lim = 5000;
 	vm->visual->game_cycle = 0;
 	vm->visual->pause = 1;
 }
 
-void			visual(t_vm *vm, int cycle_to_die)
+void			visual(t_vm *vm)
 {
 
 	initscr();
@@ -416,21 +421,52 @@ void			visual(t_vm *vm, int cycle_to_die)
 	curs_set(0);
 //	nodelay(stdscr, TRUE);
 	refresh();
-	cycle_to_die = 0;
 	create_colors();
 	init_visual(vm);
 	wprint_map(vm);
 	wprint_text(vm);
 }
 
+//from abroad
+
 void			wait_end(t_vm *vm)
 {
-	getch();
+	wattron(vm->visual->text, COLOR_PAIR(19));
+	mvwprintw(vm->visual->text, 4, 2, "**FINISH** ");
+	wattroff(vm->visual->text, COLOR_PAIR(19));
+	wrefresh(vm->visual->text);
+	pthread_join(vm->visual->keys_thread, NULL);
+	if (vm->visual->pause == 1)
+		getch();
 	destroy_win(vm->visual->map);
 	destroy_win(vm->visual->text);
 	endwin();
-	pthread_join(vm->visual->keys_thread, NULL);
 	free(vm->visual);
+}
+
+void			renew_ctd(t_vm *vm, int ctd)
+{
+	wattron(vm->visual->text, COLOR_PAIR(19));
+	mvwprintw(vm->visual->text, 22 + 4 * number_of_players(vm->players), 2, "Cycle_to_Die: %-4d", ctd);
+	wattroff(vm->visual->text, COLOR_PAIR(19));
+}
+
+void			renew_lives(t_vm *vm)
+{
+	t_player *temp;
+	int i;
+
+	i = 0;
+	temp = vm->players;
+	while (temp)
+	{
+		wattron(vm->visual->text, COLOR_PAIR(19));
+		mvwprintw(vm->visual->text, 13 + i, 4, "Last live: %-6d", temp->licp);
+		mvwprintw(vm->visual->text, 14 + i, 4, "Lives in current period: %-6d", temp->last_live);
+		i = i + 4;
+		temp = temp->next;
+		wattroff(vm->visual->text, COLOR_PAIR(19));
+	}
 }
 
 //int		main()

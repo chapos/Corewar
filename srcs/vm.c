@@ -89,6 +89,5 @@ int			main(int argc, char **argv)
 	play_while(&vm);
 //	print_winner(vm.players, vm.winner);
 	free_all(&vm);
-	wait_end(&vm);
 	return (0);
 }
