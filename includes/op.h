@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/04 09:44:37 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/09/15 12:47:16 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,8 @@ typedef	struct		s_reader
 typedef struct 		s_player
 {
 	int					num_player;
-	int					live;
+	int					last_live;
+	int					licp;
 	t_header			head;
 	unsigned char		*code;
 	char 				*file_name;
@@ -188,6 +189,7 @@ typedef struct		s_flags
 	int				n;
 	int				a;
 	int				visual;
+	int				sound;
 }					t_flags;
 
 typedef	struct		s_op
@@ -208,7 +210,7 @@ typedef struct		s_vm
 	t_args				args;
 	unsigned int		process_counter;
 	unsigned int		game_cycle;
-	unsigned int		lives_in_cur_period;
+	unsigned int		alicp;
 	int					winner;
 	t_visual			*visual;
 }					t_vm;
@@ -217,7 +219,7 @@ typedef struct		s_ama_dispetcher
 {
 	int			(*exec_cmd)(t_carriage *carriage, t_vm *vm);
 	void		(*print_cmd)(t_carriage *carriage, t_vm *vm);
-}					t_ama_dispatcher;
+}					t_dsp;
 
 void	ft_byterev_us16(unsigned short *i);
 void	ft_byterev_ui32(unsigned int *i);
@@ -244,7 +246,8 @@ int		dsp_fork(t_carriage *father, t_vm *vm);
 int		dsp_lfork(t_carriage *father, t_vm *vm);
 int		dsp_live(t_carriage *carriage, t_vm *vm);
 
-void	init_dsp(t_ama_dispatcher *dsp);
+void	init_op_arr(t_op *op);
+void	init_dsp(t_dsp *dsp);
 int		write_in_map(unsigned char map[], t_player *player);
 
 void	play_while(t_vm *vm);
@@ -257,7 +260,7 @@ void	add_car(t_carriage **cars, t_carriage *car);
 int		player_create_car(t_player *players, t_carriage **cars);
 int		validate_args(t_args *args, t_pargs *pargs);
 //free
-void	del_cars(t_vm *vm, int ctd, int final);
+void	del_cars(t_vm *vm, int ctd);
 void					free_all(t_vm *vm);
 //errors
 void 	error_many_champions(t_vm *vm);
@@ -267,7 +270,11 @@ void 	error_differ_prog_size(t_vm *vm, char *file_name);
 void 	error_big_prog_size(t_vm * vm, char *file_name, int prog_size);
 //print
 void	print_winner(t_player *players, int winner);
-void	print_map(unsigned char *map, t_carriage *cars);
+void	print_map(unsigned char *map);
+//bonus
+int		sound_kill_car();
+void	flags_s(t_vm *vm);
+void	flags_d(t_vm *vm);
 //
 
 int		normalize_pc(int pc);

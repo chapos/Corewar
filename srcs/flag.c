@@ -35,6 +35,11 @@ int				is_flag2(t_flags *flag, char *s1)
 		flag->visual = 1;
 		return (1);
 	}
+	if (!ft_strcmp(s1, "-sound"))
+	{
+		flag->sound = 1;
+		return (1);
+	}
 	return (0);
 }
 

@@ -6,13 +6,13 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:46:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/04 19:02:14 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/07 11:25:40 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-void	print_sti(t_carriage *carriage, t_vm *vm)
+void		print_sti(t_carriage *carriage, t_vm *vm)
 {
 	int		sum;
 	int		rf;
@@ -23,11 +23,11 @@ void	print_sti(t_carriage *carriage, t_vm *vm)
 	printf("sti r%hhu %d %d\n", (unsigned char)vm->args.arg1.readed,
 			vm->args.arg2.value, vm->args.arg3.value);
 	printf("%6.0d | -> store to %d + %d = %d (with pc and mod %d)\n", 0,
-			  vm->args.arg2.value, vm->args.arg3.value,
-			  vm->args.arg2.value + vm->args.arg3.value, rf);
+			vm->args.arg2.value, vm->args.arg3.value,
+			vm->args.arg2.value + vm->args.arg3.value, rf);
 }
 
-static void do_sti(t_carriage *carriage, t_vm *vm)
+static void	do_sti(t_carriage *carriage, t_vm *vm)
 {
 	int		rev;
 	int		addr;
@@ -39,7 +39,7 @@ static void do_sti(t_carriage *carriage, t_vm *vm)
 	write_int_in_map(&rev, carriage->pc + addr, vm->map);
 }
 
-int		dsp_sti(t_carriage *carriage, t_vm *vm)
+int			dsp_sti(t_carriage *carriage, t_vm *vm)
 {
 	unsigned char	acb;
 	int				res;

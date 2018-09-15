@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/05 13:06:23 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/15 15:07:36 by ailkiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			is_time_to_run(t_vm *vm, t_carriage *carriage)
 	return (res);
 }
 
-void		while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp)
+void		while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
 {
 	int res;
 
@@ -63,7 +63,7 @@ void		while_tcars(t_carriage *tcars, t_vm *vm, t_ama_dispatcher *dsp)
 	}
 }
 
-void		play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp)
+static void	play_cycle(t_vm *vm, int cycle, t_dsp *dsp)
 {
 	t_carriage	*tcars;
 
@@ -79,30 +79,34 @@ void		play_cycle(t_vm *vm, int cycle, t_ama_dispatcher *dsp)
 			printf("It is now cycle %d\n", vm->game_cycle);
 		while_tcars(tcars, vm, dsp);
 		cycle--;
-		if (vm->flags.d == vm->game_cycle)
+		if (vm->flags.d)
 		{
-			print_map(vm->map, vm->cars);
-			free_all(vm);
+			flags_d(vm);
 		}
-		if (vm->flags.s && vm->game_cycle % vm->flags.s == 0)
+		if (vm->flags.s)
 		{
-			print_map(vm->map, vm->cars);
-			char c;
-			read(1, &c, 1);
+			flags_s(vm);
 		}
 	}
 }
 
-void		ctd_operator(int licp, int *count_cycle, int *ctd, t_flags *flags)
+static void	ctd_operator(int licp, int *count_cycle, int *ctd, t_flags *flags)
 {
 	if (licp >= NBR_LIVE || CHECK_MC(*count_cycle))
 	{
 		*ctd -= CYCLE_DELTA;
 		if (flags->v & 2)
-		{
 			printf("Cycle to die is now %d\n", *ctd);
-		}
 		*count_cycle = 0;
+	}
+}
+
+static void	refresh_players(t_player *players)
+{
+	while (players)
+	{
+		players->licp = 0;
+		players = players->next;
 	}
 }
 
@@ -110,32 +114,26 @@ void		play_while(t_vm *vm)
 {
 	int			cycle_to_die;
 	int			count_cycle;
-	t_ama_dispatcher dsp[16];
+	t_dsp		dsp[16];
+	int			condition;
 
+	condition = 1;
 	count_cycle = 1;
 	cycle_to_die = CYCLE_TO_DIE;
 	init_dsp(dsp);
 	vm->process_counter = vm->cars->num_car;
 	if (vm->flags.visual)
 		visual(vm, count_cycle);
-	while (vm->lives_in_cur_period && cycle_to_die > 0)
+	while (condition && vm->alicp)
 	{
-		vm->lives_in_cur_period = 0;
-		play_cycle(vm, cycle_to_die, dsp);
-		del_cars(vm, cycle_to_die, 0);
-		ctd_operator(vm->lives_in_cur_period, &count_cycle, &cycle_to_die, &vm->flags);
+		vm->alicp = 0;
+		condition = cycle_to_die > 0;
+		condition ? play_cycle(vm, cycle_to_die, dsp) :
+			play_cycle(vm, 1, dsp);
+		del_cars(vm, cycle_to_die);
+		ctd_operator(vm->alicp, &count_cycle, &cycle_to_die, &vm->flags);
 		count_cycle++;
+		refresh_players(vm->players);
 	}
-	if (cycle_to_die < 1 && vm->lives_in_cur_period)
-	{
-		vm->lives_in_cur_period = 0;
-		play_cycle(vm, 1, dsp);
-		if (vm->lives_in_cur_period)
-			del_cars(vm, cycle_to_die, 1);
-		ctd_operator(vm->lives_in_cur_period, &count_cycle, &cycle_to_die, &vm->flags);
-	}
-	del_cars(vm, cycle_to_die, 1);
 	fflush(stdout);
-//	print_winner(vm->players, vm->winner);
-//	free_all(vm);
 }

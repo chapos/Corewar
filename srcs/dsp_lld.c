@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:49:55 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/03 16:20:24 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/10 15:29:12 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	print_lld(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
-	printf("lld %d r%hhu\n", vm->args.arg1.value, (unsigned char)vm->args.arg2.readed);
+	printf("lld %d r%hhu\n", vm->args.arg1.value,
+		(unsigned char)vm->args.arg2.readed);
 }
 
 int		dsp_lld(t_carriage *carriage, t_vm *vm)
@@ -30,7 +31,7 @@ int		dsp_lld(t_carriage *carriage, t_vm *vm)
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2))
 	{
 		read_args_from_map(carriage->pc, vm->map, &vm->args,
-				(t_reader){read_short_from_map, read_short_from_map});
+				(t_reader){read_int_from_map, read_short_from_map});
 		if (validate_args(&vm->args, &vm->ops[12].pargs))
 		{
 			init_args(carriage, vm->map, &vm->args);

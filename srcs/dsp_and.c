@@ -12,11 +12,11 @@
 
 #include "op.h"
 
-void	print_and(t_carriage *carriage, t_vm *vm)
+void		print_and(t_carriage *carriage, t_vm *vm)
 {
 	print_pnum(carriage->num_car);
 	printf("and %d %d r%hhu\n", vm->args.arg1.value, vm->args.arg2.value,
-			  (unsigned char)vm->args.arg3.readed);
+			(unsigned char)vm->args.arg3.readed);
 }
 
 static void	do_and(t_carriage *carriage, t_vm *vm)
@@ -29,7 +29,7 @@ static void	do_and(t_carriage *carriage, t_vm *vm)
 	carriage->carry = and ? 0 : 1;
 }
 
-int		dsp_and(t_carriage *carriage, t_vm *vm)
+int			dsp_and(t_carriage *carriage, t_vm *vm)
 {
 	unsigned char	acb;
 	int				res;

@@ -6,7 +6,7 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/14 19:02:12 by oevtushe          #+#    #+#              #
-#    Updated: 2018/09/03 12:48:23 by oevtushe         ###   ########.fr        #
+#    Updated: 2018/09/15 15:08:36 by ailkiv           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ CW_SRCF				:= player.c				\
 					   validate_args.c		\
 					   print.c              \
 					   visual.c             \
+					   bonus_func.c
 
 CW_DEPS				:= $(CW_DEPF:%=$(CW_DEPS_DIR)/%)
 CW_SRCS				:= $(CW_SRCF:%=$(CW_SRCS_DIR)/%)

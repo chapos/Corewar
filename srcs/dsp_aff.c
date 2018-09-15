@@ -36,7 +36,7 @@ int		dsp_aff(t_carriage *carriage, t_vm *vm)
 			if (vm->flags.a)
 			{
 				printf("Aff: %c\n",
-					   (char) carriage->reg[vm->args.arg1.readed]);
+					(char)carriage->reg[vm->args.arg1.readed]);
 			}
 			res = 1;
 		}

@@ -17,12 +17,11 @@ static void	print_cmd(unsigned char *map, int size)
 	int		i;
 
 	i = 0;
-	// get rid off ' ' in the end
 	while (i < size)
 		printf("%.2x ", (int)map[i++]);
 }
 
-void	print_pc_movement(int cur_pos, int shift, unsigned char *map)
+void		print_pc_movement(int cur_pos, int shift, unsigned char *map)
 {
 	int		new_pos;
 

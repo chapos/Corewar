@@ -32,11 +32,11 @@ int		dsp_add(t_carriage *carriage, t_vm *vm)
 	vm->args.shift = 1;
 	if ((acb & ARG_MASK1) || (acb & ARG_MASK2) || (acb & ARG_MASK3))
 	{
-		read_args_from_map(carriage->pc, vm->map, &vm->args, 
+		read_args_from_map(carriage->pc, vm->map, &vm->args,
 				(t_reader){read_int_from_map, read_short_from_map});
 		if (validate_args(&vm->args, &vm->ops[3].pargs))
 		{
-			sum = carriage->reg[vm->args.arg1.readed] + 
+			sum = carriage->reg[vm->args.arg1.readed] +
 				carriage->reg[vm->args.arg2.readed];
 			carriage->reg[vm->args.arg3.readed] = sum;
 			carriage->carry = sum ? 0 : 1;

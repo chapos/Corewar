@@ -12,7 +12,7 @@
 
 #include "op.h"
 
-void	print_lldi(t_carriage *carriage, t_vm *vm)
+void		print_lldi(t_carriage *carriage, t_vm *vm)
 {
 	int		sum;
 	int		rf;
@@ -21,10 +21,10 @@ void	print_lldi(t_carriage *carriage, t_vm *vm)
 	rf = carriage->pc + sum;
 	print_pnum(carriage->num_car);
 	printf("lldi %d %d r%hhu\n", vm->args.arg1.value,
-			  vm->args.arg2.value, (unsigned char)vm->args.arg3.readed);
+			vm->args.arg2.value, (unsigned char)vm->args.arg3.readed);
 	printf("%6.0d | -> load from %d + %d = %d (with pc %d)\n", 0,
-			  vm->args.arg1.value, vm->args.arg2.value,
-			  sum, rf);
+			vm->args.arg1.value, vm->args.arg2.value,
+			sum, rf);
 }
 
 static void	do_lldi(t_carriage *carriage, t_vm *vm)
@@ -38,7 +38,7 @@ static void	do_lldi(t_carriage *carriage, t_vm *vm)
 	carriage->reg[vm->args.arg3.readed] = val;
 }
 
-int		dsp_lldi(t_carriage *carriage, t_vm *vm)
+int			dsp_lldi(t_carriage *carriage, t_vm *vm)
 {
 	unsigned char	acb;
 	int				res;
