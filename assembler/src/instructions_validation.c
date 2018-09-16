@@ -43,14 +43,46 @@ void			handle_live_instruction(t_db *db, const char *instruction)
 	while (ft_iswhitespace(*instruction))
 		++instruction;
 	if (*instruction != '%')
-		clean_and_exit(db, "WRONG ARGUMENT IN LIVE INSTRUCTION");
+		clean_and_exit(db, "WRONG 1st ARGUMENT IN LIVE INSTRUCTION");
 	++instruction;
-	if (*instruction != ':' && *instruction != '-' && !ft_isdigit(*instruction))
-		clean_and_exit(db, "ARGUMENT SYNTAX ERROR IN LIVE INSTRUCTION");
 	allocate_new_instruction(db);
-	db->bot.instructions[db->instructions_counter - 1].type = e_live;
-	db->bot.instructions[db->instructions_counter - 1].arguments_count = 1;
-	db->bot.instructions[db->instructions_counter - 1].size = 5;
-	db->bot.instructions[db->instructions_counter - 1].codage = 0;
+	db->bot.instructions[db->inst_counter - 1].type = e_live;
+	db->bot.instructions[db->inst_counter - 1].arguments_count = 1;
 	instruction += handle_direct_argument(db, instruction, 1);
+	while (ft_isdigit(*instruction))
+		++instruction;
+	while (ft_iswhitespace(*instruction))
+		++instruction;
+	if (*instruction != '\0' && *instruction != ';' && *instruction != '#')
+		clean_and_exit(db, "LIVE INSTRUCTION SYNTAX ERROR");
+	db->bot.bot_size += 5;
+}
+
+void			handle_ld_instruction(t_db *db, const char *inst)
+{
+	inst += 2;
+	while (ft_iswhitespace(*inst))
+		++inst;
+	if (*inst != '%' && *inst != '-'
+		&& *inst != ':' && !ft_isdigit(*inst))
+		clean_and_exit(db, "WRONG 1st ARGUMENT IN LD INSTRUCTION");
+	allocate_new_instruction(db);
+	db->bot.instructions[db->inst_counter - 1].type = e_ld;
+	db->bot.instructions[db->inst_counter - 1].arguments_count = 2;
+	inst += *inst == '%' ? handle_direct_argument(db, ++inst, 1) :
+			handle_indirect_argument(db, inst, 1);
+	while (ft_isdigit(*inst))
+		++inst;
+	while (ft_iswhitespace(*inst))
+		++inst;
+	if (*inst != ',')
+		clean_and_exit(db, "THERE IS NO 2nd ARGUMENT IN LD INSTRUCTION");
+	inst += handle_register_argument(db, inst + 1, 2);
+	while (ft_iswhitespace(*inst))
+		++inst;
+	if (*inst != '\0' && *inst != ';' && *inst != '#')
+		clean_and_exit(db, "LD INSTRUCTION SYNTAX ERROR");
+	//TODO:: codage
+	//TODO:: count bytes size of this instruction
+	//TODO:: write proper instructions writing to the file
 }

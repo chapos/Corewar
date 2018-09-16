@@ -12,10 +12,12 @@
 
 #include "../inc/asm.h"
 
-static void validate_and_save_instruction(t_db *db, char *instruction)
+static void	validate_and_save_instruction(t_db *db, char *instruction)
 {
 	if (get_instruction(instruction) == e_live)
 		handle_live_instruction(db, instruction);
+	else if (get_instruction(instruction) == e_ld)
+		handle_ld_instruction(db, instruction);
 }
 
 static void	validate_line_extended(t_db *db)
@@ -68,8 +70,8 @@ static void	read_instructions(t_db *db)
 			validate_line(db);
 		ft_strdel(&db->v_data.line);
 	}
-	//if (db->bot.bot_size == 0)
-	//	clean_and_exit(db, "THERE IS 0 INSTRUCTIONS");
+	if (db->bot.bot_size == 0)
+		clean_and_exit(db, "THERE IS 0 INSTRUCTIONS");
 }
 
 void		read_source_file(t_db *db)

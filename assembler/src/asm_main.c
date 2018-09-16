@@ -71,7 +71,7 @@ static void	init_db(t_db *db)
 	db->bot.bot_comment = NULL;
 	db->bot.bot_size = 0;
 	db->bot.instructions = NULL;
-	db->instructions_counter = 0;
+	db->inst_counter = 0;
 	db->labels = NULL;
 	db->labels_counter = 0;
 	db->output_fd = 0;
@@ -86,7 +86,7 @@ static void	init_db(t_db *db)
 	db->v_data.last_line_is_insturction = false;
 }
 
-void print_labels(t_db *db)
+void		print_labels(t_db *db)
 {
 	size_t i;
 
@@ -94,6 +94,20 @@ void print_labels(t_db *db)
 	while (i < db->labels_counter)
 	{
 		ft_printf("%s: %u\n", db->labels[i].name, db->labels[i].bytes_position);
+		++i;
+	}
+}
+
+void		write_instructions(t_db *db)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < db->inst_counter)
+	{
+		write(db->output_fd, &db->bot.instructions[i].type, sizeof(uint8_t));
+		write(db->output_fd, &db->bot.instructions[i].args[0].value,
+				sizeof(uint32_t));
 		++i;
 	}
 }
@@ -120,6 +134,7 @@ int			main(int argc, char **argv)
 	write(db.output_fd, db.bot.bot_comment, db.v_data.comment_size);
 	write(db.output_fd, db.bot.buff, COMMENT_LENGTH - db.v_data.comment_size);
 	write(db.output_fd, &db.bot.separator, sizeof(uint32_t));
+	write_instructions(&db);
 	//print_labels(&db);
 	clean_and_exit(&db, NULL);
 	return (0);

@@ -58,18 +58,16 @@ typedef struct		s_argument_data
 {
 	t_argument		type;
 	uint32_t		value;
-	bool			value_from_lable;
+	bool			lable;
 	char 			*label_name;
-
 }					t_argument_data;
 
 typedef struct		s_instruction_data
 {
 	t_instruction	type;
-	t_argument_data	arguments[4];
+	t_argument_data	args[4];
 	size_t			arguments_count;
 	uint8_t			codage;
-	size_t			size;
 }					t_instr_data;
 
 typedef struct		s_label
@@ -109,7 +107,7 @@ typedef struct		s_db
 	int				source_fd;
 	t_label			*labels;
 	size_t			labels_counter;
-	size_t			instructions_counter;
+	size_t			inst_counter;
 }					t_db;
 
 void				read_source_file(t_db *db);
@@ -120,7 +118,10 @@ uint32_t			big_little_endian(uint32_t n);
 t_instruction		get_instruction(const char *line);
 size_t				validate_and_save_lable(t_db *db);
 void				handle_live_instruction(t_db *db, const char *instruction);
-size_t				handle_direct_argument(t_db *db, const char *instruction, int arg_num);
+void				handle_ld_instruction(t_db *db, const char *inst);
+size_t				handle_direct_argument(t_db *db, const char *instruction, int a_n);
+size_t				handle_indirect_argument(t_db *db, const char *inst, int a_n);
+size_t				handle_register_argument(t_db *db, const char *inst, int a_n);
 void				allocate_new_instruction(t_db *db);
 
 #endif

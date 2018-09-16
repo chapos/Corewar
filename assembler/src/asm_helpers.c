@@ -23,16 +23,44 @@ uint32_t	big_little_endian(uint32_t n)
 
 void		allocate_new_instruction(t_db *db)
 {
+	size_t i;
+
 	if (db->bot.instructions == NULL)
 	{
 		db->bot.instructions = (t_instr_data*)malloc(sizeof(t_instr_data));
-		++db->instructions_counter;
+		++db->inst_counter;
 	}
 	else
 	{
 		db->bot.instructions = realloc(db->bot.instructions,
-			sizeof(t_instr_data) * (db->instructions_counter + 1));
-		++db->instructions_counter;
+			sizeof(t_instr_data) * (db->inst_counter + 1));
+		++db->inst_counter;
+	}
+	i = 0;
+	while (i < 4)
+		db->bot.instructions[db->inst_counter - 1].args[i++].label_name = NULL;
+	db->bot.instructions[db->inst_counter - 1].codage = 0;
+}
+
+static void	clean_instructions(t_db *db)
+{
+	size_t i;
+	size_t j;
+
+	if (db->bot.instructions != NULL)
+	{
+		i = 0;
+		while (i < db->inst_counter)
+		{
+			j = 0;
+			while (j < 4)
+			{
+				ft_strdel(&db->bot.instructions[i].args[j].label_name);
+				++j;
+			}
+			++i;
+		}
+		free(db->bot.instructions);
 	}
 }
 
@@ -47,11 +75,12 @@ void		clean_and_exit(t_db *db, const char *log)
 	ft_strdel(&db->bot.bot_comment);
 	ft_strdel(&db->bot.bot_name);
 	i = 0;
-	while (i < db->labels_counter)
-		ft_strdel(&db->labels[i++].name);
 	if (db->labels != NULL)
+	{
+		while (i < db->labels_counter)
+			ft_strdel(&db->labels[i++].name);
 		free(db->labels);
-	if (db->bot.instructions != NULL)
-		free(db->bot.instructions);
+	}
+	clean_instructions(db);
 	exit(0);
 }
