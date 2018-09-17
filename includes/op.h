@@ -93,6 +93,7 @@ typedef char	t_arg_type;
 # define EXS_DSP(x) ((x) > 0 && (x) < 17)
 # define CHECK_MC(x) ((x) && (x) % MAX_CHECKS == 0)
 
+
 typedef struct		s_visual
 {
 	WINDOW			*map;
@@ -153,6 +154,7 @@ typedef struct		s_header
 typedef struct		s_carriage
 {
 	int					num_car;
+	int 				pc_prev;
 	int					pc;
 	int					num_player;
 	int					carry;
@@ -308,5 +310,6 @@ void			renew_ctd(t_vm *vm, unsigned int ctd);
 void			renew_lives(t_vm *vm);
 void			draw_line(t_vm *vm, int coord);
 void			draw_empty_line(t_vm *vm, int coord);
+void			put_car(t_vm *vm);
 
 #endif

@@ -5,16 +5,16 @@
 #include <pthread.h>
 #include <math.h>
 
-#define COLOR_BORDER	20
-#define COLOR1			21
-#define COLOR2			22
-#define COLOR3			23
-#define COLOR4			24
-#define COLOR5			25
-#define COLOR6			26
-#define COLOR7			27
-#define COLOR8			28
-#define COLOR9			29
+#define COLOR_BORDER	30
+#define COLOR1			31
+#define COLOR2			32
+#define COLOR3			33
+#define COLOR4			34
+#define COLOR5			35
+#define COLOR6			36
+#define COLOR7			37
+#define COLOR8			38
+#define COLOR9			39
 
 WINDOW	*create_new_win(int width, int height, int start_x, int start_y)
 {
@@ -75,55 +75,107 @@ void			create_colors()
 	init_pair(19, COLOR9, COLOR_BLACK);
 }
 
-void			on_color_caret(int num_player, t_vm *vm, int died)
+void			on_color_caret(int cp, t_vm *vm, int died)
 {
 	if (died == 0)
 	{
-		if (num_player == 1)
+		if (cp == COLOR_PAIR(3))
 			wattron(vm->visual->map, COLOR_PAIR(7));
-		else if (num_player == 2)
+		else if (cp == COLOR_PAIR(4))
 			wattron(vm->visual->map, COLOR_PAIR(8));
-		else if (num_player == 3)
+		else if (cp == COLOR_PAIR(5))
 			wattron(vm->visual->map, COLOR_PAIR(9));
-		else if (num_player == 4)
+		else if (cp == COLOR_PAIR(6))
 			wattron(vm->visual->map, COLOR_PAIR(10));
 	}
 	else
 	{
-		if (num_player == 1)
+		if (cp == COLOR_PAIR(3))
 			wattron(vm->visual->map, COLOR_PAIR(11));
-		else if (num_player == 2)
+		else if (cp == COLOR_PAIR(4))
 			wattron(vm->visual->map, COLOR_PAIR(12));
-		else if (num_player == 3)
+		else if (cp == COLOR_PAIR(5))
 			wattron(vm->visual->map, COLOR_PAIR(13));
-		else if (num_player == 4)
+		else if (cp == COLOR_PAIR(6))
 			wattron(vm->visual->map, COLOR_PAIR(14));
 	}
 }
 
-void			off_color_caret(int num_player, t_vm *vm, int died)
+void			off_color_caret(int cp, t_vm *vm, int died)
 {
 	if (died == 0)
 	{
-		if (num_player == 1)
+		if (cp == COLOR_PAIR(3))
 			wattroff(vm->visual->map, COLOR_PAIR(7));
-		else if (num_player == 2)
+		else if (cp == COLOR_PAIR(4))
 			wattroff(vm->visual->map, COLOR_PAIR(8));
-		else if (num_player == 3)
+		else if (cp == COLOR_PAIR(5))
 			wattroff(vm->visual->map, COLOR_PAIR(9));
-		else if (num_player == 4)
+		else if (cp == COLOR_PAIR(6))
 			wattroff(vm->visual->map, COLOR_PAIR(10));
 	}
 	else
 	{
-		if (num_player == 1)
+		if (cp == COLOR_PAIR(3))
 			wattroff(vm->visual->map, COLOR_PAIR(11));
-		else if (num_player == 2)
+		else if (cp == COLOR_PAIR(4))
 			wattroff(vm->visual->map, COLOR_PAIR(12));
-		else if (num_player == 3)
+		else if (cp == COLOR_PAIR(5))
 			wattroff(vm->visual->map, COLOR_PAIR(13));
-		else if (num_player == 4)
+		else if (cp == COLOR_PAIR(6))
 			wattroff(vm->visual->map, COLOR_PAIR(14));
+	}
+}
+
+void			on_color_caret_back(int cp, t_vm *vm, int died)
+{
+	if (died == 0)
+	{
+		if (cp == COLOR_PAIR(7))
+			wattron(vm->visual->map, COLOR_PAIR(3));
+		else if (cp == COLOR_PAIR(8))
+			wattron(vm->visual->map, COLOR_PAIR(4));
+		else if (cp == COLOR_PAIR(9))
+			wattron(vm->visual->map, COLOR_PAIR(5));
+		else if (cp == COLOR_PAIR(10))
+			wattron(vm->visual->map, COLOR_PAIR(6));
+	}
+	else
+	{
+		if (cp == COLOR_PAIR(11))
+			wattron(vm->visual->map, COLOR_PAIR(3));
+		else if (cp == COLOR_PAIR(12))
+			wattron(vm->visual->map, COLOR_PAIR(4));
+		else if (cp == COLOR_PAIR(13))
+			wattron(vm->visual->map, COLOR_PAIR(5));
+		else if (cp == COLOR_PAIR(14))
+			wattron(vm->visual->map, COLOR_PAIR(6));
+	}
+}
+
+void			off_color_caret_back(int cp, t_vm *vm, int died)
+{
+	if (died == 0)
+	{
+		if (cp == COLOR_PAIR(7))
+			wattroff(vm->visual->map, COLOR_PAIR(3));
+		else if (cp == COLOR_PAIR(8))
+			wattroff(vm->visual->map, COLOR_PAIR(4));
+		else if (cp == COLOR_PAIR(9))
+			wattroff(vm->visual->map, COLOR_PAIR(5));
+		else if (cp == COLOR_PAIR(10))
+			wattroff(vm->visual->map, COLOR_PAIR(6));
+	}
+	else
+	{
+		if (cp == COLOR_PAIR(11))
+			wattroff(vm->visual->map, COLOR_PAIR(3));
+		else if (cp == COLOR_PAIR(12))
+			wattroff(vm->visual->map, COLOR_PAIR(4));
+		else if (cp == COLOR_PAIR(13))
+			wattroff(vm->visual->map, COLOR_PAIR(5));
+		else if (cp == COLOR_PAIR(14))
+			wattroff(vm->visual->map, COLOR_PAIR(6));
 	}
 }
 
@@ -277,6 +329,7 @@ void			wprint_map(t_vm *vm)
 			x = x + 3;
 		i++;
 	}
+	put_car(vm);
 	wrefresh(vm->visual->map);
 }
 
@@ -423,7 +476,6 @@ void			interrupt(t_vm *vm)
 			}
 		}
 	}
-	vm->game_cycle++;
 	wattron(vm->visual->text, COLOR_PAIR(19));
 	mvwprintw(vm->visual->text, 10, 2, "Processes: %-6d", num_cur(vm));
 	mvwprintw(vm->visual->text, 8, 2, "Cycles: %u", vm->game_cycle);
@@ -432,8 +484,10 @@ void			interrupt(t_vm *vm)
 	renew_lives(vm);
 	wattroff(vm->visual->text, COLOR_PAIR(19));
 	draw_line(vm, 18);
+	put_car(vm);
 	wrefresh(vm->visual->text);
 	wrefresh(vm->visual->map);
+	vm->game_cycle++;
 }
 
 /*key processing******************************/
@@ -445,20 +499,18 @@ void			init_visual(t_vm *vm)
 		vm->visual = (t_visual*)malloc(sizeof(t_visual));
 	vm->visual->map = create_new_win(197, 68, 1, 1);
 	vm->visual->text = create_new_win(60, 68, 197, 1);
-	vm->visual->lim = 5000;
+	vm->visual->lim = 5;
 	vm->visual->game_cycle = 0;
 	vm->visual->pause = 1;
 }
 
 void			visual(t_vm *vm)
 {
-
 	initscr();
 	cbreak();
 	noecho();
 	start_color();
 	curs_set(0);
-//	nodelay(stdscr, TRUE);
 	refresh();
 	create_colors();
 	init_visual(vm);
@@ -563,6 +615,36 @@ void			draw_line(t_vm *vm, int coord)
 			i++;
 		}
 		last_point = last_point + (int)round((double)(temp->licp) / sum * 50);
+		temp = temp->next;
+	}
+}
+
+void			put_car(t_vm *vm)
+{
+	t_carriage		*temp;
+	int				x;
+	int				y;
+
+	temp = vm->cars;
+	while (temp)
+	{
+		if (temp->pc_prev != temp->pc)
+		{
+			y = (temp->pc + 1) / 64 + 2;
+			x = (temp->pc) % 64 * 3 + 3;
+			on_color_caret(mvwinch(vm->visual->map, y, x) & A_COLOR, vm, 0);
+			mvwprintw(vm->visual->map, y, x, "%02x", vm->map[temp->pc]);
+			off_color_caret(mvwinch(vm->visual->map, y, x) & A_COLOR, vm, 0);
+		}
+		if (temp->pc_prev != -1 && temp->pc_prev != temp->pc)
+		{
+			y = (temp->pc + 1) / 64 + 2;
+			x = (temp->pc + 1) % 64 * 3 + 3;
+			on_color_caret_back(mvwinch(vm->visual->map, y, x) & A_COLOR, vm, 0);
+			mvwprintw(vm->visual->map, y, x, "%02x", vm->map[temp->pc]);
+			off_color_caret_back(mvwinch(vm->visual->map, y, x) & A_COLOR, vm, 0);
+		}
+		temp->pc_prev = temp->pc;
 		temp = temp->next;
 	}
 }
