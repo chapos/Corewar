@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:37:28 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/07 18:29:33 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/17 16:24:11 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ static int	do_st(t_carriage *carriage, t_vm *vm)
 	{
 		rev = vm->args.arg1.value;
 		ft_byterev_ui32((unsigned int *)&rev);
-		write_int_in_map(&rev, carriage->pc + vm->args.arg2.readed, vm->map);
+		vm->args.stored_to = carriage->pc + vm->args.arg2.readed;
+		write_int_in_map(&rev, vm->args.stored_to, vm->map);
 		res = 1;
 	}
 	return (res);

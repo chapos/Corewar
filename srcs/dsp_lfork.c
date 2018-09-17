@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 18:37:19 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/29 18:08:47 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/17 15:59:30 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		dsp_lfork(t_carriage *father, t_vm *vm)
 	read_short_from_map(&npos, father->pc + 1, vm->map);
 	vm->args.arg1.readed = npos;
 	vm->args.arg1.value = npos;
+	son->pc_prev = -1;
 	son->pc = normalize_pc(npos + father->pc);
 	son->command = 0;
 	son->num_car = ++vm->process_counter;

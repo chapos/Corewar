@@ -51,11 +51,6 @@ static void	add_live_to_player(t_player *players,
 
 void		print_live(t_carriage *carriage, t_vm *vm)
 {
-	int			cnt;
-	t_player	*players;
-
-	cnt = 1;
-	players = vm->players;
 	print_pnum(carriage->num_car);
 	printf("live %d\n", vm->args.arg1.readed);
 	if (vm->flags.v & 1)

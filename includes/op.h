@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/15 12:47:16 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/17 16:45:38 by ailkiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ typedef struct		s_args
 	t_arg		arg3;
 	t_arg		arg4;
 	int			shift;
+	int			stored_to;
 }					t_args;
 
 /*

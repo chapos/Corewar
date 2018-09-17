@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/15 15:07:36 by ailkiv           ###   ########.fr       */
+/*   Updated: 2018/09/17 16:44:35 by ailkiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,20 @@ void		while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
 				if ((res || tcars->command == 9) && vm->flags.v & 4)
 					dsp[tcars->command - 1].print_cmd(tcars, vm);
 			}
+			tcars->pc_prev = tcars->pc;
 			if (tcars->command != 9 || (tcars->command == 9 && !res))
 			{
 				if (EXS_DSP(tcars->command) && vm->flags.v & 16)
 					print_pc_movement(tcars->pc, vm->args.shift, vm->map);
 				++tcars->pc;
 			}
+			/*
+			if (tcars->command == 3 || tcars->command == 11)
+			{
+				tcars->num_player;
+				vm->args.stored_to;
+			}
+			 */
 			tcars->pc += vm->args.shift;
 			tcars->pc = normalize_pc(tcars->pc);
 			tcars->command = 0;

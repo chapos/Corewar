@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:46:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/07 11:25:40 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/17 16:26:19 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static void	do_sti(t_carriage *carriage, t_vm *vm)
 	addr = (vm->args.arg2.value + vm->args.arg3.value) % IDX_MOD;
 	rev = vm->args.arg1.value;
 	ft_byterev_ui32((unsigned int *)&rev);
-	write_int_in_map(&rev, carriage->pc + addr, vm->map);
+	vm->args.stored_to = carriage->pc + addr;
+	write_int_in_map(&rev, vm->args.stored_to, vm->map);
 }
 
 int			dsp_sti(t_carriage *carriage, t_vm *vm)

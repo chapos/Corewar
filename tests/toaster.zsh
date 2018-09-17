@@ -6,7 +6,7 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/03 11:19:01 by oevtushe          #+#    #+#              #
-#    Updated: 2018/09/15 12:59:19 by oevtushe         ###   ########.fr        #
+#    Updated: 2018/09/17 15:51:53 by oevtushe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,7 @@ function init_usr_input()
 	then
 		fdname=$tmp_fdname
 	fi
-	echo "Run it in ${fg[green]}random$reset_color sequence ? (y/n) (if no, then players will be subtituted ${fg[green]}sequently$reset_color)"
+	echo "Run it in ${fg[green]}random$reset_color sequence ? (y/n) (if no, players will be subtituted ${fg[green]}sequently$reset_color)"
 	read -q -s answer
 	if [[ $answer == "y" ]]
 	then
