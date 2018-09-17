@@ -88,6 +88,11 @@ static void	play_cycle(t_vm *vm, int cycle, t_dsp *dsp)
 			flags_s(vm);
 		}
 	}
+	if (vm->flags.visual)
+	{
+		draw_empty_line(vm, 18);
+		draw_line(vm, 21);
+	}
 }
 
 static void	ctd_operator(t_vm *vm, int *count_cycle, int *ctd)

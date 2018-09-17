@@ -304,7 +304,9 @@ void	print_pnum(int num);
 void			visual(t_vm *vm);
 void			interrupt(t_vm *vm);
 void			wait_end(t_vm *vm);
-void			renew_ctd(t_vm *vm, int ctd);
+void			renew_ctd(t_vm *vm, unsigned int ctd);
 void			renew_lives(t_vm *vm);
+void			draw_line(t_vm *vm, int coord);
+void			draw_empty_line(t_vm *vm, int coord);
 
 #endif

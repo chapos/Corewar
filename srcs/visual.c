@@ -3,6 +3,7 @@
 #include <ncurses.h>
 #include <zconf.h>
 #include <pthread.h>
+#include <math.h>
 
 #define COLOR_BORDER	20
 #define COLOR1			21
@@ -193,6 +194,23 @@ int				number_of_players(t_player *players)
 	return (i);
 }
 
+int				player_num(t_player *player, t_vm *vm)
+{
+	t_player	*temp;
+	int			num;
+
+	num = 1;
+	temp = vm->players;
+	while (temp)
+	{
+		if (temp->num_player == player->num_player)
+			return (num);
+		num++;
+		temp = temp->next;
+	}
+	return (0);
+}
+
 void			decide_color(t_vm *vm, unsigned int i)
 {
 	int			num;
@@ -267,6 +285,21 @@ size_t				len_number(int i)
 	return (ft_strlen(ft_itoa(i)));
 }
 
+int				num_cur(t_vm *vm)
+{
+	t_carriage		*temp;
+	int				i;
+
+	i = 0;
+	temp = vm->cars;
+	while (temp)
+	{
+		i++;
+		temp = temp->next;
+	}
+	return (i);
+}
+
 void			wprint_text(t_vm *vm)
 {
 	t_player		*temp;
@@ -280,7 +313,7 @@ void			wprint_text(t_vm *vm)
 	mvwprintw(vm->visual->text, 4, 2, "**PLAY** ");
 	mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: %3d", vm->visual->lim);
 	mvwprintw(vm->visual->text, 8, 2, "Cycles: %u", vm->game_cycle);
-	mvwprintw(vm->visual->text, 10, 2, "Processes: ***");
+	mvwprintw(vm->visual->text, 10, 2, "Processes: %d", num_cur(vm));
 	wattroff(vm->visual->text, COLOR_PAIR(19));
 	while (temp)
 	{
@@ -298,18 +331,22 @@ void			wprint_text(t_vm *vm)
 		mvwprintw(vm->visual->text, 12 + i, 12 + len, "%s", temp->head.prog_name);
 		off_color_player_t(i / 4 + 1, vm);
 		wattron(vm->visual->text, COLOR_PAIR(19));
-		mvwprintw(vm->visual->text, 13 + i, 4, "Last live: %-6d", temp->licp);
-		mvwprintw(vm->visual->text, 14 + i, 4, "Lives in current period: %-6d", temp->last_live);
+		mvwprintw(vm->visual->text, 13 + i, 4, "Last live: %-6d", temp->last_live);
+		mvwprintw(vm->visual->text, 14 + i, 4, "Lives in current period: %-6d", temp->licp);
 		i = i + 4;
 		temp = temp->next;
 		wattroff(vm->visual->text, COLOR_PAIR(19));
 	}
 	wattron(vm->visual->text, COLOR_PAIR(19));
-	mvwprintw(vm->visual->text, 22 + i, 2, "Cycle_to_Die: %d", CYCLE_TO_DIE);
-	mvwprintw(vm->visual->text, 24 + i, 2, "Cycle_Delta: %d", CYCLE_DELTA);
-	mvwprintw(vm->visual->text, 26 + i, 2, "NBR_Live: %d", NBR_LIVE);
-	mvwprintw(vm->visual->text, 28 + i, 2, "Max_Checks: %d", MAX_CHECKS);
+	mvwprintw(vm->visual->text, 13 + i, 2, "Live breakdown for current period:");
+	mvwprintw(vm->visual->text, 16 + i, 2, "Live breakdown for last period:");
+	mvwprintw(vm->visual->text, 20 + i, 2, "Cycle_to_Die: %d", CYCLE_TO_DIE);
+	mvwprintw(vm->visual->text, 22 + i, 2, "Cycle_Delta: %d", CYCLE_DELTA);
+	mvwprintw(vm->visual->text, 24 + i, 2, "NBR_Live: %d", NBR_LIVE);
+	mvwprintw(vm->visual->text, 26 + i, 2, "Max_Checks: %d", MAX_CHECKS);
 	wattroff(vm->visual->text, COLOR_PAIR(19));
+	draw_empty_line(vm, 18);
+	draw_empty_line(vm, 21);
 	wrefresh(vm->visual->text);
 
 }
@@ -388,11 +425,13 @@ void			interrupt(t_vm *vm)
 	}
 	vm->game_cycle++;
 	wattron(vm->visual->text, COLOR_PAIR(19));
+	mvwprintw(vm->visual->text, 10, 2, "Processes: %-6d", num_cur(vm));
 	mvwprintw(vm->visual->text, 8, 2, "Cycles: %u", vm->game_cycle);
 	mvwprintw(vm->visual->text, 4, 2, "**PLAY** ");
 	mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: %-4d", vm->visual->lim);
 	renew_lives(vm);
 	wattroff(vm->visual->text, COLOR_PAIR(19));
+	draw_line(vm, 18);
 	wrefresh(vm->visual->text);
 	wrefresh(vm->visual->map);
 }
@@ -444,10 +483,10 @@ void			wait_end(t_vm *vm)
 	free(vm->visual);
 }
 
-void			renew_ctd(t_vm *vm, int ctd)
+void			renew_ctd(t_vm *vm, unsigned int ctd)
 {
 	wattron(vm->visual->text, COLOR_PAIR(19));
-	mvwprintw(vm->visual->text, 22 + 4 * number_of_players(vm->players), 2, "Cycle_to_Die: %-4d", ctd);
+	mvwprintw(vm->visual->text, 20 + 4 * number_of_players(vm->players), 2, "Cycle_to_Die: %-4u", ctd);
 	wattroff(vm->visual->text, COLOR_PAIR(19));
 }
 
@@ -461,11 +500,70 @@ void			renew_lives(t_vm *vm)
 	while (temp)
 	{
 		wattron(vm->visual->text, COLOR_PAIR(19));
-		mvwprintw(vm->visual->text, 13 + i, 4, "Last live: %-6d", temp->licp);
-		mvwprintw(vm->visual->text, 14 + i, 4, "Lives in current period: %-6d", temp->last_live);
+		mvwprintw(vm->visual->text, 13 + i, 4, "Last live: %-9d", temp->last_live);
+		mvwprintw(vm->visual->text, 14 + i, 4, "Lives in current period: %-9d", temp->licp);
 		i = i + 4;
 		temp = temp->next;
 		wattroff(vm->visual->text, COLOR_PAIR(19));
+	}
+}
+
+void			draw_empty_line(t_vm *vm, int coord)
+{
+	int			i;
+
+	i = 0;
+	mvwprintw(vm->visual->text, coord - 4 + 4 * number_of_players(vm->players), 2, "[");
+	while (i < 50)
+	{
+		mvwprintw(vm->visual->text, coord - 4 + 4 * number_of_players(vm->players), 3 + i, "-");
+		i++;
+	}
+	mvwprintw(vm->visual->text, coord - 4 + 4 * number_of_players(vm->players), 3 + i, "]");
+}
+
+void			draw_line(t_vm *vm, int coord)
+{
+	t_player		*temp;
+	int				sum;
+	int				i;
+	int				last_point;
+
+	sum = 0;
+	i = 0;
+	last_point = 0;
+	temp = vm->players;
+	while (temp)
+	{
+		sum = sum + temp->licp;
+		temp = temp->next;
+	}
+	if (sum == 0)
+	{
+		draw_empty_line(vm, coord);
+		return ;
+	}
+	temp = vm->players;
+	while (temp)
+	{
+		while (i < round((double)(temp->licp) / sum * 50) + last_point)
+		{
+			if (i >= 50 && temp->next == NULL && round((double)(temp->licp) / sum * 50) != 0)
+			{
+				on_color_player_t(player_num(temp, vm), vm);
+				mvwprintw(vm->visual->text, coord - 4 + 4 * number_of_players(vm->players), 52, "-");
+				off_color_player_t(player_num(temp, vm), vm);
+			}
+			if (i < 50)
+			{
+				on_color_player_t(player_num(temp, vm), vm);
+				mvwprintw(vm->visual->text, coord - 4 + 4 * number_of_players(vm->players), 3 + i, "-");
+				off_color_player_t(player_num(temp, vm), vm);
+			}
+			i++;
+		}
+		last_point = last_point + (int)round((double)(temp->licp) / sum * 50);
+		temp = temp->next;
 	}
 }
 
