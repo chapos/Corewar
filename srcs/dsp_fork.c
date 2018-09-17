@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 18:06:38 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/30 15:30:56 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/17 15:59:21 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int		dsp_fork(t_carriage *father, t_vm *vm)
 	ft_memcpy(son, father, sizeof(t_carriage));
 	read_short_from_map(&npos, father->pc + 1, vm->map);
 	vm->args.arg1.readed = npos;
+	son->pc_prev = -1;
 	son->pc = normalize_pc((npos % IDX_MOD) + father->pc);
 	son->num_car = ++vm->process_counter;
 	son->command = 0;

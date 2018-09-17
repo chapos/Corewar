@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/15 12:58:25 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/17 16:34:21 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void		while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
 				if ((res || tcars->command == 9) && vm->flags.v & 4)
 					dsp[tcars->command - 1].print_cmd(tcars, vm);
 			}
+			tcars->pc_prev = tcars->pc;
 			if (tcars->command != 9 || (tcars->command == 9 && !res))
 			{
 				if (EXS_DSP(tcars->command) && vm->flags.v & 16)
@@ -130,16 +131,5 @@ void		play_while(t_vm *vm)
 		count_cycle++;
 		refresh_players(vm->players);
 	}
-	/*
-	if (cycle_to_die < 1 && vm->alicp)
-	{
-		vm->alicp = 0;
-		play_cycle(vm, 1, dsp);
-		//if (vm->alicp)
-		del_cars(vm, cycle_to_die, 1);
-		ctd_operator(vm->alicp, &count_cycle, &cycle_to_die, &vm->flags);
-	}
-	*/
-	del_cars(vm, cycle_to_die);
 	fflush(stdout);
 }
