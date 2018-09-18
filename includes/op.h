@@ -50,15 +50,28 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#include <ncurses.h>
-#include <pthread.h>
 //////
 #include <stdio.h>
 //////
 
-/*
-**
-*/
+//visual
+#include <ncurses.h>
+#include <zconf.h>
+#include <pthread.h>
+#include <math.h>
+
+#define COLOR_BORDER	30
+#define COLOR1			31
+#define COLOR2			32
+#define COLOR3			33
+#define COLOR4			34
+#define COLOR5			35
+#define COLOR6			36
+#define COLOR7			37
+#define COLOR8			38
+#define COLOR9			39
+#define COLOR10			40
+//visual
 
 typedef char	t_arg_type;
 
@@ -93,6 +106,14 @@ typedef char	t_arg_type;
 # define EXS_DSP(x) ((x) > 0 && (x) < 17)
 # define CHECK_MC(x) ((x) && (x) % MAX_CHECKS == 0)
 
+typedef struct		s_vcars
+{
+	int				c_pair;
+	int				stored_to;
+	int				cycles;
+	int				len;
+	struct s_vcars	*next;
+}					t_vcars;
 
 typedef struct		s_visual
 {
@@ -102,6 +123,7 @@ typedef struct		s_visual
 	int				lim;
 	unsigned int	game_cycle;
 	pthread_t		keys_thread;
+	t_vcars			*vcars;
 }					t_visual;
 
 typedef	struct		s_pargs
@@ -312,5 +334,19 @@ void			renew_lives(t_vm *vm);
 void			draw_line(t_vm *vm, int coord);
 void			draw_empty_line(t_vm *vm, int coord);
 void			put_car(t_vm *vm);
+void			push_back_vcars(t_vcars **begin, int c_pair, int stored_to, int len);
+void			del_front_vcars(t_vcars **begin);
+void			del_vcars(t_vcars **begin);
+void			command_processing(t_carriage *tcar, t_vm *vm, int len);
+void			on_color_player50(int num_player, t_vm *vm);
+void			off_color_player50(int num_player, t_vm *vm);
+void			cycles_decrease(t_vm *vm);
+void			on_color_player(int num_player, t_vm *vm);
+void			off_color_player(int num_player, t_vm *vm);
+void			on_color_caret(int cp, t_vm *vm);
+void			off_color_caret(int cp, t_vm *vm);
+void			live_processing(t_carriage *tcar, t_vm *vm, int len);
+void			on_color_live(int cp, t_vm *vm);
+void			off_color_live(int cp, t_vm *vm);
 
 #endif

@@ -56,13 +56,10 @@ void		while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
 					print_pc_movement(tcars->pc, vm->args.shift, vm->map);
 				++tcars->pc;
 			}
-			/*
-			if (tcars->command == 3 || tcars->command == 11)
-			{
-				tcars->num_player;
-				vm->args.stored_to;
-			}
-			 */
+			if ((tcars->command == 3 || tcars->command == 11) && vm->flags.visual)
+				command_processing(tcars, vm, 4);
+			if (tcars->command == 1 && vm->flags.visual)
+				live_processing(tcars, vm, 0);
 			tcars->pc += vm->args.shift;
 			tcars->pc = normalize_pc(tcars->pc);
 			tcars->command = 0;

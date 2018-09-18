@@ -62,7 +62,10 @@ CW_SRCF				:= player.c				\
 					   validate_args.c		\
 					   print.c              \
 					   visual.c             \
-					   bonus_func.c
+					   bonus_func.c         \
+					   visual_list.c        \
+					   command_processing.c \
+					   live_processing.c
 
 CW_DEPS				:= $(CW_DEPF:%=$(CW_DEPS_DIR)/%)
 CW_SRCS				:= $(CW_SRCF:%=$(CW_SRCS_DIR)/%)
