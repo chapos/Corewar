@@ -16,6 +16,8 @@ void			free_all(t_vm *vm)
 {
 	t_player	*temp;
 
+	if (vm->flags.visual && vm->visual != NULL)
+		wait_end(vm);
 	while (vm->players)
 	{
 		temp = vm->players->next;
@@ -23,7 +25,5 @@ void			free_all(t_vm *vm)
 		free(vm->players);
 		vm->players = temp;
 	}
-	if (vm->flags.visual && vm->visual != NULL)
-		wait_end(vm);
 	exit(1);
 }

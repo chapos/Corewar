@@ -9,7 +9,10 @@ void			push_back_vcars(t_vcars **begin, int c_pair, int stored_to, int len)
 		*begin = (t_vcars*)malloc(sizeof(t_vcars));
 		(*begin)->c_pair = c_pair;
 		(*begin)->stored_to = stored_to;
-		(*begin)->cycles = 49;
+		if (len == 4)
+			(*begin)->cycles = 49;
+		else
+			(*begin)->cycles = 50;
 		(*begin)->len = len;
 		(*begin)->next = NULL;
 	}
@@ -21,7 +24,10 @@ void			push_back_vcars(t_vcars **begin, int c_pair, int stored_to, int len)
 		temp->next = (t_vcars*)malloc(sizeof(t_vcars));
 		temp->next->c_pair = c_pair;
 		temp->next->stored_to = stored_to;
-		temp->next->cycles = 49;
+		if (len == 4)
+			temp->next->cycles = 49;
+		else
+			temp->next->cycles = 50;
 		temp->next->len = len;
 		temp->next->next = NULL;
 	}

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "op.h"
+#include "../includes/op.h"
 
 void		print_sti(t_carriage *carriage, t_vm *vm)
 {
@@ -36,7 +36,7 @@ static void	do_sti(t_carriage *carriage, t_vm *vm)
 	addr = (vm->args.arg2.value + vm->args.arg3.value) % IDX_MOD;
 	rev = vm->args.arg1.value;
 	ft_byterev_ui32((unsigned int *)&rev);
-	vm->args.stored_to = carriage->pc + addr;
+	vm->args.stored_to = normalize_pc(carriage->pc + addr);
 	write_int_in_map(&rev, vm->args.stored_to, vm->map);
 }
 

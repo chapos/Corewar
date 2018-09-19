@@ -40,7 +40,7 @@ void			command_processing(t_carriage *tcar, t_vm *vm, int len)
 	i = 0;
 	temp = vm->args.stored_to % MEM_SIZE;
 	if (temp < 0)
-		temp = temp + MEM_SIZE - 1;
+		temp = temp + MEM_SIZE;
 	push_back_vcars(&(vm->visual->vcars), c_pair(player_num(tcar->num_player, vm)), temp, len);
 	while (i < len)
 	{
@@ -87,9 +87,9 @@ void			print_back(t_vm *vm)
 		}
 		else if (vm->visual->vcars->c_pair == COLOR_PAIR(18) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) == COLOR_PAIR(18)))
 		{
-			on_color_player(2, vm);
+			on_color_player(4, vm);
 			mvwprintw(vm->visual->map, y, x, "%02x", vm->map[vm->visual->vcars->stored_to]);
-			off_color_player(2, vm);
+			off_color_player(4, vm);
 		}
 		else if (vm->visual->vcars->c_pair == COLOR_PAIR(15) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) == COLOR_PAIR(21)))
 		{
@@ -129,12 +129,12 @@ void			cycles_decrease(t_vm *vm)
 
 	if (vm->visual->vcars)
 	{
-		while (vm->visual->vcars && vm->visual->vcars->cycles == 0)
+		while (vm->visual->vcars && vm->visual->vcars->cycles <= 0)
 		{
-//			if (vm->visual->vcars->len == 4)
-			print_back(vm);
-//			else
-//				print_back_live(vm);
+			if (vm->visual->vcars->len == 4)
+				print_back(vm);
+			else
+				print_back_live(vm);
 			del_front_vcars(&(vm->visual->vcars));
 		}
 		vcars = vm->visual->vcars;

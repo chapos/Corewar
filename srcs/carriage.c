@@ -41,8 +41,8 @@ void		del_cars(t_vm *vm, int ctd)
 			if (vm->flags.v & 8)
 				printf("Process %d hasn't lived for %d cycles (CTD %d)\n",
 					temp->num_car, vm->game_cycle - temp->last_live_cn, ctd);
-//			if (vm->flags.visual)
-//				vdel_car(vm, temp);
+			if (vm->flags.visual)
+				vdel_car(vm, temp);
 			if (vm->flags.sound)
 				sound_kill_car();
 			del_car(&vm->cars, &temp, &temp2);

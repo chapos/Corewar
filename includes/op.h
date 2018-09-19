@@ -148,8 +148,10 @@ typedef struct		s_args
 	t_arg		arg2;
 	t_arg		arg3;
 	t_arg		arg4;
+
 	int			shift;
 	int			stored_to;
+	int 		valid_live;
 }					t_args;
 
 /*
@@ -343,10 +345,14 @@ void			off_color_player50(int num_player, t_vm *vm);
 void			cycles_decrease(t_vm *vm);
 void			on_color_player(int num_player, t_vm *vm);
 void			off_color_player(int num_player, t_vm *vm);
-void			on_color_caret(int cp, t_vm *vm);
+int				on_color_caret(int cp, t_vm *vm);
 void			off_color_caret(int cp, t_vm *vm);
 void			live_processing(t_carriage *tcar, t_vm *vm, int len);
 void			on_color_live(int cp, t_vm *vm);
 void			off_color_live(int cp, t_vm *vm);
+void			print_back_live(t_vm *vm);
+void			vdel_car(t_vm *vm, t_carriage *tcar);
+void			print_back(t_vm *vm);
+void			cycle_decrease_to_end(t_vm *vm);
 
 #endif

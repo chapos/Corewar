@@ -25,13 +25,13 @@ void			create_colors()
 	init_pair(2, COLOR_RED, COLOR_BLACK);
 	init_color(COLOR_BORDER, 900, 900, 900);
 	init_pair(1, COLOR_BORDER, COLOR_BORDER);
-	init_color(COLOR1, 0, 1000, 133);
+	init_color(COLOR1, 0, 700, 133);
 	init_pair(3, COLOR1, COLOR_BLACK);
-	init_color(COLOR2, 0, 0, 1000);
+	init_color(COLOR2, 0, 0, 700);
 	init_pair(4, COLOR2, COLOR_BLACK);
-	init_color(COLOR3, 1000, 0, 0);
+	init_color(COLOR3, 700, 0, 0);
 	init_pair(5, COLOR3, COLOR_BLACK);
-	init_color(COLOR4, 0, 900, 1000);
+	init_color(COLOR4, 400, 400, 700);
 	init_pair(6, COLOR4, COLOR_BLACK);
 	//caret color pairs
 	init_pair(7, COLOR_BLACK, COLOR1);
@@ -40,11 +40,7 @@ void			create_colors()
 	init_pair(10, COLOR_BLACK, COLOR4);
 	init_color(COLOR10, 200, 200, 200);
 	init_pair(20, COLOR10, COLOR10);
-	//died caret color pairs
-	init_pair(11, COLOR_RED, COLOR1);
-	init_pair(12, COLOR_RED, COLOR2);
-	init_pair(13, COLOR_RED, COLOR3);
-	init_pair(14, COLOR_RED, COLOR4);
+	init_pair(25, COLOR10, COLOR_BLACK);
 	//first 50 cycles
 	init_color(COLOR5, 600, 1000, 600);
 	init_pair(15, COLOR5, COLOR_BLACK);
@@ -52,11 +48,16 @@ void			create_colors()
 	init_pair(16, COLOR6, COLOR_BLACK);
 	init_color(COLOR7, 1000, 600, 600);
 	init_pair(17, COLOR7, COLOR_BLACK);
-	init_color(COLOR8, 600, 900, 1000);
+	init_color(COLOR8, 600, 700, 1000);
 	init_pair(18, COLOR8, COLOR_BLACK);
 	//text
 	init_color(COLOR9, 1000, 1000, 1000);
 	init_pair(19, COLOR9, COLOR_BLACK);
+	//died caret color pairs
+	init_pair(11, COLOR9, COLOR1);
+	init_pair(12, COLOR9, COLOR2);
+	init_pair(13, COLOR9, COLOR3);
+	init_pair(14, COLOR9, COLOR4);
 	//caret color pair 50 cycles
 	init_pair(21, COLOR_BLACK, COLOR5);
 	init_pair(22, COLOR_BLACK, COLOR6);
@@ -64,7 +65,7 @@ void			create_colors()
 	init_pair(24, COLOR_BLACK, COLOR8);
 }
 
-void			on_color_caret(int cp, t_vm *vm)
+int			on_color_caret(int cp, t_vm *vm)
 {
 	if (cp == COLOR_PAIR(3))
 		wattron(vm->visual->map, COLOR_PAIR(7));
@@ -74,14 +75,14 @@ void			on_color_caret(int cp, t_vm *vm)
 		wattron(vm->visual->map, COLOR_PAIR(9));
 	else if (cp == COLOR_PAIR(6))
 		wattron(vm->visual->map, COLOR_PAIR(10));
-	else if (cp == COLOR_PAIR(7))
-		wattron(vm->visual->map, COLOR_PAIR(7));
-	else if (cp == COLOR_PAIR(8))
-		wattron(vm->visual->map, COLOR_PAIR(8));
-	else if (cp == COLOR_PAIR(9))
-		wattron(vm->visual->map, COLOR_PAIR(9));
-	else if (cp == COLOR_PAIR(10))
-		wattron(vm->visual->map, COLOR_PAIR(10));
+//	else if (cp == COLOR_PAIR(7))
+//		wattron(vm->visual->map, COLOR_PAIR(7));
+//	else if (cp == COLOR_PAIR(8))
+//		wattron(vm->visual->map, COLOR_PAIR(8));
+//	else if (cp == COLOR_PAIR(9))
+//		wattron(vm->visual->map, COLOR_PAIR(9));
+//	else if (cp == COLOR_PAIR(10))
+//		wattron(vm->visual->map, COLOR_PAIR(10));
 	else if (cp == COLOR_PAIR(15))
 		wattron(vm->visual->map, COLOR_PAIR(21));
 	else if (cp == COLOR_PAIR(16))
@@ -90,24 +91,28 @@ void			on_color_caret(int cp, t_vm *vm)
 		wattron(vm->visual->map, COLOR_PAIR(23));
 	else if (cp == COLOR_PAIR(18))
 		wattron(vm->visual->map, COLOR_PAIR(24));
-	else if (cp == COLOR_PAIR(21))
-		wattron(vm->visual->map, COLOR_PAIR(21));
-	else if (cp == COLOR_PAIR(22))
-		wattron(vm->visual->map, COLOR_PAIR(22));
-	else if (cp == COLOR_PAIR(23))
-		wattron(vm->visual->map, COLOR_PAIR(23));
-	else if (cp == COLOR_PAIR(24))
-		wattron(vm->visual->map, COLOR_PAIR(24));
-	else if (cp == COLOR_PAIR(11))
-		wattron(vm->visual->map, COLOR_PAIR(11));
-	else if (cp == COLOR_PAIR(12))
-		wattron(vm->visual->map, COLOR_PAIR(12));
-	else if (cp == COLOR_PAIR(13))
-		wattron(vm->visual->map, COLOR_PAIR(13));
-	else if (cp == COLOR_PAIR(14))
-		wattron(vm->visual->map, COLOR_PAIR(14));
-	else
+//	else if (cp == COLOR_PAIR(21))
+//		wattron(vm->visual->map, COLOR_PAIR(21));
+//	else if (cp == COLOR_PAIR(22))
+//		wattron(vm->visual->map, COLOR_PAIR(22));
+//	else if (cp == COLOR_PAIR(23))
+//		wattron(vm->visual->map, COLOR_PAIR(23));
+//	else if (cp == COLOR_PAIR(24))
+//		wattron(vm->visual->map, COLOR_PAIR(24));
+//	else if (cp == COLOR_PAIR(11))
+//		wattron(vm->visual->map, COLOR_PAIR(11));
+//	else if (cp == COLOR_PAIR(12))
+//		wattron(vm->visual->map, COLOR_PAIR(12));
+//	else if (cp == COLOR_PAIR(13))
+//		wattron(vm->visual->map, COLOR_PAIR(13));
+//	else if (cp == COLOR_PAIR(14))
+//		wattron(vm->visual->map, COLOR_PAIR(14));
+//	else
+	else if (cp == COLOR_PAIR(25))
 		wattron(vm->visual->map, COLOR_PAIR(20));
+	else
+		return (0);
+	return (1);
 }
 
 void			off_color_caret(int cp, t_vm *vm)
@@ -189,7 +194,7 @@ void			on_color_caret_back(int cp, t_vm *vm)
 	else if (cp == COLOR_PAIR(17))
 		wattron(vm->visual->map, COLOR_PAIR(17));
 	else if (cp == COLOR_PAIR(18))
-		wattron(vm->visual->map, COLOR_PAIR(17));
+		wattron(vm->visual->map, COLOR_PAIR(18));
 	else if (cp == COLOR_PAIR(11))
 		wattron(vm->visual->map, COLOR_PAIR(11));
 	else if (cp == COLOR_PAIR(12))
@@ -198,6 +203,8 @@ void			on_color_caret_back(int cp, t_vm *vm)
 		wattron(vm->visual->map, COLOR_PAIR(13));
 	else if (cp == COLOR_PAIR(14))
 		wattron(vm->visual->map, COLOR_PAIR(14));
+	else
+		wattron(vm->visual->map, COLOR_PAIR(25));
 }
 
 void			off_color_caret_back(int cp, t_vm *vm)
@@ -242,6 +249,8 @@ void			off_color_caret_back(int cp, t_vm *vm)
 		wattroff(vm->visual->map, COLOR_PAIR(13));
 	else if (cp == COLOR_PAIR(14))
 		wattroff(vm->visual->map, COLOR_PAIR(14));
+	else
+		wattroff(vm->visual->map, COLOR_PAIR(25));
 }
 
 void			on_color_player(int num_player, t_vm *vm)
@@ -302,8 +311,6 @@ void			on_color_player50(int num_player, t_vm *vm)
 		wattron(vm->visual->map, COLOR_PAIR(17));
 	else if (num_player == 4)
 		wattron(vm->visual->map, COLOR_PAIR(18));
-	else
-		wattron(vm->visual->map, COLOR_PAIR(2));
 }
 
 void			off_color_player50(int num_player, t_vm *vm)
@@ -316,8 +323,6 @@ void			off_color_player50(int num_player, t_vm *vm)
 		wattroff(vm->visual->map, COLOR_PAIR(17));
 	else if (num_player == 4)
 		wattroff(vm->visual->map, COLOR_PAIR(18));
-	else
-		wattroff(vm->visual->map, COLOR_PAIR(2));
 }
 
 void			on_color_live(int cp, t_vm *vm)
@@ -388,39 +393,78 @@ void			decide_color(t_vm *vm, unsigned int i)
 	if (i == 1)
 		on_color_player(1, vm);
 	if (i - 1 == vm->players->head.prog_size)
+	{
 		off_color_player(1, vm);
+		wattron(vm->visual->map, COLOR_PAIR(25));
+	}
 	if (num == 2)
 	{
 		if (i - 1 == 4096 / 2)
+		{
+			wattroff(vm->visual->map, COLOR_PAIR(25));
 			on_color_player(2, vm);
+		}
 		if (i - 1 == 4096 / 2 + vm->players->next->head.prog_size)
+		{
 			off_color_player(2, vm);
+			wattron(vm->visual->map, COLOR_PAIR(25));
+		}
 	}
 	if (num == 3)
 	{
 		if (i - 1 == 4096 / 3)
+		{
+			wattroff(vm->visual->map, COLOR_PAIR(25));
 			on_color_player(2, vm);
+		}
 		if (i - 1 == 4096 / 3 + vm->players->next->head.prog_size)
+		{
 			off_color_player(2, vm);
+			wattron(vm->visual->map, COLOR_PAIR(25));
+		}
 		if (i - 1 == 2 * 4096 / 3)
+		{
+			wattroff(vm->visual->map, COLOR_PAIR(25));
 			on_color_player(3, vm);
+		}
 		if (i - 1 == 2 * 4096 / 3 + vm->players->next->next->head.prog_size)
+		{
 			off_color_player(3, vm);
+			wattron(vm->visual->map, COLOR_PAIR(25));
+		}
 	}
 	if (num == 4)
 	{
 		if (i - 1 == 4096 / 4)
+		{
+			wattroff(vm->visual->map, COLOR_PAIR(25));
 			on_color_player(2, vm);
+		}
 		if (i - 1 == 4096 / 4 + vm->players->next->head.prog_size)
+		{
 			off_color_player(2, vm);
+			wattron(vm->visual->map, COLOR_PAIR(25));
+		}
 		if (i - 1 == 4096 / 2)
+		{
+			wattroff(vm->visual->map, COLOR_PAIR(25));
 			on_color_player(3, vm);
+		}
 		if (i - 1 == 4096 / 2 + vm->players->next->next->head.prog_size)
+		{
 			off_color_player(3, vm);
+			wattron(vm->visual->map, COLOR_PAIR(25));
+		}
 		if (i - 1 == 3 * 4096 / 4)
+		{
+			wattroff(vm->visual->map, COLOR_PAIR(25));
 			on_color_player(4, vm);
+		}
 		if (i - 1 == 3 * 4096 / 4 + vm->players->next->next->next->head.prog_size)
+		{
 			off_color_player(4, vm);
+			wattron(vm->visual->map, COLOR_PAIR(25));
+		}
 	}
 }
 
@@ -481,7 +525,7 @@ void			wprint_text(t_vm *vm)
 	wrefresh(vm->visual->text);
 	wattron(vm->visual->text, COLOR_PAIR(19));
 	mvwprintw(vm->visual->text, 4, 2, "**PLAY** ");
-	mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: %3d", vm->visual->lim);
+	mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: %-4d", vm->visual->lim);
 	mvwprintw(vm->visual->text, 8, 2, "Cycles: %u", vm->game_cycle);
 	mvwprintw(vm->visual->text, 10, 2, "Processes: %d", num_cur(vm));
 	wattroff(vm->visual->text, COLOR_PAIR(19));
@@ -498,7 +542,7 @@ void			wprint_text(t_vm *vm)
 		mvwprintw(vm->visual->text, 12 + i, 9 + len, " : ");
 		wattroff(vm->visual->text, COLOR_PAIR(19));
 		on_color_player_t(i / 4 + 1, vm);
-		mvwprintw(vm->visual->text, 12 + i, 12 + len, "%.20s", temp->head.prog_name);
+		mvwprintw(vm->visual->text, 12 + i, 12 + len, "%.40s", temp->head.prog_name);
 		off_color_player_t(i / 4 + 1, vm);
 		wattron(vm->visual->text, COLOR_PAIR(19));
 		mvwprintw(vm->visual->text, 13 + i, 4, "Last live: %-6d", temp->last_live);
@@ -539,7 +583,7 @@ void			pause_processing(t_vm *vm)
 			if (vm->visual->lim > 1)
 				vm->visual->lim--;
 		}
-		mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: %3d", vm->visual->lim);
+		mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: %-4d", vm->visual->lim);
 		wrefresh(vm->visual->text);
 		if (ch == 115)
 		{
@@ -576,16 +620,16 @@ void			*catch_keys(void *temp)
 
 void			interrupt(t_vm *vm)
 {
-	usleep((useconds_t)(1000000 / vm->visual->lim));
+	usleep((useconds_t)(1000000 / (1.7 * vm->visual->lim)));
 	wattron(vm->visual->text, COLOR_PAIR(19));
 	mvwprintw(vm->visual->text, 10, 2, "Processes: %-6d", num_cur(vm));
 	mvwprintw(vm->visual->text, 8, 2, "Cycles: %u", vm->game_cycle);
 	mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: %-4d", vm->visual->lim);
 	renew_lives(vm);
 	wattroff(vm->visual->text, COLOR_PAIR(19));
-//	put_car(vm);
-	draw_line(vm, 18);
 	cycles_decrease(vm);
+	put_car(vm);
+	draw_line(vm, 18);
 	wrefresh(vm->visual->text);
 	wrefresh(vm->visual->map);
 	if (vm->visual->pause == 1)
@@ -643,12 +687,48 @@ void			visual(t_vm *vm)
 
 //from abroad
 
+static void		printw_winner(t_vm *vm)
+{
+	int				count;
+	t_player		*players;
+
+	count = 1;
+	players = vm->players;
+	while (players)
+	{
+		if (players->num_player == vm->winner)
+		{
+			wattron(vm->visual->text, COLOR_PAIR(19));
+			mvwprintw(vm->visual->text, 28 + 4 * number_of_players(vm->players), 2, "WINNER: ");
+			wattroff(vm->visual->text, COLOR_PAIR(19));
+			on_color_player_t(count, vm);
+			mvwprintw(vm->visual->text, 28 + 4 * number_of_players(vm->players), 2 + 8, "%.40s", players->head.prog_name);
+			off_color_player_t(count, vm);
+			return ;
+		}
+		count++;
+		players = players->next;
+	}
+}
+
 void			wait_end(t_vm *vm)
 {
+
+	wattron(vm->visual->text, COLOR_PAIR(19));
+	mvwprintw(vm->visual->text, 10, 2, "Processes: %-6d", num_cur(vm));
+	mvwprintw(vm->visual->text, 8, 2, "Cycles: %u", vm->game_cycle);
+	mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: %-4d", vm->visual->lim);
+	renew_lives(vm);
+	wattroff(vm->visual->text, COLOR_PAIR(19));
+	cycle_decrease_to_end(vm);
+	put_car(vm);
+	draw_empty_line(vm, 18);
 	wattron(vm->visual->text, COLOR_PAIR(19));
 	mvwprintw(vm->visual->text, 4, 2, "**FINISH** ");
 	wattroff(vm->visual->text, COLOR_PAIR(19));
+	printw_winner(vm);
 	wrefresh(vm->visual->text);
+	wrefresh(vm->visual->map);
 	pthread_join(vm->visual->keys_thread, NULL);
 	if (vm->visual->pause == 1)
 		getch();
@@ -767,9 +847,11 @@ void			put_car(t_vm *vm)
 	{
 		y = (temp->pc) / 64 + 2;
 		x = (temp->pc) % 64 * 3 + 3;
-		on_color_caret(mvwinch(vm->visual->map, y, x) & A_COLOR, vm);
-		mvwprintw(vm->visual->map, y, x, "%02x", vm->map[temp->pc]);
-		off_color_caret(mvwinch(vm->visual->map, y, x) & A_COLOR, vm);
+		if (on_color_caret(mvwinch(vm->visual->map, y, x) & A_COLOR, vm))
+		{
+			mvwprintw(vm->visual->map, y, x, "%02x", vm->map[temp->pc]);
+			off_color_caret(mvwinch(vm->visual->map, y, x) & A_COLOR, vm);
+		}
 		if (temp->pc_prev != -1 && temp->pc_prev != temp->pc && !second_car(vm, temp))
 		{
 			y = (temp->pc_prev) / 64 + 2;
@@ -781,4 +863,16 @@ void			put_car(t_vm *vm)
 		temp->pc_prev = temp->pc;
 		temp = temp->next;
 	}
+}
+
+void			vdel_car(t_vm *vm, t_carriage *tcar)
+{
+	int				x;
+	int				y;
+
+	y = (tcar->pc) / 64 + 2;
+	x = (tcar->pc) % 64 * 3 + 3;
+	on_color_caret_back(mvwinch(vm->visual->map, y, x) & A_COLOR, vm);
+	mvwprintw(vm->visual->map, y, x, "%02x", vm->map[tcar->pc]);
+	off_color_caret_back(mvwinch(vm->visual->map, y, x) & A_COLOR, vm);
 }

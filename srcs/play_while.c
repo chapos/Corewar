@@ -38,6 +38,7 @@ void		while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
 {
 	int res;
 
+	res = 0;
 	while (tcars)
 	{
 		if (is_time_to_run(vm, tcars))
@@ -54,12 +55,12 @@ void		while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
 			{
 				if (EXS_DSP(tcars->command) && vm->flags.v & 16)
 					print_pc_movement(tcars->pc, vm->args.shift, vm->map);
+				if (tcars->command == 1 && vm->flags.visual && vm->args.valid_live)
+					live_processing(tcars, vm, 0);
 				++tcars->pc;
 			}
-			if ((tcars->command == 3 || tcars->command == 11) && vm->flags.visual)
+			if ((tcars->command == 3 || tcars->command == 11) && vm->flags.visual && res && vm->args.arg2.type != T_REG)
 				command_processing(tcars, vm, 4);
-			if (tcars->command == 1 && vm->flags.visual)
-				live_processing(tcars, vm, 0);
 			tcars->pc += vm->args.shift;
 			tcars->pc = normalize_pc(tcars->pc);
 			tcars->command = 0;
