@@ -7,7 +7,7 @@ begin_coromp2:
 	st				r1, :begin_coromp2
 	ld				%493,r2			# jump
 	ld				%100,r3
-	live			%0
+	live			%1111638594
 	fork            %:corruption_second2
 
 corruption_first2:
@@ -43,16 +43,16 @@ corruption_second2:
 	ld		%0, r1
 
 	zjmp	%:tmp
-	live	%0
-	live	%0
+	live	%1111638594
+	live	%1111638594
 	aff		r2
 	aff		r2
 
 stock:
 	aff		r2
-	live	%0
-	live	%0
-	live	%0
+	live	%1111638594
+	live	%1111638594
+	live	%1111638594
 
 _start:
 	ld		:stock,r1
@@ -62,7 +62,7 @@ _start:
 	ld		%-1,r14
 	ld		%0,r2
 	ld		%16777216,r11
-	live	%2
+	live	%1111638594
 	fork	%:hola
 	live	%1111638594
 	ld		%0,r16
@@ -71,7 +71,7 @@ _start:
 	fork	%:preserve
 	live	%1111638594
 	fork	%:apocalypse
-	live	%2
+	live	%1111638594
 	sti		r1,%1,%:h1
 	sti		r1,%6,%:h1
 	
