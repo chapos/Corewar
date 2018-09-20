@@ -68,19 +68,20 @@ RM			 		:= rm -rf
 AR			 		:= ar
 CC			 		:= gcc
 ARFLAGS		 		:= rc
-CFLAGS		 		:= -Wall -Werror -Wextra
+CFLAGS_COMPILE		:= -Wall -Werror -Wextra
+CFLAGS_LINKAGE      := $(CFLAGS_COMPILE)
 MFLAGS		 		:= --no-print-directory -C
 
 define BINARY_template1
 $$($(1)_NAME): $$($(1)_ALL_OBJS)
 	@$$(call EXEC_P,$$@)
-	@$$(CC) $$(CFLAGS) -o $$($(1)_NAME) $$^ $$($(2)_NAME)
+	@$$(CC) $$(CFLAGS_LINKAGE) -o $$($(1)_NAME) $$^ $$($(2)_NAME)
 endef
 
 define BINARY_template2
 $$($(1)_NAME): $$($(1)_ALL_EXTRA_LIBS) $$($(1)_OBJS)
 	@$$(call EXEC_P,$$@)
-	@$$(CC) $$(CFLAGS) -o $$($(1)_NAME) $$^ $$($(2)_NAME)
+	@$$(CC) $$(CFLAGS_LINKAGE) -o $$($(1)_NAME) $$^ $$($(2)_NAME)
 endef
 
 define BASIC_template
@@ -94,7 +95,7 @@ endif
 
 $$($(1)_OBJS_DIR)/%.o: $$($(1)_SRCS_DIR)/%.c $$($(1)_ALL_DEPS)
 	$$(WCOMPILE_P)
-	@$(CC) $(CFLAGS) -o $$@ -c $$< $$($(1)_ALL_DEPS_DIRS:%=-I%)
+	@$(CC) $(CFLAGS_COMPILE) -o $$@ -c $$< $$($(1)_ALL_DEPS_DIRS:%=-I%)
 $$($(1)_OBJS): |$$($(1)_ALL_OBJS_DIRS)
 
 $$($(1)_ALL_OBJS_DIRS):

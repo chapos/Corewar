@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/17 16:31:35 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/17 16:45:38 by ailkiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,24 @@
 #include <stdio.h>
 //////
 
-/*
-**
-*/
+//visual
+#include <ncurses.h>
+#include <zconf.h>
+#include <pthread.h>
+#include <math.h>
+
+#define COLOR_BORDER	30
+#define COLOR1			31
+#define COLOR2			32
+#define COLOR3			33
+#define COLOR4			34
+#define COLOR5			35
+#define COLOR6			36
+#define COLOR7			37
+#define COLOR8			38
+#define COLOR9			39
+#define COLOR10			40
+//visual
 
 typedef char	t_arg_type;
 
@@ -91,6 +106,26 @@ typedef char	t_arg_type;
 # define EXS_DSP(x) ((x) > 0 && (x) < 17)
 # define CHECK_MC(x) ((x) && (x) % MAX_CHECKS == 0)
 
+typedef struct		s_vcars
+{
+	int				c_pair;
+	int				stored_to;
+	int				cycles;
+	int				len;
+	struct s_vcars	*next;
+}					t_vcars;
+
+typedef struct		s_visual
+{
+	WINDOW			*map;
+	WINDOW			*text;
+	int				pause;
+	int				lim;
+	unsigned int	game_cycle;
+	pthread_t		keys_thread;
+	t_vcars			*vcars;
+}					t_visual;
+
 typedef	struct		s_pargs
 {
 	t_arg_type		arg1;
@@ -113,8 +148,10 @@ typedef struct		s_args
 	t_arg		arg2;
 	t_arg		arg3;
 	t_arg		arg4;
+
 	int			shift;
 	int			stored_to;
+	int 		valid_live;
 }					t_args;
 
 /*
@@ -142,8 +179,8 @@ typedef struct		s_header
 typedef struct		s_carriage
 {
 	int					num_car;
+	int 				pc_prev;
 	int					pc;
-	int					pc_prev;
 	int					num_player;
 	int					carry;
 	int					life;
@@ -202,6 +239,7 @@ typedef struct		s_vm
 	unsigned int		game_cycle;
 	unsigned int		alicp;
 	int					winner;
+	t_visual			*visual;
 }					t_vm;
 
 typedef struct		s_ama_dispetcher
@@ -288,5 +326,33 @@ void	print_live(t_carriage *carriage, t_vm *vm);
 
 void	print_pc_movement(int cur_pos, int shift, unsigned char *map);
 void	print_pnum(int num);
+
+//visual
+void			visual(t_vm *vm);
+void			interrupt(t_vm *vm);
+void			wait_end(t_vm *vm);
+void			renew_ctd(t_vm *vm, unsigned int ctd);
+void			renew_lives(t_vm *vm);
+void			draw_line(t_vm *vm, int coord);
+void			draw_empty_line(t_vm *vm, int coord);
+void			put_car(t_vm *vm);
+void			push_back_vcars(t_vcars **begin, int c_pair, int stored_to, int len);
+void			del_front_vcars(t_vcars **begin);
+void			del_vcars(t_vcars **begin);
+void			command_processing(t_carriage *tcar, t_vm *vm, int len);
+void			on_color_player50(int num_player, t_vm *vm);
+void			off_color_player50(int num_player, t_vm *vm);
+void			cycles_decrease(t_vm *vm);
+void			on_color_player(int num_player, t_vm *vm);
+void			off_color_player(int num_player, t_vm *vm);
+int				on_color_caret(int cp, t_vm *vm);
+void			off_color_caret(int cp, t_vm *vm);
+void			live_processing(t_carriage *tcar, t_vm *vm, int len);
+void			on_color_live(int cp, t_vm *vm);
+void			off_color_live(int cp, t_vm *vm);
+void			print_back_live(t_vm *vm);
+void			vdel_car(t_vm *vm, t_carriage *tcar);
+void			print_back(t_vm *vm);
+void			cycle_decrease_to_end(t_vm *vm);
 
 #endif

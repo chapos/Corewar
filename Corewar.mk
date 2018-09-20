@@ -6,7 +6,7 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/14 19:02:12 by oevtushe          #+#    #+#              #
-#    Updated: 2018/09/03 12:48:23 by oevtushe         ###   ########.fr        #
+#    Updated: 2018/09/15 15:08:36 by ailkiv           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,8 @@ FTP_DIR				:= $(CW_SRCS_DIR)/ft_printf
 include				$(FT_DIR)/Pretty.mk
 include				$(FTP_DIR)/Libftp.mk
 include				$(FT_DIR)/Templates.mk
+
+CFLAGS_LINKAGE      += -lncurses -lpthread
 
 CW_DEPF				:= op.h
 CW_SRCF				:= player.c				\
@@ -59,7 +61,11 @@ CW_SRCF				:= player.c				\
 					   play_while.c         \
 					   validate_args.c		\
 					   print.c              \
-					   bonus_func.c
+					   visual.c             \
+					   bonus_func.c         \
+					   visual_list.c        \
+					   command_processing.c \
+					   live_processing.c
 
 CW_DEPS				:= $(CW_DEPF:%=$(CW_DEPS_DIR)/%)
 CW_SRCS				:= $(CW_SRCF:%=$(CW_SRCS_DIR)/%)

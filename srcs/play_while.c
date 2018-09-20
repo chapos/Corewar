@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/17 16:34:21 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/17 16:44:35 by ailkiv           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void		while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
 {
 	int res;
 
+	res = 0;
 	while (tcars)
 	{
 		if (is_time_to_run(vm, tcars))
@@ -54,8 +55,12 @@ void		while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
 			{
 				if (EXS_DSP(tcars->command) && vm->flags.v & 16)
 					print_pc_movement(tcars->pc, vm->args.shift, vm->map);
+				if (tcars->command == 1 && vm->flags.visual && vm->args.valid_live)
+					live_processing(tcars, vm, 0);
 				++tcars->pc;
 			}
+			if ((tcars->command == 3 || tcars->command == 11) && vm->flags.visual && res && vm->args.arg2.type != T_REG)
+				command_processing(tcars, vm, 4);
 			tcars->pc += vm->args.shift;
 			tcars->pc = normalize_pc(tcars->pc);
 			tcars->command = 0;
@@ -71,7 +76,10 @@ static void	play_cycle(t_vm *vm, int cycle, t_dsp *dsp)
 	ft_memset(&vm->args, 0, sizeof(t_args));
 	while (cycle)
 	{
-		vm->game_cycle++;
+		if (vm->flags.visual)
+			interrupt(vm);
+		else
+			vm->game_cycle++;
 		tcars = vm->cars;
 		if (vm->flags.v & 2)
 			printf("It is now cycle %d\n", vm->game_cycle);
@@ -86,14 +94,21 @@ static void	play_cycle(t_vm *vm, int cycle, t_dsp *dsp)
 			flags_s(vm);
 		}
 	}
+	if (vm->flags.visual)
+	{
+		draw_empty_line(vm, 18);
+		draw_line(vm, 21);
+	}
 }
 
-static void	ctd_operator(int licp, int *count_cycle, int *ctd, t_flags *flags)
+static void	ctd_operator(t_vm *vm, int *count_cycle, int *ctd)
 {
-	if (licp >= NBR_LIVE || CHECK_MC(*count_cycle))
+	if (vm->alicp >= NBR_LIVE || CHECK_MC(*count_cycle))
 	{
 		*ctd -= CYCLE_DELTA;
-		if (flags->v & 2)
+		if (vm->flags.visual)
+			renew_ctd(vm, *ctd);
+		if (vm->flags.v & 2)
 			printf("Cycle to die is now %d\n", *ctd);
 		*count_cycle = 0;
 	}
@@ -120,6 +135,8 @@ void		play_while(t_vm *vm)
 	cycle_to_die = CYCLE_TO_DIE;
 	init_dsp(dsp);
 	vm->process_counter = vm->cars->num_car;
+	if (vm->flags.visual)
+		visual(vm);
 	while (condition && vm->alicp)
 	{
 		vm->alicp = 0;
@@ -127,7 +144,7 @@ void		play_while(t_vm *vm)
 		condition ? play_cycle(vm, cycle_to_die, dsp) :
 			play_cycle(vm, 1, dsp);
 		del_cars(vm, cycle_to_die);
-		ctd_operator(vm->alicp, &count_cycle, &cycle_to_die, &vm->flags);
+		ctd_operator(vm, &count_cycle, &cycle_to_die);
 		count_cycle++;
 		refresh_players(vm->players);
 	}

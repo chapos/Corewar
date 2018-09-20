@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "op.h"
+#include "../includes/op.h"
 
 void		print_st(t_carriage *carriage, t_vm *vm)
 {
@@ -30,7 +30,6 @@ static int	do_st(t_carriage *carriage, t_vm *vm)
 	int		res;
 	int		rev;
 
-	res = 0;
 	init_args(carriage, vm->map, &vm->args);
 	if (vm->args.arg2.type == T_REG)
 	{
@@ -41,7 +40,7 @@ static int	do_st(t_carriage *carriage, t_vm *vm)
 	{
 		rev = vm->args.arg1.value;
 		ft_byterev_ui32((unsigned int *)&rev);
-		vm->args.stored_to = carriage->pc + vm->args.arg2.readed;
+		vm->args.stored_to = normalize_pc(carriage->pc + vm->args.arg2.readed);
 		write_int_in_map(&rev, vm->args.stored_to, vm->map);
 		res = 1;
 	}

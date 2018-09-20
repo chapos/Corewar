@@ -33,16 +33,20 @@ static void	show_live(t_player *players, t_args *args, t_flags *flags)
 	}
 }
 
-static void	add_live_to_player(t_player *players,
-								int *winner, t_args *args, int gc)
+static void	add_live_to_player(t_vm *vm)
 {
+	t_player	*players;
+
+	players = vm->players;
+	vm->args.valid_live = 0;
 	while (players)
 	{
-		if (players->num_player == args->arg1.readed)
+		if (players->num_player == vm->args.arg1.readed)
 		{
-			*winner = players->num_player;
-			players->last_live = gc;
+			vm->winner = players->num_player;
+			players->last_live = vm->game_cycle;
 			++players->licp;
+			vm->args.valid_live = 1;
 			return ;
 		}
 		players = players->next;
@@ -51,11 +55,6 @@ static void	add_live_to_player(t_player *players,
 
 void		print_live(t_carriage *carriage, t_vm *vm)
 {
-	int			cnt;
-	t_player	*players;
-
-	cnt = 1;
-	players = vm->players;
 	print_pnum(carriage->num_car);
 	printf("live %d\n", vm->args.arg1.readed);
 	if (vm->flags.v & 1)
@@ -73,7 +72,7 @@ int			dsp_live(t_carriage *carriage, t_vm *vm)
 	vm->alicp++;
 	carriage->last_live_cn = vm->game_cycle;
 	vm->args.shift = 4;
-	add_live_to_player(vm->players, &vm->winner, &vm->args, vm->game_cycle);
+	add_live_to_player(vm);
 	if (vm->flags.v & 1 && !(vm->flags.v & 16))
 		show_live(vm->players, &vm->args, &vm->flags);
 	return (1);
