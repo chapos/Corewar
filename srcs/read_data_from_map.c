@@ -6,48 +6,39 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 11:56:42 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/10 15:29:18 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/21 11:11:28 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-static int	read_arg(int pc, t_pair *pair, unsigned int acb_mask, t_reader reader)
+static int	read_arg(int pc, t_pair *pair,
+				unsigned int acb_mask, t_reader reader)
 {
 	int				res;
-	char			size;
 	int				shift;
 	unsigned char	*map;
-	t_arg			*arg;
 
 	res = 0;
 	shift = 0;
-	arg = (t_arg *)pair->scd;
 	map = (unsigned char *)pair->fst;
-	// Direct
 	if (acb_mask == 0x80)
 	{
-		size = reader.read_dir(&arg->readed, pc, map);
-		shift = size;
-		arg->type = T_DIR;
-		arg->size = size;
+		shift = reader.read_dir(&((t_arg *)pair->scd)->readed, pc, map);
+		((t_arg *)pair->scd)->type = T_DIR;
 	}
-	// Register
 	else if (acb_mask == 0x40)
 	{
-		arg->readed = map[pc];
-		arg->type = T_REG;
-		arg->size = 1;
+		((t_arg *)pair->scd)->readed = map[pc];
+		((t_arg *)pair->scd)->type = T_REG;
 		shift = sizeof(unsigned char);
 	}
-	// Indirect
 	else if (acb_mask == 0xc0)
 	{
-		size = reader.read_ind(&arg->readed, pc, map);
-		shift = size;
-		arg->type = T_IND;
-		arg->size = size;
+		shift = reader.read_ind(&((t_arg *)pair->scd)->readed, pc, map);
+		((t_arg *)pair->scd)->type = T_IND;
 	}
+	((t_arg *)pair->scd)->size = shift;
 	return (shift);
 }
 

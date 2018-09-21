@@ -1,16 +1,16 @@
 .name "Frankenstein"
 .comment "I'm alive !"
 
-begin_coromp2:
-	st				r1, :stock
+begin_corruption:
+	st				r1, :stash
 	ld				%151056128,r1	# 09 00 EF 00
-	st				r1, :begin_coromp2
+	st				r1, :begin_corruption
 	ld				%493,r2			# jump
 	ld				%100,r3
 	live			%1111638594
-	fork            %:corruption_second2
+	fork            %:corruption_second
 
-corruption_first2:
+corruption_first:
 	ld				%34144744,r4	; 02 09 01 E8
 	st				r4,r5
 	ld				%50921567,r6
@@ -27,7 +27,7 @@ corruption_first2:
 	sub             r16, r16, r16
 	zjmp            %:tmp
 
-corruption_second2:
+corruption_second:
 	ld		%190055681,r4
 	ld		%190055937,r5
 	ld		%190057473,r6
@@ -48,14 +48,14 @@ corruption_second2:
 	aff		r2
 	aff		r2
 
-stock:
+stash:
 	aff		r2
 	live	%1111638594
 	live	%1111638594
 	live	%1111638594
 
 _start:
-	ld		:stock,r1
+	ld		:stash,r1
 	ld		%507, r6
 	ld		%8, r8
 	ld		%139, r10
@@ -85,9 +85,9 @@ life_cycle:
 	zjmp	%:life_cycle
 
 hola: live %1111638594
-	fork	%:sjmp
+	fork	%:c2
 
-vite:
+c1:
 	live	%1111638594
 	ld		%4, r2
 	ld		%101253622, r3
@@ -97,7 +97,7 @@ vite:
 	ld		%0, r16
 	zjmp	%:rush
 
-sjmp:
+c2:
 	live	%1111638594
 	ld		%0, r2
 	ld		%190055682, r3
@@ -108,17 +108,17 @@ sjmp:
 	zjmp	%:rush
 
 tmp:
-	zjmp	%:end2
+	zjmp	%:end
 rush:
 	live	%1111638594
 	sti		r3, r2, r6
 	zjmp	%502
 
-super:
+cycle:
 	live	%1111638594
 
 apocalypse:
-	fork	%:super
+	fork	%:cycle
 	live	%1111638594
     fork    %:salut2
     or      r2, %32, r2
@@ -162,7 +162,7 @@ preserve:
 	sti		r1,%:_start,r14
 	zjmp	%:preserve
 
-end2:
+end:
 	sti		r4,r1,%505
 	zjmp	%499
 

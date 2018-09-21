@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/17 16:45:38 by ailkiv           ###   ########.fr       */
+/*   Updated: 2018/09/21 12:10:06 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,6 @@ typedef char	t_arg_type;
 # define T_IND					4
 # define T_LAB					8
 
-/*
-**
-*/
-
 # define PROG_NAME_LENGTH		(128)
 # define COMMENT_LENGTH			(2048)
 # define COREWAR_EXEC_MAGIC		0xea83f3
@@ -152,21 +148,8 @@ typedef struct		s_args
 	int			shift;
 	int			stored_to;
 	int 		valid_live;
+	int			st_reg;
 }					t_args;
-
-/*
-typedef	struct		s_op
-{
-	char			*name;
-	int				argc;
-	t_possible_args	args;
-	int				opc;
-	int				cycle;
-	char			*descr;
-	int				acb;
-	int				idk;
-}					t_op;
-*/
 
 typedef struct		s_header
 {
@@ -248,13 +231,10 @@ typedef struct		s_ama_dispetcher
 	void		(*print_cmd)(t_carriage *carriage, t_vm *vm);
 }					t_dsp;
 
-void	ft_byterev_us16(unsigned short *i);
-void	ft_byterev_ui32(unsigned int *i);
-void	read_args_from_map(int pc, unsigned char *map, t_args *args, t_reader reader);
-size_t	read_int_from_map(int *val, int pos, unsigned char *map);
-size_t	read_short_from_map(int *val, int pos, unsigned char *map);
-void	init_args(t_carriage *carriage, unsigned char *map, t_args *args);
-void	write_int_in_map(int *val, int pos, unsigned char *map);
+/*
+**							Operations 'n related stuff
+** -----------------------------------------------------------------------------------
+*/
 
 int		dsp_ld(t_carriage *carriage, t_vm *vm);
 int		dsp_st(t_carriage *carriage, t_vm *vm);
@@ -273,9 +253,20 @@ int		dsp_fork(t_carriage *father, t_vm *vm);
 int		dsp_lfork(t_carriage *father, t_vm *vm);
 int		dsp_live(t_carriage *carriage, t_vm *vm);
 
+void	ft_byterev_us16(unsigned short *i);
+void	ft_byterev_ui32(unsigned int *i);
+void	read_args_from_map(int pc, unsigned char *map, t_args *args, t_reader reader);
+size_t	read_int_from_map(int *val, int pos, unsigned char *map);
+size_t	read_short_from_map(int *val, int pos, unsigned char *map);
+void	init_args(t_carriage *carriage, unsigned char *map, t_args *args);
+void	write_int_in_map(int *val, int pos, unsigned char *map);
 void	init_op_arr(t_op *op);
 void	init_dsp(t_dsp *dsp);
 int		write_in_map(unsigned char map[], t_player *player);
+
+/*
+** -----------------------------------------------------------------------------------
+*/
 
 void	play_while(t_vm *vm);
 int		read_header(t_player *player, int fd);

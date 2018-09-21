@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:22:51 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/08 16:11:35 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/21 12:19:37 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,9 @@ int			main(int argc, char **argv)
 	print_player(vm.players);
 	lishnaja_fykcija(&vm);
 	play_while(&vm);
-//	print_winner(vm.players, vm.winner);
+	// ?????????????????????
+	if (!vm.flags.visual)
+		print_winner(vm.players, vm.winner);
 	free_all(&vm);
 	return (0);
 }

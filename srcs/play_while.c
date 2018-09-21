@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/17 16:44:35 by ailkiv           ###   ########.fr       */
+/*   Updated: 2018/09/21 12:10:14 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void		while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
 					live_processing(tcars, vm, 0);
 				++tcars->pc;
 			}
-			if ((tcars->command == 3 || tcars->command == 11) && vm->flags.visual && res && vm->args.arg2.type != T_REG)
+			if ((tcars->command == 3 || tcars->command == 11) && vm->flags.visual && res && !vm->args.st_reg)
 				command_processing(tcars, vm, 4);
 			tcars->pc += vm->args.shift;
 			tcars->pc = normalize_pc(tcars->pc);

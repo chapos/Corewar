@@ -6,7 +6,7 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/14 19:02:12 by oevtushe          #+#    #+#              #
-#    Updated: 2018/09/15 15:08:36 by ailkiv           ###   ########.fr        #
+#    Updated: 2018/09/21 11:16:58 by oevtushe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ CFLAGS_LINKAGE      += -lncurses -lpthread
 
 CW_DEPF				:= op.h
 CW_SRCF				:= player.c				\
-					   operations.c			\
+					   init_dsp.c			\
 					   ft_byterev_us16.c	\
 					   ft_byterev_ui32.c	\
 					   read_data_from_map.c	\

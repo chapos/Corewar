@@ -38,6 +38,10 @@ void			command_processing(t_carriage *tcar, t_vm *vm, int len)
 	int			temp;
 
 	i = 0;
+	/*
+	if (vm->game_cycle == 965)
+		print("%d", vm->args.stored_to);
+		*/
 	temp = vm->args.stored_to % MEM_SIZE;
 	if (temp < 0)
 		temp = temp + MEM_SIZE;

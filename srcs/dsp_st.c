@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:37:28 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/17 16:24:11 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/21 12:10:06 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static int	do_st(t_carriage *carriage, t_vm *vm)
 	{
 		carriage->reg[vm->args.arg2.readed] = vm->args.arg1.value;
 		res = 1;
+		vm->args.st_reg = 1;
 	}
 	else
 	{
