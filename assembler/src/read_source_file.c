@@ -19,7 +19,17 @@ static void	validate_and_save_instruction(t_db *db, char *instruction)
 	else if (get_instruction(instruction) == e_ld)
 		handle_ld_instruction(db, instruction);
 	else if (get_instruction(instruction) == e_st)
-		handle_st_instruction(db, instruction);
+		handle_st_instruction(db, instruction + 2);
+	else if (get_instruction(instruction) == e_add)
+		handle_add_instruction(db, instruction + 3);
+	else if (get_instruction(instruction) == e_sub)
+		handle_sub_instruction(db, instruction + 3);
+	else if (get_instruction(instruction) == e_and)
+		handle_and_or_xor_instruction(db, instruction + 3, e_and);
+	else if (get_instruction(instruction) == e_or)
+		handle_and_or_xor_instruction(db, instruction + 2, e_or);
+	else if (get_instruction(instruction) == e_xor)
+		handle_and_or_xor_instruction(db, instruction + 3, e_xor);
 }
 
 static void	validate_line_extended(t_db *db)

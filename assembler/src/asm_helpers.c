@@ -12,6 +12,13 @@
 
 #include "../inc/asm.h"
 
+const char	*skip_whitespaces(const char *line)
+{
+	while (ft_iswhitespace(*line))
+		++line;
+	return (line);
+}
+
 uint32_t	big_little_endian(uint32_t n, bool four_bytes)
 {
 	uint32_t result;

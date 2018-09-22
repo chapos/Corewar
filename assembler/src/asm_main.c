@@ -36,7 +36,7 @@ static int	create_output_file(char *file_name)
 	name_offset = ft_strrchr(file_name, '.');
 	*name_offset = '\0';
 	new_name = ft_strjoin(file_name, ".cor");
-	fd = open(new_name, O_CREAT | O_RDWR, 400);
+	fd = open(new_name, O_CREAT | O_RDWR | O_TRUNC, 400);
 	if (fd == -1)
 	{
 		ft_putstr_fd(OPEN_OUTPUT_ERR, STDERR_FILENO);
