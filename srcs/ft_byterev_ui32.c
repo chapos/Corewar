@@ -6,9 +6,16 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:28:12 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/18 14:28:27 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 19:57:45 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+** Change byte order (little endian to big endian or vice versa)
+**
+** Example:
+** 		0000 0001 0110 0111 -> 0111 0110 0001 0000
+*/
 
 void	ft_byterev_ui32(unsigned int *i)
 {

@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:37:28 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/21 12:10:06 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 19:14:24 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,17 @@ static int	do_st(t_carriage *carriage, t_vm *vm)
 	}
 	return (res);
 }
+
+/*
+** name: st
+** args: T_REG, T_IND | T_REG
+** opcode: 3
+** cycles: 5
+** ACB: yes
+**
+** Description:
+** 	Store the value of the registry toward a second argument
+*/
 
 int			dsp_st(t_carriage *carriage, t_vm *vm)
 {

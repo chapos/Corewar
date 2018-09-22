@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:55:22 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/04 15:18:02 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 19:32:41 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@ void	print_zjmp(t_carriage *carriage, t_vm *vm)
 	else
 		printf("FAILED\n");
 }
+
+/*
+** name: zjmp
+** opcode: 9
+** cycles: 20
+** ACB: no
+**
+** Description:
+** 	Take an index and jump to this address if the carry is 1
+*/
 
 int		dsp_zjmp(t_carriage *carriage, t_vm *vm)
 {

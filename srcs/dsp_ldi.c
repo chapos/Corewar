@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:11:31 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/04 17:34:50 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 18:50:20 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,17 @@ static void	do_ldi(t_carriage *carriage, t_vm *vm)
 	read_int_from_map(&val, carriage->pc + val, vm->map);
 	carriage->reg[vm->args.arg3.readed] = val;
 }
+
+/*
+** name: ldi
+** args: T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG
+** opcode: 10
+** cycles: 25
+** ACB: yes
+** Description:
+** 	Add 2 indexes, treat that like an address, read a value of a
+** 	registry's size and put it on the third argument
+*/
 
 int			dsp_ldi(t_carriage *carriage, t_vm *vm)
 {

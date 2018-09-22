@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 14:17:04 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/03 16:15:50 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 16:49:25 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,18 @@ void	print_aff(t_carriage *carriage, t_vm *vm)
 	carriage = NULL;
 	vm = NULL;
 }
+
+/*
+** name: aff
+** args: T_REG
+** opcode: 16
+** cycles: 2
+** ACB: yes
+**
+** Description:
+** 	interprates register data as ASCII character
+** 	and displays it on the standard output
+*/
 
 int		dsp_aff(t_carriage *carriage, t_vm *vm)
 {
@@ -35,8 +47,8 @@ int		dsp_aff(t_carriage *carriage, t_vm *vm)
 		{
 			if (vm->flags.a)
 			{
-				printf("Aff: %c\n",
-					(char)carriage->reg[vm->args.arg1.readed]);
+				ft_printf("Aff: %c\n",
+					(char)(carriage->reg[vm->args.arg1.readed] % 256));
 			}
 			res = 1;
 		}

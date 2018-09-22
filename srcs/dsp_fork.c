@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 18:06:38 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/17 15:59:21 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 18:43:31 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ void	print_fork(t_carriage *carriage, t_vm *vm)
 	print_pnum(carriage->num_car);
 	printf("fork %d (%d)\n", vm->args.arg1.readed, val);
 }
+
+/*
+** name: fork
+** args: T_DIR
+** opcode: 12
+** cycles: 800
+** ACB: no
+**
+** Description:
+** 	Create new process that will inherit the different states of its father,
+** 	except its PC, which will be put at (PC + (1st parameter % IDX_MOD))
+*/
 
 int		dsp_fork(t_carriage *father, t_vm *vm)
 {

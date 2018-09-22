@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:44:04 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/01 14:25:05 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 19:43:20 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ static void	init_single(t_carriage *carriage, unsigned char *map, t_arg *arg)
 	else
 		arg->value = arg->readed;
 }
+
+/*
+** Load T_IND and T_REG where needed into internal struct val
+*/
 
 void		init_args(t_carriage *carriage, unsigned char *map, t_args *args)
 {

@@ -6,9 +6,16 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:28:59 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/18 14:29:01 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 19:58:07 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+** Change byte order (little endian to big endian or vice versa)
+**
+** Example:
+** 		0110 0111 -> 0111 0110
+*/
 
 void	ft_byterev_us16(unsigned short *i)
 {

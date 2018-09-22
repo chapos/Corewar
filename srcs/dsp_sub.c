@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:38:57 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/03 16:26:56 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 19:26:04 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@ void	print_sub(t_carriage *carriage, t_vm *vm)
 		(unsigned char)vm->args.arg2.readed,
 		(unsigned char)vm->args.arg3.readed);
 }
+
+/*
+** name: sub
+** args: T_REG, T_REG, T_REG
+** opcode: 5
+** cycles: 10
+** ACB: yes
+** modifies carry
+**
+** Description:
+** 	Same as add but uses substraction
+*/
 
 int		dsp_sub(t_carriage *carriage, t_vm *vm)
 {

@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:38:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/03 16:14:41 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 18:40:50 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@ void	print_add(t_carriage *carriage, t_vm *vm)
 			(unsigned char)vm->args.arg2.readed,
 				(unsigned char)vm->args.arg3.readed);
 }
+
+/*
+** name: add
+** args: T_REG, T_REG, T_REG
+** opcode: 4
+** cycles: 10
+** ACB: yes
+** modifies carry
+**
+** Description:
+**	Add two registers and store result into third register
+*/
 
 int		dsp_add(t_carriage *carriage, t_vm *vm)
 {

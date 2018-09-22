@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:39:30 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/04 19:04:30 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 18:39:34 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,19 @@ static void	do_and(t_carriage *carriage, t_vm *vm)
 	carriage->reg[vm->args.arg3.readed] = and;
 	carriage->carry = and ? 0 : 1;
 }
+
+/*
+** name: and
+** args: T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG
+** opcode: 6
+** cycles: 6
+** ACB: yes
+** modifies carry
+**
+** Description:
+** 	Apply an AND operation over the first two arguments and
+** 	store the resultin a registry, which is the third argument
+*/
 
 int			dsp_and(t_carriage *carriage, t_vm *vm)
 {

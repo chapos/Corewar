@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:41:56 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/04 19:03:46 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 19:28:09 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,18 @@ static void	do_xor(t_carriage *carriage, t_vm *vm)
 	carriage->reg[vm->args.arg3.readed] = xor;
 	carriage->carry = xor ? 0 : 1;
 }
+
+/*
+** name: xor
+** args: T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG
+** opcode: 8
+** cycles: 6
+** ACB: yes
+** modifies carry
+**
+** Description:
+** 	Acts like 'and' with an exclusive OR
+*/
 
 int			dsp_xor(t_carriage *carriage, t_vm *vm)
 {

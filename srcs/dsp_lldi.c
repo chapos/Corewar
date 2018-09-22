@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:53:52 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/04 19:00:09 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 19:07:16 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,18 @@ static void	do_lldi(t_carriage *carriage, t_vm *vm)
 	carriage->carry = val ? 0 : 1;
 	carriage->reg[vm->args.arg3.readed] = val;
 }
+
+/*
+** name: lldi
+** args: T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG
+** opcode: 14
+** cycles: 50
+** ACB: yes
+** modifies carry
+**
+** Description:
+** 	Same as ldi, but doesn't apply any modulo to the addresses
+*/
 
 int			dsp_lldi(t_carriage *carriage, t_vm *vm)
 {

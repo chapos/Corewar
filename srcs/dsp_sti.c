@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 12:46:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/17 16:26:19 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 19:22:26 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,18 @@ static void	do_sti(t_carriage *carriage, t_vm *vm)
 	vm->args.stored_to = normalize_pc(carriage->pc + addr);
 	write_int_in_map(&rev, vm->args.stored_to, vm->map);
 }
+
+/*
+** name: sti
+** args: T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG
+** opcode: 11
+** cycles: 25
+** ACB: yes
+**
+** Description:
+** 	Add the two indexes, and use this result as an address where
+** 	the value of the first parameter will be copied
+*/
 
 int			dsp_sti(t_carriage *carriage, t_vm *vm)
 {

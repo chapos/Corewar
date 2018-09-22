@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:40:02 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/04 19:04:44 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 19:11:33 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,18 @@ static void	do_or(t_carriage *carriage, t_vm *vm)
 	carriage->reg[vm->args.arg3.readed] = or;
 	carriage->carry = or ? 0 : 1;
 }
+
+/*
+** name: or
+** args: T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG
+** opcode: 7
+** cycles: 6
+** ACB: yes
+** modifies carry
+** 
+** Descrioption:
+** 	bit-to-bit OR
+*/
 
 int			dsp_or(t_carriage *carriage, t_vm *vm)
 {

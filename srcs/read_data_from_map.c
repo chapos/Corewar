@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 11:56:42 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/21 11:11:28 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 19:51:26 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ static int	read_arg(int pc, t_pair *pair,
 	((t_arg *)pair->scd)->size = shift;
 	return (shift);
 }
+
+/*
+** Read instruction arguments
+*/
 
 void		read_args_from_map(int pc, unsigned char *map,
 							t_args *args, t_reader reader)

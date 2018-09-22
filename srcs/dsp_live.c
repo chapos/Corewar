@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/29 17:31:19 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/08 17:05:02 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 18:57:43 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,19 @@ void		print_live(t_carriage *carriage, t_vm *vm)
 	if (vm->flags.v & 1)
 		show_live(vm->players, &vm->args, &vm->flags);
 }
+
+/*
+** name: live
+** args: T_DIR
+** opcode: 1
+** cycles: 10
+** ACB: no
+**
+** Description:
+** 	Instruction allows process to stay alive.
+** 	It can also record that the players whose number
+** 	is the argument is indeed alive.
+*/
 
 int			dsp_live(t_carriage *carriage, t_vm *vm)
 {

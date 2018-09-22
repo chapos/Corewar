@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 18:37:19 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/17 15:59:30 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 18:54:00 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@ void	print_lfork(t_carriage *carriage, t_vm *vm)
 	print_pnum(carriage->num_car);
 	printf("lfork %d (%d)\n", vm->args.arg1.value, val);
 }
+
+/*
+** name: lfork
+** args: T_DIR
+** opcode: 15
+** cycles: 1000
+** ACB: yes
+**
+** Description:
+** 	Same as fork without modulo in the address
+*/
 
 int		dsp_lfork(t_carriage *father, t_vm *vm)
 {

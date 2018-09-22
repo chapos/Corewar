@@ -6,23 +6,11 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 11:12:56 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/21 11:14:26 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 19:46:43 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
-
-/*
-** void		print_regs(unsigned int *reg)
-** {
-** 	int i;
-**
-** 	i = 1;
-** 	while (i < REG_NUMBER)
-** 		printf("%.8X ", reg[i++]);
-** 	printf("%.8X\n", reg[i]);
-** }
-*/
 
 static void	init_dsps(t_dsp *dsp)
 {
@@ -63,6 +51,11 @@ static void	init_prints(t_dsp *dsp)
 	dsp[14].print_cmd = print_lfork;
 	dsp[15].print_cmd = print_aff;
 }
+
+/*
+** Init array with pointers to funcitons that executes/prints
+** instructions.
+*/
 
 void		init_dsp(t_dsp *dsp)
 {
