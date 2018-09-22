@@ -46,5 +46,11 @@ int				player_num(t_player *player, t_vm *vm)
 
 size_t			len_number(int i)
 {
-	return (ft_strlen(ft_itoa(i)));
+	char		*temp;
+	size_t		len;
+
+	temp = ft_itoa(i);
+	len = ft_strlen(temp);
+	free(temp);
+	return (len);
 }
