@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   live_processing.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ailkiv <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/22 16:31:08 by ailkiv            #+#    #+#             */
+/*   Updated: 2018/09/22 16:32:30 by ailkiv           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/op.h"
 
 static int		second_live(t_vm *vm)
@@ -14,6 +26,25 @@ static int		second_live(t_vm *vm)
 	return (1);
 }
 
+static void		help_print_back_live(t_vm *vm, int y, int x)
+{
+	if (second_live(vm) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) ==
+				COLOR_PAIR(13)))
+	{
+		on_color_player(3, vm);
+		mvwprintw(vm->visual->map, y, x, "%02x",
+				vm->map[vm->visual->vcars->stored_to]);
+		off_color_player(3, vm);
+	}
+	else if (second_live(vm) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) ==
+				COLOR_PAIR(14)))
+	{
+		on_color_player(4, vm);
+		mvwprintw(vm->visual->map, y, x, "%02x",
+				vm->map[vm->visual->vcars->stored_to]);
+		off_color_player(4, vm);
+	}
+}
 
 void			print_back_live(t_vm *vm)
 {
@@ -22,35 +53,29 @@ void			print_back_live(t_vm *vm)
 
 	y = (vm->visual->vcars->stored_to) / 64 + 2;
 	x = (vm->visual->vcars->stored_to) % 64 * 3 + 3;
-	if (second_live(vm) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) == COLOR_PAIR(11)))
+	if (second_live(vm) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) ==
+				COLOR_PAIR(11)))
 	{
 		on_color_player(1, vm);
-		mvwprintw(vm->visual->map, y, x, "%02x", vm->map[vm->visual->vcars->stored_to]);
+		mvwprintw(vm->visual->map, y, x, "%02x",
+				vm->map[vm->visual->vcars->stored_to]);
 		off_color_player(1, vm);
 	}
-	else if (second_live(vm) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) == COLOR_PAIR(12)))
+	else if (second_live(vm) && ((mvwinch(vm->visual->map, y, x) & A_COLOR)
+				== COLOR_PAIR(12)))
 	{
 		on_color_player(2, vm);
-		mvwprintw(vm->visual->map, y, x, "%02x", vm->map[vm->visual->vcars->stored_to]);
+		mvwprintw(vm->visual->map, y, x, "%02x",
+				vm->map[vm->visual->vcars->stored_to]);
 		off_color_player(2, vm);
 	}
-	else if (second_live(vm) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) == COLOR_PAIR(13)))
-	{
-		on_color_player(3, vm);
-		mvwprintw(vm->visual->map, y, x, "%02x", vm->map[vm->visual->vcars->stored_to]);
-		off_color_player(3, vm);
-	}
-	else if (second_live(vm) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) == COLOR_PAIR(14)))
-	{
-		on_color_player(4, vm);
-		mvwprintw(vm->visual->map, y, x, "%02x", vm->map[vm->visual->vcars->stored_to]);
-		off_color_player(4, vm);
-	}
+	else
+		help_print_back_live(vm, y, x);
 }
 
 void			live_processing(t_carriage *tcar, t_vm *vm, int len)
 {
-	int 		x;
+	int			x;
 	int			y;
 	int			i;
 	int			temp;
