@@ -133,7 +133,7 @@ void			handle_ld_instruction(t_db *db, const char *inst)
 		++inst;
 	if (*inst != ',')
 		clean_and_exit(db, "THERE IS NO 2nd ARGUMENT IN LD INSTRUCTION");
-	inst += handle_register_argument(db, inst + 1, 2);
+	inst += (handle_register_argument(db, inst + 1, 2) + 1);
 	while (ft_iswhitespace(*inst))
 		++inst;
 	if (*inst != '\0' && *inst != ';' && *inst != '#')

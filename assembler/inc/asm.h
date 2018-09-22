@@ -120,6 +120,7 @@ t_instruction		get_instruction(const char *line);
 size_t				validate_and_save_lable(t_db *db);
 void				handle_live_instruction(t_db *db, const char *instruction);
 void				handle_ld_instruction(t_db *db, const char *inst);
+void				handle_st_instruction(t_db *db, const char *inst);
 size_t				handle_direct_argument(t_db *db,
 		const char *instruction, int a_n);
 size_t				handle_indirect_argument(t_db *db,

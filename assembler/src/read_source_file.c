@@ -18,6 +18,8 @@ static void	validate_and_save_instruction(t_db *db, char *instruction)
 		handle_live_instruction(db, instruction);
 	else if (get_instruction(instruction) == e_ld)
 		handle_ld_instruction(db, instruction);
+	else if (get_instruction(instruction) == e_st)
+		handle_st_instruction(db, instruction);
 }
 
 static void	validate_line_extended(t_db *db)

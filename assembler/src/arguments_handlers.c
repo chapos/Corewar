@@ -96,7 +96,7 @@ size_t		handle_register_argument(t_db *db, const char *inst, int a_n)
 	while (ft_iswhitespace(inst[l]))
 		++l;
 	if (inst[l] != 'r')
-		clean_and_exit(db, "WRONG 2nd ARGUMENT IN LD INSTRUCTION");
+		clean_and_exit(db, "REGISTER ARGUMENT SYNTAX ERROR IN INSTRUCTION");
 	++l;
 	if (!ft_isdigit(inst[l]))
 		clean_and_exit(db, "REGISTER ARGUMENT SYNTAX ERROR IN INSTRUCTION");
@@ -110,5 +110,5 @@ size_t		handle_register_argument(t_db *db, const char *inst, int a_n)
 	db->bot.instructions[db->inst_counter - 1].args[a_n - 1].value =
 			(uint32_t)ft_atoi(inst + l);
 	l += digits_count;
-	return (l + 1);
+	return (l);
 }
