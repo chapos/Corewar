@@ -17,7 +17,7 @@ static void	init_vm(t_vm *vm)
 	vm->flags.n = -1;
 	vm->alicp = 1;
 	init_op_arr(vm->ops);
-	vm->visual = NULL;
+	vm->sound_game_cycle = -1;
 }
 
 static void	print_player(t_player *players)

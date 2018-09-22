@@ -222,6 +222,8 @@ typedef struct		s_vm
 	unsigned int		game_cycle;
 	unsigned int		alicp;
 	int					winner;
+	pthread_t			sound;
+	int					sound_game_cycle;
 	t_visual			*visual;
 }					t_vm;
 
@@ -291,7 +293,7 @@ void 	error_big_prog_size(t_vm * vm, char *file_name, int prog_size);
 void	print_winner(t_player *players, int winner);
 void	print_map(unsigned char *map);
 //bonus
-int		sound_kill_car();
+int		sound_kill_car(t_vm *vm);
 void	flags_s(t_vm *vm);
 void	flags_d(t_vm *vm);
 //

@@ -36,7 +36,7 @@ static void		init_visual(t_vm *vm)
 		vm->visual = (t_visual*)malloc(sizeof(t_visual));
 	vm->visual->map = create_new_win(197, 68, 1, 1);
 	vm->visual->text = create_new_win(60, 68, 197, 1);
-	vm->visual->lim = 10000;
+	vm->visual->lim = 100;
 	vm->visual->game_cycle = 0;
 	vm->visual->pause = 1;
 	vm->visual->vcars = NULL;
