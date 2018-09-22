@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 15:53:11 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/08/27 16:55:29 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 12:56:53 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,12 @@ void			free_all(t_vm *vm)
 		vm->players = temp;
 	}
 	exit(1);
+}
+
+void			protect_visual(t_vm *vm)
+{
+	vm->flags.v = 0;
+	vm->flags.s = 0;
+	vm->flags.d = 0;
+	vm->flags.a = 0;
 }
