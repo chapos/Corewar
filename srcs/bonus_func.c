@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 12:45:55 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/09 12:45:57 by rpetluk          ###   ########.fr       */
+/*   Updated: 2018/09/22 12:30:45 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		sound_kill_car(void)
 {
-	if (system("afplay pp.mp3"))
+	if (system("afplay mario_pipe.mp3"))
 		exit(100);
 	return (0);
 }

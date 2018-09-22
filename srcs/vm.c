@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:22:51 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/21 12:19:37 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/22 12:57:56 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	init_vm(t_vm *vm)
 	vm->visual = NULL;
 }
 
-void		print_player(t_player *players)
+static void	print_player(t_player *players)
 {
 	int			count;
 
@@ -41,6 +41,7 @@ static int	ft_usage(void)
 	ft_printf("Usage: ./corewar "
 				"[-d N -s N -v N -n N -a -visual -sound]"
 				" <champion1.cor> <...>\n"
+				"-a : Prints output from \"aff\" (Default is to hide it)\n"
 				"#### TEXT OUTPUT MODE #################################\n"
 				"-d N : Dumps memory after N cycles then exits\n"
 				"-s N : Runs N cycles, dumps memory, pauses, then repeats\n"
@@ -60,7 +61,7 @@ static int	ft_usage(void)
 	return (0);
 }
 
-void		lishnaja_fykcija(t_vm *vm)
+static void	catch_last_pnum(t_vm *vm)
 {
 	t_player	*players;
 
@@ -82,12 +83,14 @@ int			main(int argc, char **argv)
 		ft_usage();
 		free_all(&vm);
 	}
+	if (vm.flags.visual)
+		protect_visual(&vm);
 	write_in_map(vm.map, vm.players);
 	player_create_car(vm.players, &vm.cars);
-	print_player(vm.players);
-	lishnaja_fykcija(&vm);
+	if (!vm.flags.visual)
+		print_player(vm.players);
+	catch_last_pnum(&vm);
 	play_while(&vm);
-	// ?????????????????????
 	if (!vm.flags.visual)
 		print_winner(vm.players, vm.winner);
 	free_all(&vm);
