@@ -26,6 +26,15 @@ static char	*get_label_name(t_db *db, const char *instruction, size_t *length)
 	return (label_name);
 }
 
+size_t		get_direct_arg_size_by_name(t_instruction name)
+{
+	if (name == e_live || name == e_ld || name == e_st || name == e_add
+		|| name == e_sub || name == e_and || name == e_or || name == e_xor
+		|| name == e_lld || name == e_aff)
+		return (4);
+	return (2);
+}
+
 size_t		handle_direct_argument(t_db *db, const char *instruction, int a_n)
 {
 	size_t length;
@@ -46,7 +55,9 @@ size_t		handle_direct_argument(t_db *db, const char *instruction, int a_n)
 	{
 		db->bot.instructions[db->inst_counter - 1].args[a_n - 1].lable = false;
 		db->bot.instructions[db->inst_counter - 1].args[a_n - 1].value =
-						big_little_endian((uint32_t)ft_atoi(instruction));
+			big_little_endian((uint32_t)ft_atoi(instruction),
+			get_direct_arg_size_by_name(db->bot.instructions
+			[db->inst_counter - 1].type) == 4 ? true : false);
 		length += instruction[0] == '-' ? 1 : 0;
 	}
 	return (length);
@@ -70,7 +81,7 @@ size_t		handle_indirect_argument(t_db *db, const char *inst, int a_n)
 	{
 		db->bot.instructions[db->inst_counter - 1].args[a_n - 1].lable = false;
 		db->bot.instructions[db->inst_counter - 1].args[a_n - 1].value =
-				big_little_endian((uint32_t)ft_atoi(inst));
+				big_little_endian((uint32_t)ft_atoi(inst), false);
 		l += inst[0] == '-' ? 1 : 0;
 	}
 	return (l);
@@ -81,7 +92,7 @@ size_t		handle_register_argument(t_db *db, const char *inst, int a_n)
 	size_t l;
 	size_t digits_count;
 
-	l = 1;
+	l = 0;
 	while (ft_iswhitespace(inst[l]))
 		++l;
 	if (inst[l] != 'r')
@@ -97,7 +108,7 @@ size_t		handle_register_argument(t_db *db, const char *inst, int a_n)
 	db->bot.instructions[db->inst_counter - 1].args[a_n - 1].type = e_register;
 	db->bot.instructions[db->inst_counter - 1].args[a_n - 1].lable = false;
 	db->bot.instructions[db->inst_counter - 1].args[a_n - 1].value =
-			big_little_endian((uint32_t)ft_atoi(inst + l));
+			(uint32_t)ft_atoi(inst + l);
 	l += digits_count;
-	return (l);
+	return (l + 1);
 }

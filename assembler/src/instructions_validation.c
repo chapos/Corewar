@@ -12,6 +12,61 @@
 
 #include "../inc/asm.h"
 
+void			set_labels_to_instructions(t_db *db)
+{
+	size_t i;
+	size_t j;
+
+	i = 0;
+	while (i < db->inst_counter)
+	{
+		j = 0;
+		while (j < db->bot.instructions[i].arguments_count)
+		{
+			if (db->bot.instructions[i].args[j].lable)
+			{
+				if (db->bot.instructions[i].args[j].type == e_undirect)
+					db->bot.instructions[i].args[j].value =
+				big_little_endian(calculate_label_position(db, i, j), false);
+				else
+					db->bot.instructions[i].args[j].value =
+					big_little_endian(calculate_label_position(db, i, j),
+					get_direct_arg_size_by_name(db->bot.instructions[i].type)
+					== 4 ? true : false);
+			}
+			++j;
+		}
+		++i;
+	}
+}
+
+size_t			calc_codage_and_instruction_size(t_db *db)
+{
+	t_argument	a_t;
+	size_t		i;
+	uint32_t	bot_size;
+
+	bot_size = 0;
+	i = 0;
+	while (i < db->bot.instructions[db->inst_counter - 1].arguments_count)
+	{
+		a_t = db->bot.instructions[db->inst_counter - 1].args[i].type;
+		db->bot.instructions[db->inst_counter - 1].codage |= a_t;
+		db->bot.instructions[db->inst_counter - 1].codage <<= 2;
+		if (db->bot.instructions[db->inst_counter - 1].args[i].type == e_direct)
+			bot_size += get_direct_arg_size_by_name(db->bot.instructions
+					[db->inst_counter - 1].type);
+		else if (db->bot.instructions[db->inst_counter - 1].args[i].type
+			== e_register)
+			bot_size += 1;
+		else
+			bot_size += 2;
+		++i;
+	}
+	db->bot.instructions[db->inst_counter - 1].codage <<= 8 - ((i + 1) * 2);
+	return (bot_size);
+}
+
 t_instruction	get_instruction(const char *line)
 {
 	t_instruction instruction;
@@ -55,6 +110,7 @@ void			handle_live_instruction(t_db *db, const char *instruction)
 		++instruction;
 	if (*instruction != '\0' && *instruction != ';' && *instruction != '#')
 		clean_and_exit(db, "LIVE INSTRUCTION SYNTAX ERROR");
+	db->bot.instructions[db->inst_counter - 1].instruction_size = 5;
 	db->bot.bot_size += 5;
 }
 
@@ -82,7 +138,7 @@ void			handle_ld_instruction(t_db *db, const char *inst)
 		++inst;
 	if (*inst != '\0' && *inst != ';' && *inst != '#')
 		clean_and_exit(db, "LD INSTRUCTION SYNTAX ERROR");
-	//TODO:: codage
-	//TODO:: count bytes size of this instruction
-	//TODO:: write proper instructions writing to the file
+	db->bot.instructions[db->inst_counter - 1].instruction_size =
+			calc_codage_and_instruction_size(db) + 2;
+	db->bot.bot_size += (calc_codage_and_instruction_size(db) + 2);
 }

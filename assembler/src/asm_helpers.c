@@ -12,12 +12,17 @@
 
 #include "../inc/asm.h"
 
-uint32_t	big_little_endian(uint32_t n)
+uint32_t	big_little_endian(uint32_t n, bool four_bytes)
 {
 	uint32_t result;
 
-	result = ((n >> 24) & 0xff) | ((n << 8) & 0xff0000)
+	if (four_bytes)
+	{
+		result = ((n >> 24) & 0xff) | ((n << 8) & 0xff0000)
 			| ((n >> 8) & 0xff00) | ((n << 24) & 0xff000000);
+	}
+	else
+		result = ((n >> 8) & 0xff) | ((n << 8) & 0xff00);
 	return (result);
 }
 
