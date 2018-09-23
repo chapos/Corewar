@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/19 14:17:04 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/22 16:49:25 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/23 09:33:29 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int		dsp_aff(t_carriage *carriage, t_vm *vm)
 				(t_reader){read_int_from_map, read_short_from_map});
 		if (validate_args(&vm->args, &vm->ops[15].pargs))
 		{
+			if (vm->flags.v)
+				fflush(stdout);
 			if (vm->flags.a)
 			{
 				ft_printf("Aff: %c\n",

@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:22:51 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/22 12:57:56 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/23 09:52:05 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int			main(int argc, char **argv)
 		print_player(vm.players);
 	catch_last_pnum(&vm);
 	play_while(&vm);
+	if (vm.flags.v)
+		fflush(stdout);
 	if (!vm.flags.visual)
 		print_winner(vm.players, vm.winner);
 	free_all(&vm);

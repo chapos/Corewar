@@ -6,7 +6,7 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 14:40:02 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/22 19:11:33 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/23 11:02:06 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	do_or(t_carriage *carriage, t_vm *vm)
 ** cycles: 6
 ** ACB: yes
 ** modifies carry
-** 
+**
 ** Descrioption:
 ** 	bit-to-bit OR
 */

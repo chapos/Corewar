@@ -6,35 +6,28 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/20 19:35:34 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/09/21 12:10:14 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/23 11:01:35 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/op.h"
 
-int			is_time_to_run(t_vm *vm, t_carriage *carriage)
+static void	while_tcars_helper(t_carriage *tcars, t_vm *vm, int res)
 {
-	int		op;
-	int		res;
-
-	res = 0;
-	op = vm->map[carriage->pc];
-	if (carriage->wait > 0)
-		--carriage->wait;
-	else if (carriage->wait == -1 && (op >= 1 && op <= 16))
+	if (tcars->command != 9 || (tcars->command == 9 && !res))
 	{
-		carriage->wait = vm->ops[op - 1].wait - 2;
-		carriage->command = op;
+		if (EXS_DSP(tcars->command) && vm->flags.v & 16)
+			print_pc_movement(tcars->pc, vm->args.shift, vm->map);
+		if (tcars->command == 1 && vm->flags.visual && vm->args.valid_live)
+			live_processing(tcars, vm, 0);
+		++tcars->pc;
 	}
-	else
-	{
-		carriage->wait = -1;
-		res = 1;
-	}
-	return (res);
+	if ((tcars->command == 3 || tcars->command == 11)
+			&& vm->flags.visual && res && !vm->args.st_reg)
+		command_processing(tcars, vm, 4);
 }
 
-void		while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
+static void	while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
 {
 	int res;
 
@@ -51,16 +44,7 @@ void		while_tcars(t_carriage *tcars, t_vm *vm, t_dsp *dsp)
 					dsp[tcars->command - 1].print_cmd(tcars, vm);
 			}
 			tcars->pc_prev = tcars->pc;
-			if (tcars->command != 9 || (tcars->command == 9 && !res))
-			{
-				if (EXS_DSP(tcars->command) && vm->flags.v & 16)
-					print_pc_movement(tcars->pc, vm->args.shift, vm->map);
-				if (tcars->command == 1 && vm->flags.visual && vm->args.valid_live)
-					live_processing(tcars, vm, 0);
-				++tcars->pc;
-			}
-			if ((tcars->command == 3 || tcars->command == 11) && vm->flags.visual && res && !vm->args.st_reg)
-				command_processing(tcars, vm, 4);
+			while_tcars_helper(tcars, vm, res);
 			tcars->pc += vm->args.shift;
 			tcars->pc = normalize_pc(tcars->pc);
 			tcars->command = 0;
@@ -86,13 +70,9 @@ static void	play_cycle(t_vm *vm, int cycle, t_dsp *dsp)
 		while_tcars(tcars, vm, dsp);
 		cycle--;
 		if (vm->flags.d)
-		{
 			flags_d(vm);
-		}
 		if (vm->flags.s)
-		{
 			flags_s(vm);
-		}
 	}
 	if (vm->flags.visual)
 	{
@@ -111,15 +91,6 @@ static void	ctd_operator(t_vm *vm, int *count_cycle, int *ctd)
 		if (vm->flags.v & 2)
 			printf("Cycle to die is now %d\n", *ctd);
 		*count_cycle = 0;
-	}
-}
-
-static void	refresh_players(t_player *players)
-{
-	while (players)
-	{
-		players->licp = 0;
-		players = players->next;
 	}
 }
 
@@ -148,5 +119,4 @@ void		play_while(t_vm *vm)
 		count_cycle++;
 		refresh_players(vm->players);
 	}
-	fflush(stdout);
 }

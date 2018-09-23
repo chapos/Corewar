@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/22 12:57:31 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/23 10:55:37 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,6 +269,8 @@ int		write_in_map(unsigned char map[], t_player *player);
 */
 
 void	play_while(t_vm *vm);
+int		is_time_to_run(t_vm *vm, t_carriage *carriage);
+void	refresh_players(t_player *players);
 void	protect_visual(t_vm *vm);
 int		read_header(t_player *player, int fd);
 int		read_argv(t_vm *vm, int ac, char **av);
