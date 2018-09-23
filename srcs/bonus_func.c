@@ -12,10 +12,23 @@
 
 #include "../includes/op.h"
 
-int		sound_kill_car(void)
+void	*sound_thread(void *temp)
 {
+	temp = NULL;
 	if (system("afplay mario_pipe.mp3"))
 		exit(100);
+	return (NULL);
+}
+
+int		sound_kill_car(t_vm *vm)
+{
+	if (vm->game_cycle != (unsigned int)vm->sound_game_cycle)
+		if (pthread_create(&vm->sound, NULL, sound_thread, vm))
+		{
+			endwin();
+			exit(0);
+		}
+	vm->sound_game_cycle = vm->game_cycle;
 	return (0);
 }
 

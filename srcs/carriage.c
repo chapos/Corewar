@@ -44,7 +44,7 @@ void		del_cars(t_vm *vm, int ctd)
 			if (vm->flags.visual)
 				vdel_car(vm, temp);
 			if (vm->flags.sound)
-				sound_kill_car();
+				sound_kill_car(vm);
 			del_car(&vm->cars, &temp, &temp2);
 		}
 		else

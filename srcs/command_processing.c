@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command_processing.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ailkiv <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/22 16:16:54 by ailkiv            #+#    #+#             */
+/*   Updated: 2018/09/22 16:19:34 by ailkiv           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/op.h"
 
-static int		player_num(int num_player, t_vm *vm)
+static int		num_player(int num_player, t_vm *vm)
 {
 	int			i;
 	t_player	*temp;
@@ -32,29 +44,26 @@ static int		c_pair(int num)
 
 void			command_processing(t_carriage *tcar, t_vm *vm, int len)
 {
-	int 		x;
+	int			x;
 	int			y;
 	int			i;
 	int			temp;
 
 	i = 0;
-	/*
-	if (vm->game_cycle == 965)
-		print("%d", vm->args.stored_to);
-		*/
 	temp = vm->args.stored_to % MEM_SIZE;
 	if (temp < 0)
 		temp = temp + MEM_SIZE;
-	push_back_vcars(&(vm->visual->vcars), c_pair(player_num(tcar->num_player, vm)), temp, len);
+	push_back_vcars(&(vm->visual->vcars),
+			c_pair(num_player(tcar->num_player, vm)), temp, len);
 	while (i < len)
 	{
 		y = (temp) / 64 + 2;
 		x = (temp) % 64 * 3 + 3;
-		on_color_player50(player_num(tcar->num_player, vm), vm);
+		on_color_player50(num_player(tcar->num_player, vm), vm);
 		mvwprintw(vm->visual->map, y, x, "%02x", vm->map[temp]);
-		off_color_player50(player_num(tcar->num_player, vm), vm);
+		off_color_player50(num_player(tcar->num_player, vm), vm);
 		temp++;
-		if (temp >= MEM_SIZE - 1)
+		if (temp > MEM_SIZE - 1)
 			temp = 0;
 		i++;
 	}
@@ -62,7 +71,7 @@ void			command_processing(t_carriage *tcar, t_vm *vm, int len)
 
 void			print_back(t_vm *vm)
 {
-	int 		x;
+	int			x;
 	int			y;
 	int			i;
 
@@ -71,60 +80,13 @@ void			print_back(t_vm *vm)
 	{
 		y = (vm->visual->vcars->stored_to) / 64 + 2;
 		x = (vm->visual->vcars->stored_to) % 64 * 3 + 3;
-		if (vm->visual->vcars->c_pair == COLOR_PAIR(15) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) == COLOR_PAIR(15)))
-		{
-			on_color_player(1, vm);
-			mvwprintw(vm->visual->map, y, x, "%02x", vm->map[vm->visual->vcars->stored_to]);
-			off_color_player(1, vm);
-		}
-		else if (vm->visual->vcars->c_pair == COLOR_PAIR(16) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) == COLOR_PAIR(16)))
-		{
-			on_color_player(2, vm);
-			mvwprintw(vm->visual->map, y, x, "%02x", vm->map[vm->visual->vcars->stored_to]);
-			off_color_player(2, vm);
-		}
-		else if (vm->visual->vcars->c_pair == COLOR_PAIR(17) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) == COLOR_PAIR(17)))
-		{
-			on_color_player(3, vm);
-			mvwprintw(vm->visual->map, y, x, "%02x", vm->map[vm->visual->vcars->stored_to]);
-			off_color_player(3, vm);
-		}
-		else if (vm->visual->vcars->c_pair == COLOR_PAIR(18) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) == COLOR_PAIR(18)))
-		{
-			on_color_player(4, vm);
-			mvwprintw(vm->visual->map, y, x, "%02x", vm->map[vm->visual->vcars->stored_to]);
-			off_color_player(4, vm);
-		}
-		else if (vm->visual->vcars->c_pair == COLOR_PAIR(15) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) == COLOR_PAIR(21)))
-		{
-			on_color_caret(COLOR_PAIR(3), vm);
-			mvwprintw(vm->visual->map, y, x, "%02x", vm->map[vm->visual->vcars->stored_to]);
-			off_color_caret(COLOR_PAIR(3), vm);
-		}
-		else if (vm->visual->vcars->c_pair == COLOR_PAIR(16) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) == COLOR_PAIR(22)))
-		{
-			on_color_caret(COLOR_PAIR(4), vm);
-			mvwprintw(vm->visual->map, y, x, "%02x", vm->map[vm->visual->vcars->stored_to]);
-			off_color_caret(COLOR_PAIR(4), vm);
-		}
-		else if (vm->visual->vcars->c_pair == COLOR_PAIR(17) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) == COLOR_PAIR(23)))
-		{
-			on_color_caret(COLOR_PAIR(5), vm);
-			mvwprintw(vm->visual->map, y, x, "%02x", vm->map[vm->visual->vcars->stored_to]);
-			off_color_caret(COLOR_PAIR(5), vm);
-		}
-		else if (vm->visual->vcars->c_pair == COLOR_PAIR(18) && ((mvwinch(vm->visual->map, y, x) & A_COLOR) == COLOR_PAIR(24)))
-		{
-			on_color_caret(COLOR_PAIR(6), vm);
-			mvwprintw(vm->visual->map, y, x, "%02x", vm->map[vm->visual->vcars->stored_to]);
-			off_color_caret(COLOR_PAIR(6), vm);
-		}
+		if (second_command(vm))
+			help_print_back(vm, y, x);
 		vm->visual->vcars->stored_to++;
-		if (vm->visual->vcars->stored_to >= 4095)
+		if (vm->visual->vcars->stored_to > MEM_SIZE - 1)
 			vm->visual->vcars->stored_to = 0;
 		i++;
 	}
-
 }
 
 void			cycles_decrease(t_vm *vm)

@@ -18,6 +18,8 @@ void	free_all(t_vm *vm)
 
 	if (vm->flags.visual && vm->visual != NULL)
 		wait_end(vm);
+	if (vm->flags.sound)
+		pthread_join(vm->sound, NULL);
 	while (vm->players)
 	{
 		temp = vm->players->next;

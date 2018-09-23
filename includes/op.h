@@ -222,6 +222,8 @@ typedef struct		s_vm
 	unsigned int		game_cycle;
 	unsigned int		alicp;
 	int					winner;
+	pthread_t			sound;
+	int					sound_game_cycle;
 	t_visual			*visual;
 }					t_vm;
 
@@ -293,7 +295,7 @@ void 	error_big_prog_size(t_vm * vm, char *file_name, int prog_size);
 void	print_winner(t_player *players, int winner);
 void	print_map(unsigned char *map);
 //bonus
-int		sound_kill_car();
+int		sound_kill_car(t_vm *vm);
 void	flags_s(t_vm *vm);
 void	flags_d(t_vm *vm);
 //
@@ -321,7 +323,7 @@ void	print_live(t_carriage *carriage, t_vm *vm);
 void	print_pc_movement(int cur_pos, int shift, unsigned char *map);
 void	print_pnum(int num);
 
-//visual
+/*visual*/
 void			visual(t_vm *vm);
 void			interrupt(t_vm *vm);
 void			wait_end(t_vm *vm);
@@ -329,7 +331,7 @@ void			renew_ctd(t_vm *vm, unsigned int ctd);
 void			renew_lives(t_vm *vm);
 void			draw_line(t_vm *vm, int coord);
 void			draw_empty_line(t_vm *vm, int coord);
-void			put_car(t_vm *vm);
+int				put_car(t_vm *vm);
 void			push_back_vcars(t_vcars **begin, int c_pair, int stored_to, int len);
 void			del_front_vcars(t_vcars **begin);
 void			del_vcars(t_vcars **begin);
@@ -348,5 +350,18 @@ void			print_back_live(t_vm *vm);
 void			vdel_car(t_vm *vm, t_carriage *tcar);
 void			print_back(t_vm *vm);
 void			cycle_decrease_to_end(t_vm *vm);
+void			create_colors(void);
+void			on_color_caret_back(int cp, t_vm *vm);
+void			off_color_caret_back(int cp, t_vm *vm);
+void			on_color_player_t(int num_player, t_vm *vm);
+void			off_color_player_t(int num_player, t_vm *vm);
+int				number_of_players(t_player *players);
+int				player_num(t_player *player, t_vm *vm);
+size_t			len_number(int i);
+void			wprint_map(t_vm *vm);
+void			wprint_text(t_vm *vm);
+void			destroy_win(WINDOW *win);
+void			help_print_back(t_vm *vm, int y, int x);
+int				second_command(t_vm *vm);
 
 #endif

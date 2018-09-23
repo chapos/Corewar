@@ -65,7 +65,18 @@ CW_SRCF				:= player.c				\
 					   bonus_func.c         \
 					   visual_list.c        \
 					   command_processing.c \
-					   live_processing.c
+					   live_processing.c    \
+					   colors.c             \
+					   vdraw_line.c         \
+					   color_caret.c        \
+					   color_live.c         \
+					   color_player.c       \
+					   vinterrupt.c         \
+					   vplayer_num.c        \
+					   vprint_map.c         \
+					   vprint_text.c        \
+					   vput_cars.c          \
+					   command_processing_help.c    \
 
 CW_DEPS				:= $(CW_DEPF:%=$(CW_DEPS_DIR)/%)
 CW_SRCS				:= $(CW_SRCF:%=$(CW_SRCS_DIR)/%)
