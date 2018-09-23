@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 12:45:55 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/22 12:30:45 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/23 12:07:25 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,26 @@
 void	*sound_thread(void *temp)
 {
 	temp = NULL;
-	if (system("afplay mario_pipe.mp3"))
+	if (system("afplay dindon2.mp3"))
 		exit(100);
 	return (NULL);
 }
 
 int		sound_kill_car(t_vm *vm)
 {
-	if (vm->game_cycle != (unsigned int)vm->sound_game_cycle)
+	vm = NULL;
+	if (system("afplay dindon2.mp3 &"))
+		exit(100);
+	/*
+	//if (vm->game_cycle != (unsigned int)vm->sound_game_cycle)
 		if (pthread_create(&vm->sound, NULL, sound_thread, vm))
 		{
 			endwin();
 			exit(0);
 		}
+	pthread_join(vm->sound, NULL);
 	vm->sound_game_cycle = vm->game_cycle;
+	*/
 	return (0);
 }
 
