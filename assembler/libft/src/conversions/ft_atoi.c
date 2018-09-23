@@ -11,25 +11,42 @@
 /* ************************************************************************** */
 
 #include "../../includes/libft.h"
+#include <limits.h>
 
-int			ft_atoi(const char *str)
+static int		last_check(unsigned long int val, int sign)
 {
-	int	sign;
-	int	result;
+	if (val > LONG_MAX && sign > 0)
+		return (-1);
+	else if (val > LONG_MAX && sign < 0)
+		return (0);
+	else
+		return (val * sign);
+}
 
-	result = 0;
+int				ft_atoi(const char *str)
+{
+	int					i;
+	unsigned long int	res;
+	int					sign;
+	int					len;
+
+	i = 0;
 	sign = 1;
-	while (ft_iswhitespace(*str))
-		str++;
-	if (*str == '-' || *str == '+')
+	res = 0;
+	len = -1;
+	while (str[i] == ' ' || str[i] == '\v' || str[i] == '\t' || \
+			str[i] == '\n' || str[i] == '\f' || str[i] == '\r')
+		++i;
+	if (str[i] == '-')
 	{
-		sign = (*str == '-') ? -1 : 1;
-		str++;
+		sign = -1;
+		++i;
 	}
-	while (ft_isdigit(*str))
-	{
-		result = (result * 10) + (*str - '0');
-		str++;
-	}
-	return (result * sign);
+	else if (str[i] == '+')
+		++i;
+	while (str[i] == '0')
+		++i;
+	while (++len < 20 && ft_isdigit(str[i]))
+		res = res * 10 + str[i++] - '0';
+	return (last_check(res, sign));
 }

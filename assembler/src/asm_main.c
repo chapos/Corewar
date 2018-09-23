@@ -83,7 +83,7 @@ static void	init_db(t_db *db)
 	db->v_data.name_size = 0;
 	db->v_data.comment_size = 0;
 	db->v_data.multiline_string = false;
-	db->v_data.last_line_is_insturction = false;
+	db->v_data.chars_counter = 0;
 }
 
 int			main(int argc, char **argv)

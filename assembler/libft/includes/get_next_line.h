@@ -12,13 +12,13 @@
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUFF_SIZE 1
+# define GNL_BUFF_SIZE 10
 # include "libft.h"
 
-typedef struct	s_fd
+typedef struct			s_stream
 {
-	int			fd;
-	char		*remainder;
-}				t_fd;
+	int					fd;
+	char				*buff;
+}						t_stream;
 
 #endif

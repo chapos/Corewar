@@ -34,18 +34,21 @@ static void	validate_and_save_instruction(t_db *db, char *instruction)
 
 static void	validate_line_extended(t_db *db)
 {
-	char *tmp;
+	char	*tmp;
+	size_t	count;
 
-	db->v_data.last_line_is_insturction = true;
 	tmp = db->v_data.line;
-	if (get_instruction(tmp) == not_instruction)
+	count = 0;
+	while (ft_strchr(LABEL_CHARS, db->v_data.line[count]))
+		++count;
+	if (tmp[count] == ':')
 		tmp += validate_and_save_lable(db);
 	while (ft_iswhitespace(*tmp))
 		++tmp;
 	if (*tmp == ';' || *tmp == '#' || *tmp == '\0')
 		return ;
 	if (get_instruction(tmp) == not_instruction)
-		clean_and_exit(db, "INSTRUCTION SYNTAX ERROR");
+		clean_and_exit(db, "LABEL/INSTRUCTION SYNTAX ERROR");
 	validate_and_save_instruction(db, tmp);
 }
 
@@ -72,7 +75,7 @@ static void	read_instructions(t_db *db)
 
 	while ((gnl_ret_val = get_next_line(db->source_fd, &db->v_data.line)))
 	{
-		db->v_data.last_line_is_insturction = false;
+		db->v_data.chars_counter += (ft_strlen(db->v_data.line) + 1);
 		++db->v_data.line_counter;
 		if (gnl_ret_val == -1)
 			clean_and_exit(db, "READING ERROR");
@@ -82,6 +85,11 @@ static void	read_instructions(t_db *db)
 			validate_line(db);
 		ft_strdel(&db->v_data.line);
 	}
+	lseek(db->source_fd, db->v_data.chars_counter - 1, SEEK_SET);
+	db->v_data.line = ft_strnew(1);
+	read(db->source_fd, db->v_data.line, 1);
+	if (db->v_data.line[0] != '\n')
+		clean_and_exit(db, "NO END LINE");
 	if (db->bot.bot_size == 0)
 		clean_and_exit(db, "THERE IS 0 INSTRUCTIONS");
 }

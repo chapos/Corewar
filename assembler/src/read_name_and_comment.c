@@ -101,6 +101,7 @@ void		read_name_and_comment(t_db *db)
 	while (!db->v_data.name_readed || !db->v_data.comment_readed)
 	{
 		gnl_ret_value = get_next_line(db->source_fd, &db->v_data.line);
+		db->v_data.chars_counter += (ft_strlen(db->v_data.line) + 1);
 		++db->v_data.line_counter;
 		if (gnl_ret_value == 0 || gnl_ret_value == -1)
 			clean_and_exit(db, "THERE IS NO NAME OR COMMENT");

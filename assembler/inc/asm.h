@@ -94,10 +94,10 @@ typedef struct		s_validation
 	bool			name_readed;
 	bool			comment_readed;
 	bool			multiline_string;
-	bool			last_line_is_insturction;
 	size_t			name_size;
 	size_t			comment_size;
 	char			*line;
+	int				chars_counter;
 }					t_validation;
 
 typedef struct		s_db

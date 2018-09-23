@@ -18,14 +18,14 @@ static void	write_instructions(t_db *db)
 	int j;
 
 	i = -1;
-	while (++i < db->inst_counter)
+	while (++i < (int)db->inst_counter)
 	{
 		write(db->output_fd, &db->bot.instructions[i].type, sizeof(uint8_t));
 		if (db->bot.instructions[i].codage != 0)
 			write(db->output_fd, &db->bot.instructions[i].codage,
 				sizeof(uint8_t));
 		j = -1;
-		while (++j < db->bot.instructions[i].arguments_count)
+		while (++j < (int)db->bot.instructions[i].arguments_count)
 		{
 			if (db->bot.instructions[i].args[j].type == e_register)
 				write(db->output_fd, &db->bot.instructions[i].args[j].value,
