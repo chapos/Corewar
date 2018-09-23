@@ -54,12 +54,20 @@ typedef enum		e_argument
 	e_undirect = 3
 }					t_argument;
 
+typedef struct		s_op
+{
+	int				value;
+	char			op;
+}					t_expr;
+
 typedef struct		s_argument_data
 {
 	t_argument		type;
 	uint32_t		value;
 	bool			lable;
 	char			*label_name;
+	t_expr			expr;
+	bool			end_mark;
 }					t_argument_data;
 
 typedef struct		s_instruction_data
@@ -109,6 +117,7 @@ typedef struct		s_db
 	t_label			*labels;
 	size_t			labels_counter;
 	size_t			inst_counter;
+	bool			arithmetic;
 }					t_db;
 
 void				read_source_file(t_db *db);
@@ -148,5 +157,9 @@ void				write_result(t_db *db, char *file_name);
 const char			*skip_whitespaces(const char *line);
 void				validate_and_save_instruction_ext(t_db *db,
 		char *instruction);
+size_t				handle_expression(t_db *db,
+		const char *inst, size_t l, int a_n);
+void				do_calculation(t_db *db);
+void				jesus_save_me(t_db *db, const char *inst, int a_n);
 
 #endif

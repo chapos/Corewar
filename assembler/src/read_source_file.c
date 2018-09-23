@@ -99,5 +99,7 @@ void		read_source_file(t_db *db)
 	read_name_and_comment(db);
 	read_instructions(db);
 	set_labels_to_instructions(db);
+	if (db->arithmetic)
+		do_calculation(db);
 	db->bot.bot_size = big_little_endian(db->bot.bot_size, true);
 }

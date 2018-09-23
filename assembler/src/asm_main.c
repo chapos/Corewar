@@ -95,6 +95,7 @@ int			main(int argc, char **argv)
 		ft_putstr_fd(USAGE, STDERR_FILENO);
 		exit(0);
 	}
+	db.arithmetic = ft_strequ(argv[1], "-a") ? true : false;
 	check_file_name(argv[argc - 1]);
 	init_db(&db);
 	db.source_fd = open_source_file(argv[argc - 1]);

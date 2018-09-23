@@ -50,7 +50,12 @@ void		allocate_new_instruction(t_db *db)
 	}
 	i = 0;
 	while (i < 4)
-		db->bot.instructions[db->inst_counter - 1].args[i++].label_name = NULL;
+	{
+		db->bot.instructions[db->inst_counter - 1].args[i].expr.op = '\0';
+		db->bot.instructions[db->inst_counter - 1].args[i].expr.value = 0;
+		db->bot.instructions[db->inst_counter - 1].args[i].label_name = NULL;
+		++i;
+	}
 	db->bot.instructions[db->inst_counter - 1].codage = 0;
 }
 

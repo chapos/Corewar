@@ -40,9 +40,7 @@ size_t		handle_direct_argument(t_db *db, const char *instruction, int a_n)
 	size_t length;
 
 	length = 0;
-	if (*instruction != ':' && *instruction != '-' && !ft_isdigit(*instruction))
-		clean_and_exit(db, "DIRECT ARGUMENT SYNTAX ERROR IN INSTRUCTION");
-	db->bot.instructions[db->inst_counter - 1].args[a_n - 1].type = e_direct;
+	jesus_save_me(db, instruction, a_n);
 	if (instruction[length] == ':')
 	{
 		++length;
@@ -56,10 +54,11 @@ size_t		handle_direct_argument(t_db *db, const char *instruction, int a_n)
 		db->bot.instructions[db->inst_counter - 1].args[a_n - 1].lable = false;
 		db->bot.instructions[db->inst_counter - 1].args[a_n - 1].value =
 			big_little_endian((uint32_t)ft_atoi(instruction),
-			get_direct_arg_size_by_name(db->bot.instructions
-			[db->inst_counter - 1].type) == 4 ? true : false);
+			db->bot.instructions[db->inst_counter - 1].args[a_n - 1].end_mark);
 		length += instruction[0] == '-' ? 1 : 0;
 	}
+	if (db->arithmetic)
+		length += handle_expression(db, instruction, length, a_n);
 	return (length);
 }
 
@@ -69,6 +68,9 @@ size_t		handle_indirect_argument(t_db *db, const char *inst, int a_n)
 
 	l = 0;
 	db->bot.instructions[db->inst_counter - 1].args[a_n - 1].type = e_undirect;
+	db->bot.instructions[db->inst_counter - 1].args[a_n - 1].end_mark = false;
+	if (*inst == '-' && !ft_isdigit(*(inst + 1)))
+		clean_and_exit(db, "INDIRECT ARGUMENT SYNTAX ERROR IN INSTRUCTION");
 	if (inst[l] == ':')
 	{
 		++l;
@@ -84,6 +86,8 @@ size_t		handle_indirect_argument(t_db *db, const char *inst, int a_n)
 				big_little_endian((uint32_t)ft_atoi(inst), false);
 		l += inst[0] == '-' ? 1 : 0;
 	}
+	if (db->arithmetic)
+		l += handle_expression(db, inst, l, a_n);
 	return (l);
 }
 
