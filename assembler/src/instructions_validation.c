@@ -71,22 +71,22 @@ t_instruction	get_instruction(const char *line)
 {
 	t_instruction instruction;
 
-	if (ft_strnequ(line, "live", 4) || ft_strnequ(line, "ld", 2))
-		instruction = ft_strnequ(line, "live", 4) ? e_live : e_ld;
-	else if (ft_strnequ(line, "st", 2) || ft_strnequ(line, "add", 3))
-		instruction = ft_strnequ(line, "st", 2) ? e_st : e_add;
+	if (ft_strnequ(line, "live", 4) || ft_strnequ(line, "aff", 3))
+		instruction = ft_strnequ(line, "live", 4) ? e_live : e_aff;
+	else if (ft_strnequ(line, "sti", 3) || ft_strnequ(line, "add", 3))
+		instruction = ft_strnequ(line, "sti", 3) ? e_sti : e_add;
 	else if (ft_strnequ(line, "sub", 3) || ft_strnequ(line, "and", 3))
 		instruction = ft_strnequ(line, "sub", 3) ? e_sub : e_and;
 	else if (ft_strnequ(line, "or", 2) || ft_strnequ(line, "xor", 3))
 		instruction = ft_strnequ(line, "or", 2) ? e_or : e_xor;
 	else if (ft_strnequ(line, "zjmp", 4) || ft_strnequ(line, "ldi", 3))
 		instruction = ft_strnequ(line, "zjmp", 4) ? e_zjmp : e_ldi;
-	else if (ft_strnequ(line, "sti", 3) || ft_strnequ(line, "fork", 4))
-		instruction = ft_strnequ(line, "sti", 3) ? e_sti : e_fork;
+	else if (ft_strnequ(line, "st", 2) || ft_strnequ(line, "fork", 4))
+		instruction = ft_strnequ(line, "st", 2) ? e_st : e_fork;
 	else if (ft_strnequ(line, "lld", 3) || ft_strnequ(line, "lldi", 4))
-		instruction = ft_strnequ(line, "lld", 3) ? e_lld : e_lldi;
-	else if (ft_strnequ(line, "lfork", 5) || ft_strnequ(line, "aff", 3))
-		instruction = ft_strnequ(line, "lfork", 5) ? e_lfork : e_aff;
+		instruction = ft_strnequ(line, "lldi", 4) ? e_lldi : e_lld;
+	else if (ft_strnequ(line, "lfork", 5) || ft_strnequ(line, "ld", 2))
+		instruction = ft_strnequ(line, "lfork", 5) ? e_lfork : e_ld;
 	else
 		instruction = not_instruction;
 	return (instruction);
@@ -114,16 +114,16 @@ void			handle_live_instruction(t_db *db, const char *instruction)
 	db->bot.bot_size += 5;
 }
 
-void			handle_ld_instruction(t_db *db, const char *inst)
+void			handle_ld_lld_instruction(t_db *db, const char *inst,
+		t_instruction type)
 {
-	inst += 2;
 	while (ft_iswhitespace(*inst))
 		++inst;
 	if (*inst != '%' && *inst != '-'
 		&& *inst != ':' && !ft_isdigit(*inst))
-		clean_and_exit(db, "WRONG 1st ARGUMENT IN LD INSTRUCTION");
+		clean_and_exit(db, "WRONG 1st ARGUMENT IN LD/LLD INSTRUCTION");
 	allocate_new_instruction(db);
-	db->bot.instructions[db->inst_counter - 1].type = e_ld;
+	db->bot.instructions[db->inst_counter - 1].type = type;
 	db->bot.instructions[db->inst_counter - 1].arguments_count = 2;
 	inst += *inst == '%' ? handle_direct_argument(db, ++inst, 1) :
 			handle_indirect_argument(db, inst, 1);
@@ -132,12 +132,12 @@ void			handle_ld_instruction(t_db *db, const char *inst)
 	while (ft_iswhitespace(*inst))
 		++inst;
 	if (*inst != ',')
-		clean_and_exit(db, "THERE IS NO 2nd ARGUMENT IN LD INSTRUCTION");
+		clean_and_exit(db, "THERE IS NO 2nd ARGUMENT IN LD/LLD INSTRUCTION");
 	inst += (handle_register_argument(db, inst + 1, 2) + 1);
 	while (ft_iswhitespace(*inst))
 		++inst;
 	if (*inst != '\0' && *inst != ';' && *inst != '#')
-		clean_and_exit(db, "LD INSTRUCTION SYNTAX ERROR");
+		clean_and_exit(db, "LD/LLD INSTRUCTION SYNTAX ERROR");
 	db->bot.instructions[db->inst_counter - 1].instruction_size =
 			calc_codage_and_instruction_size(db) + 2;
 	db->bot.bot_size += (calc_codage_and_instruction_size(db) + 2);

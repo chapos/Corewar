@@ -12,7 +12,7 @@
 
 #include "../inc/asm.h"
 
-void	handle_st_instruction(t_db *db, const char *inst)
+void		handle_st_instruction(t_db *db, const char *inst)
 {
 	allocate_new_instruction(db);
 	db->bot.instructions[db->inst_counter - 1].type = e_st;
@@ -39,7 +39,7 @@ void	handle_st_instruction(t_db *db, const char *inst)
 	db->bot.bot_size += (calc_codage_and_instruction_size(db) + 2);
 }
 
-void	handle_add_instruction(t_db *db, const char *inst)
+void		handle_add_instruction(t_db *db, const char *inst)
 {
 	allocate_new_instruction(db);
 	db->bot.instructions[db->inst_counter - 1].type = e_add;
@@ -66,7 +66,7 @@ void	handle_add_instruction(t_db *db, const char *inst)
 	db->bot.bot_size += (calc_codage_and_instruction_size(db) + 2);
 }
 
-void	handle_sub_instruction(t_db *db, const char *inst)
+void		handle_sub_instruction(t_db *db, const char *inst)
 {
 	allocate_new_instruction(db);
 	db->bot.instructions[db->inst_counter - 1].type = e_sub;
@@ -93,7 +93,7 @@ void	handle_sub_instruction(t_db *db, const char *inst)
 	db->bot.bot_size += (calc_codage_and_instruction_size(db) + 2);
 }
 
-void	and_or_xor_extended(t_db *db, const char *inst)
+static void	and_or_xor_extended(t_db *db, const char *inst)
 {
 	if (*inst != 'r' && *inst != '-' && *inst != ':'
 		&& !ft_isdigit(*inst) && *inst != '%')
@@ -108,7 +108,7 @@ void	and_or_xor_extended(t_db *db, const char *inst)
 		++inst;
 	inst = skip_whitespaces(inst);
 	if (*inst != ',')
-		clean_and_exit(db, "THERE IS NO 3rd ARGUMENT IN AND/OR/XOR INSTRUCTION");
+		clean_and_exit(db, "THERE IS NO 3rd ARGUMENT IN AND/OR/XOR INSTRUCT");
 	++inst;
 	inst = skip_whitespaces(inst);
 	inst += handle_register_argument(db, inst, 3);
@@ -120,7 +120,7 @@ void	and_or_xor_extended(t_db *db, const char *inst)
 	db->bot.bot_size += (calc_codage_and_instruction_size(db) + 2);
 }
 
-void	handle_and_or_xor_instruction(t_db *db, const char *inst,
+void		handle_and_or_xor_instruction(t_db *db, const char *inst,
 			t_instruction type)
 {
 	allocate_new_instruction(db);
@@ -140,7 +140,7 @@ void	handle_and_or_xor_instruction(t_db *db, const char *inst,
 		++inst;
 	inst = skip_whitespaces(inst);
 	if (*inst != ',')
-		clean_and_exit(db, "THERE IS NO 2nd ARGUMENT IN AND/OR/XOR INSTRUCTION");
+		clean_and_exit(db, "THERE IS NO 2nd ARGUMENT IN AND/OR/XOR INSTRUCT");
 	++inst;
 	inst = skip_whitespaces(inst);
 	and_or_xor_extended(db, inst);

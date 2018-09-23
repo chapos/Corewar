@@ -5,7 +5,7 @@ LIBFT_DIR = ./libft/
 INC_DIR = ./inc/
 SRC_DIR = ./src/
 LIBFT = $(LIBFT_DIR)libft.a
-SRC = $(addprefix $(SRC_DIR), asm_helpers.c asm_main.c name_comment_helpers.c read_name_and_comment.c read_source_file.c instructions_validation.c label_handling.c arguments_handlers.c writing_result.c instructions_validation_ext1.c)
+SRC = $(addprefix $(SRC_DIR), asm_helpers.c asm_main.c name_comment_helpers.c read_name_and_comment.c read_source_file.c instructions_validation.c label_handling.c arguments_handlers.c writing_result.c instructions_validation_ext1.c instructions_validation_ext2.c instructions_validation_ext3.c)
 OBJ = $(SRC:.c=.o)
 INC = $(INC_DIR)asm.h
 

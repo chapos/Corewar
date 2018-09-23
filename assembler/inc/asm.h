@@ -119,12 +119,20 @@ uint32_t			big_little_endian(uint32_t n, bool four_bytes);
 t_instruction		get_instruction(const char *line);
 size_t				validate_and_save_lable(t_db *db);
 void				handle_live_instruction(t_db *db, const char *instruction);
-void				handle_ld_instruction(t_db *db, const char *inst);
+void				handle_ld_lld_instruction(t_db *db,
+						const char *inst, t_instruction type);
 void				handle_st_instruction(t_db *db, const char *inst);
 void				handle_add_instruction(t_db *db, const char *inst);
 void				handle_sub_instruction(t_db *db, const char *inst);
 void				handle_and_or_xor_instruction(t_db *db,
 						const char *inst, t_instruction type);
+void				handle_zjmp_instruction(t_db *db, const char *inst);
+void				handle_ldi_lldi_instruction(t_db *db,
+						const char *inst, t_instruction type);
+void				handle_sti_instruction(t_db *db, const char *inst);
+void				handle_fork_lfork_instruction(t_db *db,
+						const char *inst, t_instruction type);
+void				handle_aff_instruction(t_db *db, const char *inst);
 size_t				handle_direct_argument(t_db *db,
 		const char *instruction, int a_n);
 size_t				handle_indirect_argument(t_db *db,
@@ -138,5 +146,7 @@ void				set_labels_to_instructions(t_db *db);
 uint32_t			calculate_label_position(t_db *db, size_t i, size_t j);
 void				write_result(t_db *db, char *file_name);
 const char			*skip_whitespaces(const char *line);
+void				validate_and_save_instruction_ext(t_db *db,
+		char *instruction);
 
 #endif
