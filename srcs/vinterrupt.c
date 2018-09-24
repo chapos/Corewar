@@ -69,9 +69,9 @@ static void		renew_map(t_vm *vm)
 	cycles_decrease(vm);
 	num = put_car(vm);
 	wattron(vm->visual->text, COLOR_PAIR(19));
-	mvwprintw(vm->visual->text, 10, 2, "Processes: %-6d", num);
-	mvwprintw(vm->visual->text, 8, 2, "Cycles: %u", vm->game_cycle);
-	mvwprintw(vm->visual->text, 6, 2, "Cycles/second limit: %-4d",
+	mvwprintw(vm->visual->text, 10, 13, "%-6d", num);
+	mvwprintw(vm->visual->text, 8, 10, "%u", vm->game_cycle);
+	mvwprintw(vm->visual->text, 6, 23, "%-4d",
 			vm->visual->lim);
 	renew_lives(vm);
 	wattroff(vm->visual->text, COLOR_PAIR(19));
@@ -99,10 +99,10 @@ void			interrupt(t_vm *vm)
 				exit(0);
 			}
 		}
+		wattron(vm->visual->text, COLOR_PAIR(19));
+		mvwprintw(vm->visual->text, 4, 2, "**PLAY** ");
+		wattroff(vm->visual->text, COLOR_PAIR(19));
 	}
-	wattron(vm->visual->text, COLOR_PAIR(19));
-	mvwprintw(vm->visual->text, 4, 2, "**PLAY** ");
-	wattroff(vm->visual->text, COLOR_PAIR(19));
 	wrefresh(vm->visual->text);
 	wrefresh(vm->visual->map);
 	vm->game_cycle++;
@@ -118,10 +118,10 @@ void			renew_lives(t_vm *vm)
 	while (temp)
 	{
 		wattron(vm->visual->text, COLOR_PAIR(19));
-		mvwprintw(vm->visual->text, 13 + i, 4,
-				"Last live: %-9d", temp->last_live);
-		mvwprintw(vm->visual->text, 14 + i, 4,
-				"Lives in current period: %-9d", temp->licp);
+		mvwprintw(vm->visual->text, 13 + i, 15,
+				"%-9d", temp->last_live);
+		mvwprintw(vm->visual->text, 14 + i, 29,
+				"%-9d", temp->licp);
 		i = i + 4;
 		temp = temp->next;
 		wattroff(vm->visual->text, COLOR_PAIR(19));

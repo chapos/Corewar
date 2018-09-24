@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/24 11:58:30 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/24 16:59:38 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ typedef struct			s_visual
 	WINDOW				*text;
 	int					pause;
 	int					lim;
-	unsigned int		game_cycle;
 	pthread_t			keys_thread;
 	t_vcars				*vcars;
 }						t_visual;
@@ -315,7 +314,7 @@ void					error_big_prog_size(t_vm *vm, char *file_name,
 							int prog_size);
 void					print_winner(t_player *players, int winner);
 void					print_map(unsigned char *map);
-int						sound_kill_car(t_vm *vm);
+int						sound_kill_car(void);
 void					flags_s(t_vm *vm);
 void					flags_d(t_vm *vm);
 

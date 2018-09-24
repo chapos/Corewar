@@ -6,24 +6,15 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 12:45:55 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/24 10:56:54 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/24 16:58:59 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/op.h"
 
-void	*sound_thread(void *temp)
+int		sound_kill_car(void)
 {
-	temp = NULL;
 	if (system("afplay dindon2.mp3"))
-		exit(100);
-	return (NULL);
-}
-
-int		sound_kill_car(t_vm *vm)
-{
-	vm = NULL;
-	if (system("afplay dindon2.mp3 &"))
 		exit(100);
 	return (0);
 }
