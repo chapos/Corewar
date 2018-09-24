@@ -6,7 +6,7 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/24 09:25:15 by oevtushe          #+#    #+#              #
-#    Updated: 2018/09/24 10:46:56 by oevtushe         ###   ########.fr        #
+#    Updated: 2018/09/24 10:52:55 by oevtushe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,6 @@ clean:
 fclean: clean
 	@rm -f $(ASM)
 	@rm -f $(LIBFT)
-	@printf "\r\033[38;5;196m✗ fclean $(ASM) libft.a\033[0m\033[K\n"
+	@printf "\r\033[38;5;196m✗ fclean $(ASM) \033[0m\033[K\n"
 
 re: fclean all

@@ -27,7 +27,6 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 $(NAME): $(OBJ)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
-	@printf "\r\033[38;5;117m✓ $(NAME) created\033[0m\033[K\n"
 
 clean:
 	@rm -f $(OBJ)
