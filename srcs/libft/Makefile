@@ -1,29 +1,38 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/10/28 14:24:58 by oevtushe          #+#    #+#              #
-#    Updated: 2018/08/07 15:33:17 by oevtushe         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME = libft.a
+CC = gcc
+FLAGS = -Wall -Wextra -Werror -c
+INC_DIR = ./includes/
+SRC_DIR = ./src/
+OBJ_DIR = ./obj/
+FIND_SRC_FILES = $(shell find ./src -type f | grep -E "\.c$$")
+FIND_SRC_SUBDIRS = $(shell find ./src -type d -mindepth 1)
+SRC_SUBDIRS = $(FIND_SRC_SUBDIRS:$(SRC_DIR)%=%)
+SRC = $(FIND_SRC_FILES:$(SRC_DIR)%=%)
+OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
-# In case of FT_DIR is passed as env variable.
-override FT_DIR	:= .
+.PHONY: all clean fclean re
 
-include 		Pretty.mk
-include 		Libft.mk
-include			Templates.mk
+all: $(NAME)
 
-all: $(FT_NAME)
-obj: $(FT_OBJS)
+$(OBJ): | $(OBJ_DIR)
 
-$(eval $(call LIB_template,FT,libft))
-$(eval $(call BASIC_template,FT))
+$(OBJ_DIR):
+	@mkdir $(OBJ_DIR)
+	@mkdir $(addprefix $(OBJ_DIR), $(SRC_SUBDIRS))
+
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@$(CC) -I=$(INC_DIR) $(FLAGS) $< -o $@
+
+$(NAME): $(OBJ)
+	@ar rc $(NAME) $(OBJ)
+	@ranlib $(NAME)
+	@printf "\r\033[38;5;117m✓ $(NAME) created\033[0m\033[K\n"
 
 clean:
-	@$(RM) $(FT_OBJS_DIR)
+	@rm -f $(OBJ)
+	@rm -rf $(OBJ_DIR)
+
 fclean: clean
-	@$(RM) $(FT_NAME)
+	@rm -f $(NAME)
+
+re: fclean all

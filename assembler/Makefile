@@ -1,7 +1,19 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/09/24 09:25:15 by oevtushe          #+#    #+#              #
+#    Updated: 2018/09/24 09:36:30 by oevtushe         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 CC := gcc
 ASM := asm
 FLAGS := -Wall -Wextra -Werror
-LIBFT_DIR := ./libft/
+LIBFT_DIR := ../srcs/libft/
 INC_DIR := ./inc/
 SRC_DIR := ./src/
 LIBFT := $(LIBFT_DIR)libft.a

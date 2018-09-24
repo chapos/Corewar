@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_str_realloc.c                                   :+:      :+:    :+:   */
+/*   ft_intln.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/07 12:11:14 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/06/07 12:12:05 by oevtushe         ###   ########.fr       */
+/*   Created: 2018/04/25 13:55:08 by oevtushe          #+#    #+#             */
+/*   Updated: 2018/09/24 09:00:45 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/libft.h"
 
-/*
-** If ft_strnew cant't allocate new string
-** previous data in str stay untouched.
-*/
-
-void	ft_str_realloc(char **str, size_t new_len)
+static int	ft_intln_help(long int n)
 {
-	char	*new_str;
+	if (n <= 9)
+		return (1);
+	return (1 + ft_intln_help(n / 10));
+}
 
-	if (str && *str)
+int			ft_intln(int n)
+{
+	long int	nn;
+	int			extra;
+
+	nn = n;
+	extra = 0;
+	if (nn < 0)
 	{
-		new_str = ft_strnew(new_len);
-		if (new_str)
-		{
-			ft_strncpy(new_str, *str, new_len);
-			ft_strdel(str);
-			*str = new_str;
-		}
+		extra = 1;
+		nn *= -1;
 	}
+	return (extra + ft_intln_help(nn));
 }

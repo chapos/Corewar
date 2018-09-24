@@ -1,29 +1,58 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile2                                          :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/08/14 11:48:34 by rpetluk           #+#    #+#              #
-#    Updated: 2018/08/19 15:41:53 by oevtushe         ###   ########.fr        #
+#    Created: 2018/09/24 08:46:02 by oevtushe          #+#    #+#              #
+#    Updated: 2018/09/24 09:57:31 by oevtushe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-include			Corewar.mk
+include				Corewar.mk
 
-CFLAGS			+= -g
+RM			 		:= rm -rf
+AR			 		:= ar
+CC			 		:= gcc
+ARFLAGS		 		:= rc
+CFLAGS_COMPILE		:= -Wall -Werror -Wextra
+CFLAGS_LINKAGE      := -lncurses -lpthread
+MFLAGS		 		:= --no-print-directory -C
 
-all: $(CW_NAME)
+all: $(FT_NAME) $(CW_NAME) $(ASM_NAME)
 
-$(eval $(call BINARY_template2,CW,FTP))
-$(eval $(call BASIC_template,CW))
-$(eval $(call EXTRALIB_template2,FTP,libftp,all))
+$(FT_NAME):
+	@$(MAKE) $(MFLAGS) $(FT_DIR)
+
+$(ASM_NAME):
+	@$(MAKE) $(MFLAGS) $(ASM_DIR)
+	@mv $(ASM_DIR)/$(ASM_NAME) .
+
+$(CW_NAME): $(CW_OBJS)
+	@$(CC) $(CFLAGS_LINKAGE) -o $(CW_NAME) $^ $(FT_NAME)
+	@printf "\r\033[38;5;117m✓ $(CW_NAME) created\033[0m\033[K\n"
+
+$(CW_OBJS_DIR)/%.o: $(CW_SRCS_DIR)/%.c $(CW_DEPS)
+	@$(CC) $(CFLAGS_COMPILE) -o $@ -c $< $(CW_DEPS_DIR:%=-I%)
+
+$(CW_OBJS): |$(CW_OBJS_DIR)
+
+$(CW_OBJS_DIR):
+	@mkdir $@
 
 clean:
 	@$(RM) $(CW_OBJS_DIR)
-	@$(MAKE) clean $(MFLAGS) $(FTP_DIR)
+	@$(MAKE) clean $(MFLAGS) $(FT_DIR)
+	@$(MAKE) clean $(MFLAGS) $(ASM_DIR)
 
 fclean: clean
 	@$(RM) $(CW_NAME)
-	@$(MAKE) fclean $(MFLAGS) $(FTP_DIR)
+	@$(MAKE) fclean $(MFLAGS) $(FT_DIR)
+	@$(MAKE) fclean $(MFLAGS) $(ASM_DIR)
+	@$(RM) $(ASM_NAME:$(ASM_DIR)/%=%)
+	@printf "\r\033[38;5;196m✗ fclean $(CW_NAME)\033[0m\033[K\n"
+
+re: fclean all
+
+.PHONY: all clean fclean re

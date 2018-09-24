@@ -6,7 +6,7 @@
 /*   By: eyevresh <eyevresh@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 15:04:00 by eyevresh          #+#    #+#             */
-/*   Updated: 2018/08/18 15:04:00 by eyevresh         ###   ########.fr       */
+/*   Updated: 2018/09/24 09:40:13 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdbool.h>
-# include "../libft/includes/libft.h"
+# include "../../srcs/libft/includes/libft.h"
 
 # define USAGE "Usage: ./asm <sourcefile.s>\n"
 # define FILE_NAME_ERR "Wrong file format\n"

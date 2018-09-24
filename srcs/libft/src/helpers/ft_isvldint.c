@@ -6,11 +6,12 @@
 /*   By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:59:08 by oevtushe          #+#    #+#             */
-/*   Updated: 2018/05/12 17:07:13 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/24 09:05:53 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/libft.h"
+#include <limits.h>
 
 static int	vldval(unsigned int res, int sign, char *val)
 {
