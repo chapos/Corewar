@@ -6,7 +6,7 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/03 11:19:01 by oevtushe          #+#    #+#              #
-#    Updated: 2018/09/17 15:51:53 by oevtushe         ###   ########.fr        #
+#    Updated: 2018/09/24 12:08:34 by oevtushe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -246,7 +246,11 @@ theirs_prog_said=""
 st=""
 integer catch_state_enabled=1
 read_from="champs/**/*.cor"
-my_arr=($(eval "echo $read_from"))
+
+if [[ -d champs ]]
+then
+	my_arr=($(eval "echo $read_from"))
+fi
 
 integer superman_mode=0
 stop_at_first_loose="Stop at first loose"
