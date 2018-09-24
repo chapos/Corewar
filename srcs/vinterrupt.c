@@ -6,7 +6,7 @@
 /*   By: ailkiv <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/22 16:39:11 by ailkiv            #+#    #+#             */
-/*   Updated: 2018/09/22 16:39:14 by ailkiv           ###   ########.fr       */
+/*   Updated: 2018/09/24 17:51:38 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ void			*catch_keys(void *temp)
 		else if (vm->players && ch == 113)
 			vm->visual->lim++;
 		else if (vm->players && ch == 101)
-			vm->visual->lim--;
+		{
+			if (vm->visual->lim > 1)
+				vm->visual->lim--;
+		}
 	}
 	return (NULL);
 }

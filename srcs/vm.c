@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:22:51 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/23 09:52:05 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/24 17:53:07 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ static void	print_player(t_player *players)
 static int	ft_usage(void)
 {
 	ft_printf("Usage: ./corewar "
-				"[-d N -s N -v N -n N -a -visual -sound]"
+				"[-dump N -s N -v N -n N -a -visual -sound]"
 				" <champion1.cor> <...>\n"
 				"-a : Prints output from \"aff\" (Default is to hide it)\n"
 				"#### TEXT OUTPUT MODE #################################\n"
-				"-d N : Dumps memory after N cycles then exits\n"
+				"-dump N : Dumps memory after N cycles then exits\n"
 				"-s N : Runs N cycles, dumps memory, pauses, then repeats\n"
 				"-n N : sets the number of the next player\n"
 				"-v N "
