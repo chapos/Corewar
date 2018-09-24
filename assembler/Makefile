@@ -6,7 +6,7 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/24 09:25:15 by oevtushe          #+#    #+#              #
-#    Updated: 2018/09/24 09:36:30 by oevtushe         ###   ########.fr        #
+#    Updated: 2018/09/24 10:46:56 by oevtushe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ INC := $(INC_DIR)asm.h
 all: $(ASM)
 
 %.o: %.c $(INC)
+	@printf "\033[2KCompiling: $(@)\r"
 	@$(CC) $(FLAGS) -c $< -o $@
 
 $(ASM): $(OBJ) $(LIBFT)

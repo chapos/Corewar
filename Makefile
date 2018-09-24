@@ -6,7 +6,7 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/24 08:46:02 by oevtushe          #+#    #+#              #
-#    Updated: 2018/09/24 09:57:31 by oevtushe         ###   ########.fr        #
+#    Updated: 2018/09/24 10:44:51 by oevtushe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ $(CW_NAME): $(CW_OBJS)
 	@printf "\r\033[38;5;117m✓ $(CW_NAME) created\033[0m\033[K\n"
 
 $(CW_OBJS_DIR)/%.o: $(CW_SRCS_DIR)/%.c $(CW_DEPS)
+	@printf "\033[2KCompiling: $(@)\r"
 	@$(CC) $(CFLAGS_COMPILE) -o $@ -c $< $(CW_DEPS_DIR:%=-I%)
 
 $(CW_OBJS): |$(CW_OBJS_DIR)

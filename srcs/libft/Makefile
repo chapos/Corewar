@@ -21,6 +21,7 @@ $(OBJ_DIR):
 	@mkdir $(addprefix $(OBJ_DIR), $(SRC_SUBDIRS))
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@printf "\033[2KCompiling: $(@)\r"
 	@$(CC) -I=$(INC_DIR) $(FLAGS) $< -o $@
 
 $(NAME): $(OBJ)
