@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:50:47 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/23 10:55:37 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/24 10:58:35 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@
 
 //////
 #include "../srcs/libft/includes/libft.h"
-#include "../srcs/ft_printf/includes/ft_printf.h"
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>

@@ -6,7 +6,7 @@
 /*   By: rpetluk <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/09 12:45:55 by rpetluk           #+#    #+#             */
-/*   Updated: 2018/09/23 12:07:25 by oevtushe         ###   ########.fr       */
+/*   Updated: 2018/09/24 10:56:54 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,6 @@ int		sound_kill_car(t_vm *vm)
 	vm = NULL;
 	if (system("afplay dindon2.mp3 &"))
 		exit(100);
-	/*
-	//if (vm->game_cycle != (unsigned int)vm->sound_game_cycle)
-		if (pthread_create(&vm->sound, NULL, sound_thread, vm))
-		{
-			endwin();
-			exit(0);
-		}
-	pthread_join(vm->sound, NULL);
-	vm->sound_game_cycle = vm->game_cycle;
-	*/
 	return (0);
 }
 
