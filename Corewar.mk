@@ -6,11 +6,11 @@
 #    By: oevtushe <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/14 19:02:12 by oevtushe          #+#    #+#              #
-#    Updated: 2018/09/22 12:57:50 by oevtushe         ###   ########.fr        #
+#    Updated: 2018/09/24 07:37:53 by oevtushe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CW_NAME				:= corewar_ours
+CW_NAME				:= corewar
 
 CW_DEPS_DIR			:= includes
 CW_SRCS_DIR			:= srcs

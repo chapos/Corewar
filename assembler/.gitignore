@@ -7,4 +7,8 @@ a.out
 *.s
 *.cor
 .DS_Store
-./idea
+.idea/
+*.dSYM
+op.c
+op.h
+asm
