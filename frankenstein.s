@@ -3,7 +3,7 @@
 
 begin_corruption:
 	st				r1, :stash
-	ld				%151056128%0,r1	# 09 00 EF 00
+	ld				%151056128,r1	# 09 00 EF 00
 	st				r1, :begin_corruption
 	ld				%493,r2			# jump
 	ld				%100,r3

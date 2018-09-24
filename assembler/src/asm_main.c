@@ -6,16 +6,19 @@
 /*   By: eyevresh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/18 15:02:27 by eyevresh          #+#    #+#             */
-/*   Updated: 2018/08/18 15:02:38 by eyevresh         ###   ########.fr       */
+/*   Updated: 2018/09/24 18:33:17 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/asm.h"
 
-static int	open_source_file(const char *file_name)
+static int	open_source_file(t_db *db, const char *file_name)
 {
 	int fd;
 
+	fd = open(file_name, O_DIRECTORY);
+	if (fd != -1)
+		clean_and_exit(db, "DIRECTORIES AREN'T ALLOWED");
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
 	{
@@ -98,7 +101,7 @@ int			main(int argc, char **argv)
 	db.arithmetic = ft_strequ(argv[1], "-a") ? true : false;
 	check_file_name(argv[argc - 1]);
 	init_db(&db);
-	db.source_fd = open_source_file(argv[argc - 1]);
+	db.source_fd = open_source_file(&db, argv[argc - 1]);
 	read_source_file(&db);
 	db.output_fd = create_output_file(argv[argc - 1]);
 	write_result(&db, argv[argc - 1]);

@@ -6,7 +6,7 @@
 /*   By: eyevresh <eyevresh@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/22 12:08:00 by eyevresh          #+#    #+#             */
-/*   Updated: 2018/08/22 12:08:00 by eyevresh         ###   ########.fr       */
+/*   Updated: 2018/09/24 18:42:08 by oevtushe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void		read_multiline_string(t_db *db, bool is_name)
 	{
 		concat_new_line_char(db, is_name);
 		gnl_ret_val = get_next_line(db->source_fd, &db->v_data.line);
+		db->v_data.chars_counter += (ft_strlen(db->v_data.line) + 1);
 		++db->v_data.line_counter;
 		if (gnl_ret_val == 0 || gnl_ret_val == -1)
 			clean_and_exit(db, "THERE IS NO NAME OR COMMENT");
