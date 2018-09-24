@@ -90,6 +90,8 @@ static void	ctd_operator(t_vm *vm, int *count_cycle, int *ctd)
 			renew_ctd(vm, *ctd);
 		if (vm->flags.v & 2)
 			printf("Cycle to die is now %d\n", *ctd);
+		if (vm->flags.sound)
+			sound_kill_car();
 		*count_cycle = 0;
 	}
 }
